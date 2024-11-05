@@ -1,10 +1,12 @@
 import React from 'react';
+import Login from './pages/login/Login.jsx';
+import ControlPanel from './pages/control-panel/Control-Panel.jsx';
 
 const App = () => {
   return (
-    <div className="container">
-      <h1 className="text-primary">Hello Word!</h1>
-    </div>
+<>
+<ControlPanel/>
+</>
   );
 };
 
