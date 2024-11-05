@@ -1,6 +1,6 @@
 :root {
   /* Cores principais */
-  --bs-primary: #20b920;           /* Cor principal */
+  --bs-primary: #007bff;           /* Cor principal */
   --bs-primary-rgb: 13, 128, 223;  /* RGB da cor primária */
   --bs-secondary: #6c757d;         /* Cor secundária */
   --bs-success: #198754;           /* Cor de sucesso */
@@ -65,103 +65,6 @@
 
 .bg-dark {
   background-color: var(--bs-dark) !important;
-}
-
-/* Botões com fundo branco e borda da cor (outline) */
-.btn-primary, .btn-outline-primary {
-  color: var(--bs-primary);
-  border-color: var(--bs-primary);
-  background-color: white;
-}
-
-.btn-primary:hover, .btn-outline-primary:hover {
-  background-color: var(--bs-primary);
-  color: white;
-  border-color: var(--bs-primary);
-}
-
-.btn-secondary, .btn-outline-secondary {
-  color: var(--bs-secondary);
-  border-color: var(--bs-secondary);
-  background-color: white;
-}
-
-.btn-secondary:hover, .btn-outline-secondary:hover {
-  background-color: var(--bs-secondary);
-  color: white;
-  border-color: var(--bs-secondary);
-}
-
-.btn-success, .btn-outline-success {
-  color: var(--bs-success);
-  border-color: var(--bs-success);
-  background-color: white;
-}
-
-.btn-success:hover, .btn-outline-success:hover {
-  background-color: var(--bs-success);
-  color: white;
-  border-color: var(--bs-success);
-}
-
-.btn-info, .btn-outline-info {
-  color: var(--bs-info);
-  border-color: var(--bs-info);
-  background-color: white;
-}
-
-.btn-info:hover, .btn-outline-info:hover {
-  background-color: var(--bs-info);
-  color: white;
-  border-color: var(--bs-info);
-}
-
-.btn-warning, .btn-outline-warning {
-  color: var(--bs-warning);
-  border-color: var(--bs-warning);
-  background-color: white;
-}
-
-.btn-warning:hover, .btn-outline-warning:hover {
-  background-color: var(--bs-warning);
-  color: white;
-  border-color: var(--bs-warning);
-}
-
-.btn-danger, .btn-outline-danger {
-  color: var(--bs-danger);
-  border-color: var(--bs-danger);
-  background-color: white;
-}
-
-.btn-danger:hover, .btn-outline-danger:hover {
-  background-color: var(--bs-danger);
-  color: white;
-  border-color: var(--bs-danger);
-}
-
-.btn-light, .btn-outline-light {
-  color: var(--bs-light);
-  border-color: var(--bs-light);
-  background-color: white;
-}
-
-.btn-light:hover, .btn-outline-light:hover {
-  background-color: var(--bs-light);
-  color: var(--bs-body-color);
-  border-color: var(--bs-light);
-}
-
-.btn-dark, .btn-outline-dark {
-  color: var(--bs-dark);
-  border-color: var(--bs-dark);
-  background-color: white;
-}
-
-.btn-dark:hover, .btn-outline-dark:hover {
-  background-color: var(--bs-dark);
-  color: white;
-  border-color: var(--bs-dark);
 }
 
 /* Alertas com fundo branco e borda colorida */
@@ -263,4 +166,4 @@
 /* Ajustes de tipografia */
 h1, h2, h3, h4, h5, h6 {
   color: var(--bs-heading-color);
-}
+} 

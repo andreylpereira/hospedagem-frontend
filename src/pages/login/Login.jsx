@@ -1,8 +1,42 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import api from "../../api/api";
 import "./Login.css";
 
 const Login = () => {
+  const [form, setForm] = useState({
+    cpf: "",
+    senha: "",
+  });
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm({
+      ...form,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await api.post("auth/login", form);
+      const { acessToken, tokenType } = response.data;
+
+      if (acessToken) {
+        login(acessToken);
+      } else {
+        setError("Erro ao autenticar.");
+      }
+    } catch (err) {
+      setError("Erro ao fazer login.");
+    }
+  };
+
   return (
     <div className="bg-primary d-flex justify-content-center align-items-center page-height">
       <div className="d-flex">
@@ -11,7 +45,7 @@ const Login = () => {
             <div className="card shadow">
               <div className="card-header">
                 <div className="card-body">
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="text-center mb-3">
                       <svg
                         id="user-svg"
@@ -27,41 +61,36 @@ const Login = () => {
                       </svg>
                     </div>
                     <div className="form-group mb-1">
-                      <label for="cpf">CPF</label>
+                      <label htmlFor="cpf">CPF</label>
                       <input
-                        type="cpf"
+                        type="text"
                         className="form-control"
-                        aria-describedby="cpfId"
+                        name="cpf"
+                        id="cpf"
                         placeholder="Digite seu CPF"
-                        formControlName="cpf"
+                        value={form.cpf}
+                        onChange={handleChange}
                       />
-                      <small id="cpfId" className="form-text text-danger">
-                        <p className="mb-0">* Favor digitar um CPF válido!</p>
-                      </small>
                     </div>
                     <div className="form-group">
-                      <label for="senha">Senha</label>
+                      <label htmlFor="senha">Senha</label>
                       <input
                         type="password"
                         className="form-control"
-                        aria-describedby="senhaId"
+                        name="senha"
+                        id="senha"
                         placeholder="Digite sua senha"
-                        formControlName="senha"
+                        value={form.senha}
+                        onChange={handleChange}
                       />
-                      <small id="senhaId" className="form-text text-danger">
-                        <p className="mb-0">
-                          * Favor digitar uma senha válida!
-                        </p>
-                      </small>
                     </div>
+                    {error && <div className="text-danger mt-2">{error}</div>}
                     <button
                       type="submit"
                       className="btn btn-primary w-100 font-weight-bold mt-2 rounded shadow"
                     >
                       ENTRAR
                     </button>
-
-                    {/*  spinner */}
                   </form>
                 </div>
               </div>
