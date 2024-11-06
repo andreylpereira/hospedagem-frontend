@@ -1,5 +1,6 @@
 import React from 'react'
 import "./Control-Panel.css";
+import Date from './Date';
 
 const ControlPanel = () => {
   return (
@@ -41,7 +42,7 @@ const ControlPanel = () => {
     </div>
 </div>
 
- 
+ <Date></Date>
  </>
   )
 }
