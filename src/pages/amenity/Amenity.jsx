@@ -23,44 +23,53 @@ const Amenity = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 500); 
   }, []);
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+    <div className="container d-flex justify-content-center min-vh-100">
       <div className="w-100">
         <button type="button" className="btn btn-primary shadow">
           CADASTRAR
         </button>
 
         {loading ? (
-          <p>Carregando Amenidades...</p>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "calc(70vh - 50px)" }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : error ? (
           <p>{error}</p>
         ) : (
           // <div className="card shadow-sm">
           //   <div className="card-body">
-              <table className="table table-striped table-bordered shadow">
-                <thead>
-                  <tr>
-                    <th className="text-center">Nome</th> 
-                    <th className="text-center">Ações</th> 
-                  </tr>
-                </thead>
-                <tbody>
-                  {amenities.map((amenity) => (
-                    <tr key={amenity.id}>
-                      <td>{amenity.nome}</td>
-                      <td>
-                        <button className="btn btn-primary btn-sm me-2 w-100">
-                          <i className="fas fa-edit"></i> Editar
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            //</div>
+          <table className="table table-striped table-bordered shadow">
+            <thead>
+              <tr>
+                <th className="text-center">Nome</th>
+                <th className="text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {amenities.map((amenity) => (
+                <tr key={amenity.id}>
+                  <td>{amenity.nome}</td>
+                  <td>
+                    <button className="btn btn-primary btn-sm me-2 w-100">
+                      <i className="fas fa-edit"></i> Editar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          //</div>
           //div> */
         )}
       </div>

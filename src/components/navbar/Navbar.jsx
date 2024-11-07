@@ -45,7 +45,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <button className="btn btn-outline-primary shadow">SAIR</button>
+                <button className="btn btn-outline-light shadow">SAIR</button>
               </li>
             </ul>
           </div>

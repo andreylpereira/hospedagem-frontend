@@ -2,6 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getClients } from "../../services/clientService";
 import "./Client.css";
 
+const phoneMask = (value) => {
+  return value
+    .replace(/\D/g, '') 
+    .replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); 
+};
+
 const Client = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,18 +29,24 @@ const Client = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 500); 
   }, []);
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+    <div className="container d-flex justify-content-center min-vh-100">
       <div className="w-100">
         <button type="button" className="btn btn-primary shadow">
           CADASTRAR
         </button>
 
         {loading ? (
-          <p>Carregando clientes...</p>
+          <div className="d-flex justify-content-center align-items-center" style={{ height: 'calc(70vh - 50px)' }}>
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : error ? (
           <p>{error}</p>
         ) : (
@@ -53,7 +65,7 @@ const Client = () => {
                 <tr key={user.id}>
                   <td>{user.nome}</td>
                   <td>{user.email || "Não informado"}</td>
-                  <td>{user.telefone || "Não informado"}</td>
+                  <td>{phoneMask(user.telefone) || "Não informado"}</td>
                   <td>{user.endereco || "Não informado"}</td>
                   <td>
                     <button className="btn btn-primary btn-sm me-2">

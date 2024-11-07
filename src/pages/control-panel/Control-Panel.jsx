@@ -8,10 +8,6 @@ const ControlPanel = () => {
   return (
     <>
   <Navbar/>
-  <br />
-  <br />
-  <br />
-  <br />
   <Outlet />
     </>
   );

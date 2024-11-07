@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { loginService } from "../../services/loginService"; 
 import { useNavigate } from "react-router-dom";
+import InputMask from 'react-input-mask';
 import "./Login.css";
 
 const Login = () => {
@@ -64,7 +65,8 @@ const Login = () => {
                     </div>
                     <div className="form-group mb-1">
                       <label htmlFor="cpf">CPF</label>
-                      <input
+                      <InputMask
+                        mask="999.999.999-99"
                         type="text"
                         className="form-control"
                         name="cpf"

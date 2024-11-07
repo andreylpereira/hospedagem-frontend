@@ -23,18 +23,27 @@ const User = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 500); 
   }, []);
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100 ">
+    <div className="container d-flex justify-content-center min-vh-100 ">
       <div className="w-100">
         <button type="button" className="btn btn-primary shadow">
           CADASTRAR
         </button>
 
         {loading ? (
-          <p>Carregando usuários...</p>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "calc(70vh - 50px)" }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
         ) : error ? (
           <p>{error}</p>
         ) : (

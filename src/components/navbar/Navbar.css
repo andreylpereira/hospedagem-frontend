@@ -1,50 +1,7 @@
-/* Custom styles */
-.dashboard-header {
-    background-color: #007bff;
-    color: white;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .dashboard-card {
-    margin: 15px;
-  }
-  
-  .dashboard-card-body {
-    text-align: center;
-  }
-  
-  .card-title {
-    font-size: 1.5rem;
-  }
-  
-  .sidebar {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    background-color: #f8f9fa;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding-left: 0;
-  }
-  
-  .sidebar ul li {
-    margin: 10px 0;
-  }
-  
-  .sidebar ul li a {
-    text-decoration: none;
-    color: #212529;
-    font-weight: bold;
-  }
-  
-  .sidebar ul li a:hover {
-    color: #007bff;
-  }
-  
+.btn-outline-light:hover {
+    color: var(--bs-primary) !important;
+}
+
+.nav-link:hover {
+    color: var(--bs-border) !important;
+}
