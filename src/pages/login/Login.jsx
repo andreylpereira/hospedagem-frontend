@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import api from "../../api/api";
+import { loginService } from "../../services/loginService"; 
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
@@ -8,8 +9,15 @@ const Login = () => {
     cpf: "",
     senha: "",
   });
-  const [error, setError] = useState("");
-  const { login } = useAuth();
+  const [error, setError] = useState(""); 
+  const { login, auth } = useAuth(); 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (auth.isAuthenticated) {
+      navigate("/painel");
+    }
+  }, [auth.isAuthenticated, navigate]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,19 +29,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
+    setError("");  
 
     try {
-      const response = await api.post("/auth/login", form);
-      const { acessToken, tokenType } = response.data;
-
-      if (acessToken) {
-        login(acessToken);
-      } else {
-        setError("Erro ao autenticar.");
-      }
+      const acessToken = await loginService(form);
+      login(acessToken);
     } catch (err) {
-      setError("Erro ao fazer login.");
+      setError(err.message); 
     }
   };
 
@@ -53,9 +55,9 @@ const Login = () => {
                         width="150"
                         height="150"
                         viewBox="0 0 24 24"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         <path d="M12 14a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z" />
                       </svg>
@@ -84,7 +86,7 @@ const Login = () => {
                         onChange={handleChange}
                       />
                     </div>
-                    {error && <div className="text-danger mt-2">{error}</div>}
+                    {error && <div className="text-danger mt-2">{error}</div>} 
                     <button
                       type="submit"
                       className="btn btn-primary w-100 font-weight-bold mt-2 rounded shadow"

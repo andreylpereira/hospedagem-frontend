@@ -1,0 +1,12 @@
+.react-datepicker__day--highlighted {
+    background-color: red;
+  }
+  
+  .react-datepicker__day--keyboard-selected {
+    background-color: grey;
+    color: azure;
+  }
+  
+  .react-datepicker__close-icon::after {
+    background-color: red;
+  }
