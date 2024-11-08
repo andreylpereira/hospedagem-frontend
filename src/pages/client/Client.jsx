@@ -4,8 +4,8 @@ import "./Client.css";
 
 const phoneMask = (value) => {
   return value
-    .replace(/\D/g, '') 
-    .replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3'); 
+    .replace(/\D/g, "")
+    .replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
 };
 
 const Client = () => {
@@ -31,7 +31,7 @@ const Client = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 500); 
+    }, 500);
   }, []);
 
   return (
@@ -42,13 +42,18 @@ const Client = () => {
         </button>
 
         {loading ? (
-          <div className="d-flex justify-content-center align-items-center" style={{ height: 'calc(70vh - 50px)' }}>
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "calc(70vh - 50px)" }}
+          >
             <div className="spinner-border text-primary" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
         ) : error ? (
-          <p>{error}</p>
+          <div class="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
         ) : (
           <table className="table table-striped table-bordered shadow">
             <thead>

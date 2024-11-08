@@ -25,7 +25,7 @@ const User = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 500); 
+    }, 500);
   }, []);
 
   return (
@@ -45,7 +45,9 @@ const User = () => {
             </div>
           </div>
         ) : error ? (
-          <p>{error}</p>
+          <div class="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
         ) : (
           <table className="table table-striped table-bordered shadow">
             <thead>

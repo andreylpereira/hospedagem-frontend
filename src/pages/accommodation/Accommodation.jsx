@@ -25,7 +25,7 @@ const Accommodation = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 500); 
+    }, 500);
   }, []);
 
   return (
@@ -41,7 +41,9 @@ const Accommodation = () => {
           </div>
         </div>
       ) : error ? (
-        <p>{error}</p>
+        <div class="alert alert-danger mt-3" role="alert">
+          {error}
+        </div>
       ) : (
         <div className="row g-4">
           {accommodations.map((accommodation) => (
@@ -53,9 +55,13 @@ const Accommodation = () => {
                 <div className="card-header d-flex justify-content-between">
                   <h5 className="mb-0">{accommodation.nome}</h5>
                   <div className="d-flex align-items-center">
-                    <span className="badge bg-primary ms-3 badge-button shadow">
-                      <i className="fas fa-calendar"></i>
-                    </span>
+                    {accommodation.habilitado === true ? (
+                      <span className="badge bg-primary ms-3 badge-button shadow">
+                        <i className="fas fa-calendar"></i>
+                      </span>
+                    ) : (
+                      <span></span>
+                    )}
                     <span className="badge bg-secondary ms-3 badge-button shadow">
                       <i className="fas fa-edit"></i>
                     </span>

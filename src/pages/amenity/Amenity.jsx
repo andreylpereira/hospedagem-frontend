@@ -25,7 +25,7 @@ const Amenity = () => {
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 500); 
+    }, 500);
   }, []);
 
   return (
@@ -45,7 +45,9 @@ const Amenity = () => {
             </div>
           </div>
         ) : error ? (
-          <p>{error}</p>
+          <div class="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
         ) : (
           // <div className="card shadow-sm">
           //   <div className="card-body">

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { loginService } from "../../services/loginService"; 
+import { loginService } from "../../services/loginService";
 import { useNavigate } from "react-router-dom";
-import InputMask from 'react-input-mask';
+import InputMask from "react-input-mask";
 import "./Login.css";
 
 const Login = () => {
@@ -10,9 +10,10 @@ const Login = () => {
     cpf: "",
     senha: "",
   });
-  const [error, setError] = useState(""); 
-  const { login, auth } = useAuth(); 
+  const [error, setError] = useState("");
+  const { login, auth } = useAuth();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (auth.isAuthenticated) {
@@ -30,14 +31,16 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");  
-
+    setError("");
+    setIsLoading(true);
     try {
       const acessToken = await loginService(form);
       login(acessToken);
     } catch (err) {
-      setError(err.message); 
+      setIsLoading(false);
+      setError(err.message);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -88,13 +91,31 @@ const Login = () => {
                         onChange={handleChange}
                       />
                     </div>
-                    {error && <div className="text-danger mt-2">{error}</div>} 
-                    <button
-                      type="submit"
-                      className="btn btn-primary w-100 font-weight-bold mt-2 rounded shadow"
-                    >
-                      ENTRAR
-                    </button>
+                    {error && (
+                      <div
+                        class="alert alert-danger p-1 mt-2 mb-1"
+                        role="alert"
+                      >
+                        {error}
+                      </div>
+                    )}
+                    {isLoading ? (
+                      <div className="d-flex justify-content-center align-items-center mt-3">
+                        <div
+                          className="spinner-border text-primary"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="submit"
+                        className="btn btn-primary w-100 font-weight-bold mt-2 rounded shadow"
+                      >
+                        <div>ENTRAR</div>
+                      </button>
+                    )}
                   </form>
                 </div>
               </div>

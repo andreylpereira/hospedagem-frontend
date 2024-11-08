@@ -67,7 +67,7 @@
   background-color: var(--bs-dark) !important;
 }
 
-/* Alertas com fundo branco e borda colorida */
+/* Alertas com fundo branco e borda colorida
 .alert-primary {
   background-color: white;
   border-color: var(--bs-primary);
@@ -108,7 +108,7 @@
   background-color: white;
   border-color: var(--bs-dark);
   color: var(--bs-dark);
-}
+} */
 
 /* Textos com cores específicas */
 .text-primary {
