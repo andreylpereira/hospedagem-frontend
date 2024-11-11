@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const api = axios.create({
   baseURL: "http://localhost:8888/api",
@@ -18,5 +19,23 @@ api.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+
+export const getUserIdFromToken = () => {
+  const token = localStorage.getItem("authToken");
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    return decodedToken.id;
+  }
+  return null;
+};
+
+export const getUserAccessFromToken = () => {
+  const token = localStorage.getItem("authToken");
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    return decodedToken.perfil.authority;
+  }
+  return null;
+};
 
 export default api;

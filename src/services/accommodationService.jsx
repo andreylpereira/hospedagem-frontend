@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { getUserIdFromToken } from "./api";
 
 const _URL = "/hospedagem";
 
@@ -12,6 +12,7 @@ export const getAccommodations = async () => {
   }
 };
 
+
 export const getAccommodationById = async (idAccommodation) => {
   try {
     const response = await api.get(`${_URL}/acomodacoes/${idAccommodation}`);
@@ -22,7 +23,11 @@ export const getAccommodationById = async (idAccommodation) => {
   }
 };
 
-export const createAccommodation = async (idUser, accommodation) => {
+export const createAccommodation = async (accommodation) => {
+  const idUser = getUserIdFromToken();
+  if (!idUser) {
+    throw new Error("Usuário não autenticado.");
+  }
   try {
     const response = await api.post(`${_URL}/${idUser}/acomodacoes`, accommodation);
     return response.data;
@@ -32,7 +37,8 @@ export const createAccommodation = async (idUser, accommodation) => {
   }
 };
 
-export const updateAccommodation = async (idUser, idAccommodation, accommodation) => {
+export const updateAccommodation = async (idAccommodation, accommodation) => {
+  const idUser = getUserIdFromToken();
   try {
     const response = await api.put(`${_URL}/${idUser}/acomodacoes/${idAccommodation}`, accommodation);
     return response.data;

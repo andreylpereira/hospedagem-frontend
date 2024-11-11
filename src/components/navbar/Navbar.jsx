@@ -1,28 +1,54 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchAccommodations } from "../../redux/actions/accommodationActions";
+import { useAuth } from './../../context/AuthContext';
+import ChangePasswordModal from "./modals/ChangePasswordModal"; 
 import "./Navbar.css";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { logout, auth } = useAuth();
+  
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  
+  const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
+
+  useEffect(() => {
+    if (location.pathname === "/painel/acomodacoes") {
+      dispatch(fetchAccommodations());
+    }
+  }, [dispatch, location.pathname]);
+
+  const handleOpenChangePasswordModal = () => {
+    setModalPasswordVisible(true);
+  };
+
+  const handleCloseChangePasswordModal = () => {
+    setModalPasswordVisible(false);
+  };
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary fixed-top shadow">
+      <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top shadow">
         <div className="container-fluid">
-          <Link className="navbar-brand text-white">LOGO</Link>
+          <Link className="navbar-brand text-white user-select-none" to="/">LOGO</Link>
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
+            onClick={toggleNavbar}
             aria-controls="navbarNav"
-            aria-expanded="false"
+            aria-expanded={isNavbarOpen ? "true" : "false"} 
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className={`collapse navbar-collapse ${isNavbarOpen ? "show" : ""}`} id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav-link text-white">Tempo Real</Link>
+                <Link className="nav-link text-white" to="/painel/tempo-real">Tempo Real</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/painel/acomodacoes">
@@ -34,24 +60,42 @@ const Navbar = () => {
                   Clientes
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link text-white" to="/painel/usuarios">
-                  Usuários
-                </Link>
-              </li>
+              {auth.isAdmin && (
+                <li className="nav-item">
+                  <Link className="nav-link text-white" to="/painel/usuarios">
+                    Usuários
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/painel/amenidades">
                   Amenidades
                 </Link>
               </li>
               <li className="nav-item">
-                <button className="btn btn-outline-light shadow">SAIR</button>
+                <Link className="nav-link text-white"
+                  onClick={handleOpenChangePasswordModal}
+                >
+                  Alterar Senha
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button className="btn btn-outline-light bg-gradient rounded shadow"
+                  onClick={logout}
+                >
+                  SAIR
+                </button>
               </li>
             </ul>
           </div>
         </div>
       </nav>
+      <ChangePasswordModal
+        isVisible={modalPasswordVisible}
+        onClose={handleCloseChangePasswordModal} 
+      />
     </>
   );
 };
+
 export default Navbar;

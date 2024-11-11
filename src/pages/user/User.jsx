@@ -1,39 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { getUsers } from "../../services/userService";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers } from "./../../redux/actions/userActions";
+import { updateUserAuthorizationAction } from "../../redux/actions/userActions";
+import CreateUserModal from "./modals/CreateUserModal";
 import "./User.css";
 
 const User = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      const response = await getUsers();
-      if (Array.isArray(response)) {
-        setUsers(response);
-      } else {
-        throw new Error("Formato de resposta inesperado.");
-      }
-    } catch (error) {
-      setError("Erro ao carregar usuários. Tente novamente mais tarde.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const dispatch = useDispatch();
+
+  const { users, loading, error } = useSelector((state) => state.user);
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchData();
-    }, 500);
-  }, []);
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  
+  const updateAuthorization = (id, currentAuthorization) => {
+    const newAuthorization = !currentAuthorization;
+
+   
+    dispatch(updateUserAuthorizationAction(id, newAuthorization))
+      .then(() => {
+      
+        dispatch(fetchUsers());
+      })
+      .catch((err) => {
+        console.error("Erro ao atualizar autorização", err);
+      });
+  };
 
   return (
-    <div className="container d-flex justify-content-center min-vh-100 ">
+    <div className="container d-flex justify-content-center min-vh-100">
       <div className="w-100">
-        <button type="button" className="btn btn-primary shadow">
+        <button
+          type="button"
+          className="btn btn-primary fw-bold bg-gradient rounded shadow"
+          onClick={() => setModalVisible(true)}
+        >
           CADASTRAR
         </button>
+
+        <CreateUserModal
+          isVisible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          fetchUsers={() => dispatch(fetchUsers())}
+        />
 
         {loading ? (
           <div
@@ -45,37 +58,41 @@ const User = () => {
             </div>
           </div>
         ) : error ? (
-          <div class="alert alert-danger mt-3" role="alert">
+          <div className="alert alert-danger mt-3" role="alert">
             {error}
           </div>
         ) : (
           <table className="table table-striped table-bordered shadow">
             <thead>
               <tr>
-                <th className="text-center">Nome</th>
-                <th className="text-center">Perfil</th>
-                <th className="text-center">Email</th>
-                <th className="text-center">Habilitado</th>
-                <th className="text-center">Ações</th>
+                <th className="text-center table-primary text-light">Nome</th>
+                <th className="text-center table-primary text-light">Perfil</th>
+                <th className="text-center table-primary text-light">Email</th>
+                <th className="text-center table-primary text-light">Habilitado</th>
+                <th className="text-center table-primary text-light">Ações</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.nome}</td>
-                  <td>{user.perfil}</td>
-                  <td>{user.email || "Não informado"}</td>
-                  <td>{user.habilitado ? "Sim" : "Não"}</td>
-                  <td>
-                    <button className="btn btn-primary btn-sm me-2">
-                      <i className="fas fa-edit"></i>
-                    </button>
-                    <button className="btn btn-secondary btn-sm">
-                      <i className="fas fa-user-shield"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {users.map((user) => {
+                return (
+                  <tr key={user.id}>
+                    <td>{user.nome}</td>
+                    <td>{user.perfil}</td>
+                    <td>{user.email || "Não informado"}</td>
+                    <td>{user.habilitado ? "Sim" : "Não"}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                        onClick={() =>
+                          updateAuthorization(user.id, user.habilitado)
+                        }
+                      >
+                        <i className="fas fa-user-shield"></i>
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

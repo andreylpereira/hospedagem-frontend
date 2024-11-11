@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { getUserIdFromToken } from "./api";
 
 const _URL = "/usuario";
 
@@ -12,7 +12,11 @@ export const getUsers = async () => {
   }
 };
 
-export const getUserById = async (idUser) => {
+export const getUserById = async () => {
+  const idUser = getUserIdFromToken();  
+  if (!idUser) {
+    throw new Error("Usuário não autenticado.");
+  }
   try {
     const response = await api.get(`${_URL}/lista/${idUser}`);
     return response.data;
@@ -32,17 +36,12 @@ export const createUser = async (user) => {
   }
 };
 
-export const updateUser = async (idUser, user) => {
-  try {
-    const response = await api.put(`${_URL}/atualizar/${idUser}`, user);
-    return response.data;
-  } catch (error) {
-    console.error(`Erro ao atualizar usuário com ID: ${idUser}`, error);
-    throw error;
-  }
-};
 
-export const updatePassword = async (idUser, user) => {
+export const updatePassword = async (user) => {
+  const idUser = getUserIdFromToken();  
+  if (!idUser) {
+    throw new Error("Usuário não autenticado.");
+  }
   try {
     const response = await api.put(`${_URL}/atualizarSenha/${idUser}`, user);
     return response.data;
@@ -53,6 +52,9 @@ export const updatePassword = async (idUser, user) => {
 };
 
 export const updateAuthorization = async (idUser, isAuthorization) => {
+  if (!idUser) {
+    throw new Error("Usuário não autenticado.");
+  }
   try {
     const response = await api.put(
       `${_URL}/lista/${idUser}/${isAuthorization}`

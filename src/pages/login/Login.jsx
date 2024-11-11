@@ -44,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-primary d-flex justify-content-center align-items-center page-height">
+    <div className="bg-primary bg-gradient d-flex justify-content-center align-items-center page-height">
       <div className="d-flex">
         <div className="row justify-content-center card-width">
           <div>
@@ -93,7 +93,7 @@ const Login = () => {
                     </div>
                     {error && (
                       <div
-                        class="alert alert-danger p-1 mt-2 mb-1"
+                        className="alert alert-danger p-1 mt-2 mb-1"
                         role="alert"
                       >
                         {error}
@@ -111,7 +111,7 @@ const Login = () => {
                     ) : (
                       <button
                         type="submit"
-                        className="btn btn-primary w-100 font-weight-bold mt-2 rounded shadow"
+                        className="btn btn-primary w-100 mt-2 bg-gradient rounded fw-bold shadow"
                       >
                         <div>ENTRAR</div>
                       </button>

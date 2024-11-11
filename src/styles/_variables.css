@@ -34,7 +34,6 @@
   --bs-grid-gutter-width: 1.5rem;   /* Largura dos gutters no grid */
 }
 
-/* Cores de fundo */
 .bg-primary {
   background-color: var(--bs-primary) !important;
 }
@@ -67,50 +66,6 @@
   background-color: var(--bs-dark) !important;
 }
 
-/* Alertas com fundo branco e borda colorida
-.alert-primary {
-  background-color: white;
-  border-color: var(--bs-primary);
-  color: var(--bs-primary);
-}
-
-.alert-success {
-  background-color: white;
-  border-color: var(--bs-success);
-  color: var(--bs-success);
-}
-
-.alert-info {
-  background-color: white;
-  border-color: var(--bs-info);
-  color: var(--bs-info);
-}
-
-.alert-warning {
-  background-color: white;
-  border-color: var(--bs-warning);
-  color: var(--bs-warning);
-}
-
-.alert-danger {
-  background-color: white;
-  border-color: var(--bs-danger);
-  color: var(--bs-danger);
-}
-
-.alert-light {
-  background-color: white;
-  border-color: var(--bs-light);
-  color: var(--bs-body-color);
-}
-
-.alert-dark {
-  background-color: white;
-  border-color: var(--bs-dark);
-  color: var(--bs-dark);
-} */
-
-/* Textos com cores específicas */
 .text-primary {
   color: var(--bs-primary) !important;
 }
@@ -163,7 +118,24 @@
   color: var(--bs-link-hover-color) !important;
 }
 
-/* Ajustes de tipografia */
+.table-primary {
+  background-color: var(--bs-primary) !important;
+}
+
+.modal-footer {
+  border-top: none; 
+}
+
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header, .modal-title {
+  background-color: #007bff;
+  color: white;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--bs-heading-color);
 } 

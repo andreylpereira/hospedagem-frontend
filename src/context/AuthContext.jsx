@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import React, { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -9,26 +9,33 @@ const AuthProvider = ({ children }) => {
     isAuthenticated: false,
     token: null,
     user: null,
+    isAdmin: false,
   });
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
+        const userIsAdmin = decodedToken.perfil.some(
+          (p) => p.authority === "ADMINISTRADOR"
+        );
+
         setAuth({
           isAuthenticated: true,
           token,
           user: decodedToken,
+          isAdmin: userIsAdmin,
         });
       } catch (error) {
-        localStorage.removeItem('authToken'); 
+        localStorage.removeItem("authToken");
         setAuth({
           isAuthenticated: false,
           token: null,
           user: null,
+          isAdmin: false,
         });
       }
     } else {
@@ -36,6 +43,7 @@ const AuthProvider = ({ children }) => {
         isAuthenticated: false,
         token: null,
         user: null,
+        isAdmin: false,
       });
     }
     setLoading(false);
@@ -43,27 +51,32 @@ const AuthProvider = ({ children }) => {
 
   const login = (token) => {
     const decodedToken = jwtDecode(token);
-    localStorage.setItem('authToken', token); 
+    const userIsAdmin = decodedToken.perfil.some(
+      (p) => p.authority === "ADMINISTRADOR"
+    );
+    localStorage.setItem("authToken", token);
     setAuth({
       isAuthenticated: true,
       token,
       user: decodedToken,
+      isAdmin: userIsAdmin,
     });
-    navigate('/painel'); 
+    navigate("/painel");
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem("authToken");
     setAuth({
       isAuthenticated: false,
       token: null,
       user: null,
+      isAdmin: false,
     });
-    navigate('/login');
+    navigate("/login");
   };
 
   if (loading) {
-    return null; 
+    return null;
   }
 
   return (

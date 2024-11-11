@@ -12,6 +12,16 @@ export const getReservations = async () => {
   }
 };
 
+export const getReservationsByAccommodation = async (idAccommodation, localDateTime) => {
+  try {
+    const response = await api.get(`${_URL}/agenda/${idAccommodation}/${localDateTime}`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar reservas.", error);
+    throw error;
+  }
+};
+
 export const getReservationById = async (idReservation) => {
   try {
     const response = await api.get(`${_URL}/reservas/${idReservation}`);

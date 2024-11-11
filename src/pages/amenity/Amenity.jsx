@@ -1,39 +1,54 @@
 import React, { useState, useEffect } from "react";
-import { getAmenities } from "../../services/amenityService";
+import { useDispatch, useSelector } from "react-redux";
+import CreateAmenityModal from "./modals/CreateAmenityModal";
+import { fetchAmenities } from "../../redux/actions/amenityActions";
+import EditAmenityModal from "./modals/EditAmenityModal";
 import "./Amenity.css";
 
 const Amenity = () => {
-  const [amenities, setAmenities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  const [amenityToEdit, setAmenityToEdit] = useState(null);
 
-  const fetchData = async () => {
-    try {
-      const response = await getAmenities();
-      if (Array.isArray(response)) {
-        setAmenities(response);
-      } else {
-        throw new Error("Formato de resposta inesperado.");
-      }
-    } catch (error) {
-      setError("Erro ao carregar amenidades. Tente novamente mais tarde.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { amenities, loading, error } = useSelector((state) => state.amenity);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => {
-      fetchData();
-    }, 500);
-  }, []);
+    dispatch(fetchAmenities());
+  }, [dispatch]);
+
+  const handleEdit = (amenity) => {
+    setAmenityToEdit(amenity);
+    setEditModalVisible(true);
+  };
+
+  const handleCloseCreateModal = () => setModalVisible(false);
+  const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
     <div className="container d-flex justify-content-center min-vh-100">
       <div className="w-100">
-        <button type="button" className="btn btn-primary shadow">
+        <button
+          type="button"
+          className="btn btn-primary fw-bold bg-gradient rounded shadow"
+          onClick={() => setModalVisible(true)}
+        >
           CADASTRAR
         </button>
+
+        <CreateAmenityModal
+          isVisible={modalVisible}
+          onClose={handleCloseCreateModal}
+          fetchAmenities={() => dispatch(fetchAmenities())}
+        />
+
+        <EditAmenityModal
+          isVisible={editModalVisible}
+          onClose={handleCloseEditModal}
+          amenityToEdit={amenityToEdit}
+          fetchAmenities={() => dispatch(fetchAmenities())}
+        />
 
         {loading ? (
           <div
@@ -45,17 +60,15 @@ const Amenity = () => {
             </div>
           </div>
         ) : error ? (
-          <div class="alert alert-danger mt-3" role="alert">
+          <div className="alert alert-danger mt-3" role="alert">
             {error}
           </div>
         ) : (
-          // <div className="card shadow-sm">
-          //   <div className="card-body">
           <table className="table table-striped table-bordered shadow">
             <thead>
               <tr>
-                <th className="text-center">Nome</th>
-                <th className="text-center">Ações</th>
+                <th className="text-center table-primary text-light">Nome</th>
+                <th className="text-center table-primary text-light">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -63,7 +76,10 @@ const Amenity = () => {
                 <tr key={amenity.id}>
                   <td>{amenity.nome}</td>
                   <td>
-                    <button className="btn btn-primary btn-sm me-2 w-100">
+                    <button
+                      className="btn btn-primary fw-bold shadow bg-gradient rounded btn-sm me-2 w-100"
+                      onClick={() => handleEdit(amenity)}
+                    >
                       <i className="fas fa-edit"></i> Editar
                     </button>
                   </td>
@@ -71,8 +87,6 @@ const Amenity = () => {
               ))}
             </tbody>
           </table>
-          //</div>
-          //div> */
         )}
       </div>
     </div>

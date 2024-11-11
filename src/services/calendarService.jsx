@@ -17,7 +17,7 @@ export const calendarService = async (idAccommodation, date) => {
       throw new Error('Data inválida');
     }
 
-    const _URL = `/hospedagem/agenda/${idAccommodation}/${formattedDate}`;
+    const _URL = `/hospedagem/agenda/datas/${idAccommodation}/${formattedDate}`;
     const response = await api.get(_URL);
 
     return response.data;

@@ -10,3 +10,7 @@
   .react-datepicker__close-icon::after {
     background-color: red;
   }
+
+  .react-datepicker-wrapper, .react-datepicker__input-container > input {
+    min-width: 100% !important;
+  }
