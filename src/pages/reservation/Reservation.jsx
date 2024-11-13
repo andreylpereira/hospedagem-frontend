@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { fetchReservationsAction } from "../../redux/actions/reservationActions";
+import { fetchReservationsAction } from "../../redux/actions/ReservationActions.jsx";
 import CreateReservationModal from "./modals/CreateReservationModal";
 import UpdateReservationModal from "./modals/UpdateReservationsModal";
 import "./Reservation.css";
@@ -41,28 +41,6 @@ const Reservation = () => {
 
   return (
     <div className="container">
-      <div className="d-flex justify-content-start mb-3">
-        <button
-          className="btn btn-primary fw-bold bg-gradient rounded shadow"
-          onClick={() => setIsModalVisible(true)}
-        >
-          CADASTRAR
-        </button>
-      </div>
-
-      <CreateReservationModal
-        accommodationId={accommodationId}
-        isVisible={isModalVisible}
-        onClose={() => setIsModalVisible(false)}
-      />
-
-      <UpdateReservationModal
-        reservationId={selectedReservationId}
-        isVisible={isEditModalVisible}
-        onClose={() => setIsEditModalVisible(false)}
-        onReservationUpdated={handleReservationUpdated}
-      />
-
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -74,48 +52,84 @@ const Reservation = () => {
         </div>
       )}
 
-      {error && (
+      {error && !loading && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
       )}
+      {reservations.length > 0 && (
+        <div>
+          <div className="d-flex justify-content-start mb-3">
+            <button
+              className="btn btn-primary fw-bold bg-gradient rounded shadow"
+              onClick={() => setIsModalVisible(true)}
+            >
+              CADASTRAR
+            </button>
+          </div>
+          <CreateReservationModal
+            accommodationId={accommodationId}
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+          />
 
-      {reservations.length > 0 ? (
-        <div className="table-responsive">
-          <table className="table table-striped table-bordered shadow">
-            <thead>
-              <tr>
-                <th className="text-center table-primary text-light">Data Início</th>
-                <th className="text-center table-primary text-light">Data Fim</th>
-                <th className="text-center table-primary text-light">Cliente</th>
-                <th className="text-center table-primary text-light">Telefone</th>
-                <th className="text-center table-primary text-light">Email</th>
-                <th className="text-center table-primary text-light">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reservations.map((reservation) => (
-                <tr key={reservation.reservaId}>
-                  <td>{formatDate(reservation.dataInicio)}</td>
-                  <td>{formatDate(reservation.dataFim)}</td>
-                  <td>{reservation.clienteNome}</td>
-                  <td>{reservation.clienteTelefone}</td>
-                  <td>{reservation.clienteEmail}</td>
-                  <td>
-                    <button
-                      className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
-                      onClick={() => handleEditClick(reservation.reservaId)}
-                    >
-                      <i className="fas fa-edit"></i>
-                    </button>
-                  </td>
+          <UpdateReservationModal
+            reservationId={selectedReservationId}
+            isVisible={isEditModalVisible}
+            onClose={() => setIsEditModalVisible(false)}
+            onReservationUpdated={handleReservationUpdated}
+          />
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered shadow">
+              <thead>
+                <tr>
+                  <th className="text-center table-primary text-light">
+                    Data Início
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Data Fim
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Cliente
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Telefone
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Email
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Ações
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {reservations.map((reservation) => (
+                  <tr key={reservation.reservaId}>
+                    <td>{formatDate(reservation.dataInicio)}</td>
+                    <td>{formatDate(reservation.dataFim)}</td>
+                    <td>{reservation.clienteNome}</td>
+                    <td>{reservation.clienteTelefone}</td>
+                    <td>{reservation.clienteEmail}</td>
+                    <td>
+                      <button
+                        className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                        onClick={() => handleEditClick(reservation.reservaId)}
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      ) : (
-        <p className="text-center">Não há reservas para este período.</p>
+      )}
+      {!loading && reservations.length === 0 && !error && (
+        <div className="alert alert-warning mt-3" role="alert">
+          Não há reservas para este período.
+        </div>
       )}
     </div>
   );

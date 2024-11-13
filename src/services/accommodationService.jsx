@@ -12,13 +12,15 @@ export const getAccommodations = async () => {
   }
 };
 
-
 export const getAccommodationById = async (idAccommodation) => {
   try {
     const response = await api.get(`${_URL}/acomodacoes/${idAccommodation}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar acomodação com ID: ${idAccommodation}`, error);
+    console.error(
+      `Erro ao buscar acomodação com ID: ${idAccommodation}`,
+      error
+    );
     throw error;
   }
 };
@@ -29,7 +31,10 @@ export const createAccommodation = async (accommodation) => {
     throw new Error("Usuário não autenticado.");
   }
   try {
-    const response = await api.post(`${_URL}/${idUser}/acomodacoes`, accommodation);
+    const response = await api.post(
+      `${_URL}/${idUser}/acomodacoes`,
+      accommodation
+    );
     return response.data;
   } catch (error) {
     console.error("Erro ao criar acomodação.", error);
@@ -40,10 +45,16 @@ export const createAccommodation = async (accommodation) => {
 export const updateAccommodation = async (idAccommodation, accommodation) => {
   const idUser = getUserIdFromToken();
   try {
-    const response = await api.put(`${_URL}/${idUser}/acomodacoes/${idAccommodation}`, accommodation);
+    const response = await api.put(
+      `${_URL}/${idUser}/acomodacoes/${idAccommodation}`,
+      accommodation
+    );
     return response.data;
   } catch (error) {
-    console.error(`Erro ao atualizar acomodação com ID: ${idAccommodation}`, error);
+    console.error(
+      `Erro ao atualizar acomodação com ID: ${idAccommodation}`,
+      error
+    );
     throw error;
   }
 };

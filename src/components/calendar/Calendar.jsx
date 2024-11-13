@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ptBR } from "date-fns/locale";
-import { calendarService } from "../../services/calendarService";
+import { calendarService } from "../../services/CalendarService.jsx";
 import "./Calendar.css";
 
 const Calendar = ({ onDateSelect }) => {
@@ -10,6 +10,7 @@ const Calendar = ({ onDateSelect }) => {
   const [importantDates, setImportantDates] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
+  
   const datePickerRef = useRef(null);
 
   const handleDateChange = (date) => {
@@ -86,6 +87,7 @@ const Calendar = ({ onDateSelect }) => {
   return (
     <div ref={datePickerRef}>
       <DatePicker
+        className="form-control"
         selected={selectedDate}
         onChange={handleDateChange}
         onMonthChange={handleMonthChange}

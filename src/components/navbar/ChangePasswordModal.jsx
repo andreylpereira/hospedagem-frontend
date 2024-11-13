@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { updatePassword } from "./../../../services/userService";
+import { updatePassword } from "./../../services/UserService";
 
 const ChangePasswordModal = ({ isVisible, onClose }) => {
-  const [newPassword, setNewPassword] = useState({
+  const [form, setForm] = useState({
     senha: "",
     confirmarSenha: "",
   });
@@ -11,14 +11,14 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (newPassword.senha !== newPassword.confirmarSenha) {
+    if (form.senha !== form.confirmarSenha) {
       setError("As senhas não coincidem.");
       return;
     }
 
-    const passwordData = { senha: newPassword.senha };
+    const newPassword = { senha: form.senha };
 
-    updatePassword(passwordData)
+    updatePassword(newPassword)
       .then(() => {
         console.log("Senha alterada com sucesso!");
         onClose();
@@ -62,9 +62,9 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                     className="form-control"
                     id="formSenha"
                     placeholder="Digite sua nova senha"
-                    value={newPassword.senha}
+                    value={form.senha}
                     onChange={(e) =>
-                      setNewPassword({ ...newPassword, senha: e.target.value })
+                      setForm({ ...form, senha: e.target.value })
                     }
                   />
                 </div>
@@ -77,10 +77,10 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                     className="form-control"
                     id="formConfirmarSenha"
                     placeholder="Confirme sua senha"
-                    value={newPassword.confirmarSenha}
+                    value={form.confirmarSenha}
                     onChange={(e) =>
-                      setNewPassword({
-                        ...newPassword,
+                      setForm({
+                        ...form,
                         confirmarSenha: e.target.value,
                       })
                     }

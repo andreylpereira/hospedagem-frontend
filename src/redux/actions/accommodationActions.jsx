@@ -4,15 +4,15 @@ import {
   FETCH_ACCOMMODATIONS_FAILURE,
   CREATE_ACCOMMODATION_SUCCESS,
   CREATE_ACCOMMODATION_FAILURE,
-  UPDATE_ACCOMMODATIONS_SUCCESS, 
+  UPDATE_ACCOMMODATION_SUCCESS, 
   UPDATE_ACCOMMODATION_FAILURE
-} from "../types/actionTypes"; 
+} from "../types/actionTypes.jsx"; 
 
 import {
   getAccommodations,
   createAccommodation,
   updateAccommodation
-} from "../../services/accommodationService";
+} from "../../services/AccommodationService.jsx";
 
 export const fetchAccommodations = () => async (dispatch) => {
   dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
@@ -26,7 +26,7 @@ export const fetchAccommodations = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
-      payload: error.message || "Erro ao buscar acomodações.",
+      payload: "Erro ao carregar as acomodações. Tente novamente mais tarde."
     });
   }
 };
@@ -40,11 +40,10 @@ export const createAccommodationAction = (accommodation) => async (dispatch) => 
     });
     return newAccommodation;  
   } catch (error) {
-    console.error("Erro ao criar acomodação", error);
-    dispatch({
-      type: CREATE_ACCOMMODATION_FAILURE,
-      payload: error.message || "Erro ao criar acomodação.",
-    });
+    // dispatch({
+    //   type: CREATE_ACCOMMODATION_FAILURE,
+    //   payload: error.message //aki
+    // });
     throw error;  
   }
 };
@@ -53,15 +52,14 @@ export const updateAccommodationAction = (idAccommodation, accommodation) => asy
   try {
     const updatedAccommodation = await updateAccommodation(idAccommodation, accommodation);
     dispatch({
-      type: UPDATE_ACCOMMODATIONS_SUCCESS, 
+      type: UPDATE_ACCOMMODATION_SUCCESS, 
       payload: updatedAccommodation,
     });
     return updatedAccommodation;  
   } catch (error) {
-    console.error("Erro ao atualizar acomodação", error);
     dispatch({
       type: UPDATE_ACCOMMODATION_FAILURE,
-      payload: error.message || "Erro ao atualizar a acomodação.",
+      payload: "Erro ao atualizar a acomodação."
     });
     throw error;  
   }

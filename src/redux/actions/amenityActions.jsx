@@ -3,13 +3,15 @@ import {
     FETCH_AMENITIES_SUCCESS,
     FETCH_AMENITIES_FAILURE,
     CREATE_AMENITY_SUCCESS,
+    CREATE_AMENITY_FAILURE,
     UPDATE_AMENITY_SUCCESS,
+    UPDATE_AMENITY_FAILURE
   } from "../types/actionTypes";
   import {
     getAmenities,
     createAmenity,
     updateAmenity,
-  } from "../../services/amenityService";
+  } from "../../services/AmenityService.jsx";
   
   export const fetchAmenities = () => async (dispatch) => {
     dispatch({ type: FETCH_AMENITIES_REQUEST });
@@ -36,7 +38,11 @@ import {
         payload: newAmenity,
       });
     } catch (error) {
-      console.error("Erro ao criar amenidade", error);
+      dispatch({
+        type: CREATE_AMENITY_FAILURE,
+        payload: "Erro ao criar amenidade."
+      });
+      throw error;  
     }
   };
   
@@ -49,7 +55,11 @@ import {
         payload: updatedAmenity,
       });
     } catch (error) {
-      console.error("Erro ao atualizar amenidade", error.message);
+      dispatch({
+        type: UPDATE_AMENITY_FAILURE,
+        payload: "Erro ao atualizar amenidade."
+      });
+      throw error;  
     }
   };
   

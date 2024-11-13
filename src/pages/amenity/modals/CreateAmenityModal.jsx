@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createAmenityAction } from "../../../redux/actions/amenityActions";
+import { createAmenityAction } from "../../../redux/actions/AmenityActions";
 
 const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
-  const [newAmenity, setNewAmenity] = useState({
-    nome: ""   
+  const [form, setForm] = useState({
+    nome: "",
   });
+
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createAmenityAction(newAmenity)).then(() => {
-      fetchAmenities();
-      onClose();
-      setNewAmenity({
-            nome: ""
+    dispatch(createAmenityAction(form))
+      .then(() => {
+        fetchAmenities();
+        onClose();
+        setForm({
+          nome: "",
+        });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setError(error.message);
+        //onClose();
       });
-    });
   };
 
   return (
@@ -44,6 +52,11 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
             </div>
 
             <div className="modal-body">
+              {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="mb-3 col-12 col-md-6 w-100">
@@ -55,9 +68,9 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                       className="form-control"
                       id="formNome"
                       placeholder="Nome"
-                      value={newAmenity.nome}
+                      value={form.nome}
                       onChange={(e) =>
-                        setNewAmenity({ ...newAmenity, nome: e.target.value })
+                        setForm({ ...form, nome: e.target.value })
                       }
                     />
                   </div>
@@ -70,7 +83,10 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                  >
                     Salvar
                   </button>
                 </div>

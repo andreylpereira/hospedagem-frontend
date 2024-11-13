@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateClientAction } from "../../../redux/actions/clientActions";
+import { updateClientAction } from "../../../redux/actions/ClientActions";
 import IMask from "react-input-mask";
 
 const EditClientModal = ({
@@ -9,7 +9,7 @@ const EditClientModal = ({
   clientToEdit,
   fetchClients,
 }) => {
-  const [editedClient, setEditedClient] = useState({
+  const [form, setForm] = useState({
     id: "",
     cpf: "",
     nome: "",
@@ -18,24 +18,28 @@ const EditClientModal = ({
     endereco: "",
   });
 
+  const [error, setError] = useState(null);
+  
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (clientToEdit) {
-      setEditedClient(clientToEdit);
+      setForm(clientToEdit);
     }
   }, [clientToEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(updateClientAction(editedClient.id, editedClient))
+    dispatch(updateClientAction(form.id, form))
       .then(() => {
         fetchClients();
         onClose();
       })
-      .catch((err) => {
-        console.error("Erro ao atualizar cliente:", err);
+      .catch((error) => {
+        console.error(error.message);
+        setError(error.message);
+        //onClose();
       });
   };
 
@@ -63,6 +67,11 @@ const EditClientModal = ({
             </div>
 
             <div className="modal-body">
+            {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="formCpf" className="form-label">
@@ -72,7 +81,7 @@ const EditClientModal = ({
                     mask="999.999.999-99"
                     className="form-control"
                     id="formCpf"
-                    value={editedClient.cpf}
+                    value={form.cpf}
                     disabled
                   />
                 </div>
@@ -84,9 +93,9 @@ const EditClientModal = ({
                     type="text"
                     className="form-control"
                     id="formNome"
-                    value={editedClient.nome}
+                    value={form.nome}
                     onChange={(e) =>
-                      setEditedClient({ ...editedClient, nome: e.target.value })
+                      setForm({ ...form, nome: e.target.value })
                     }
                   />
                 </div>
@@ -98,10 +107,10 @@ const EditClientModal = ({
                     type="email"
                     className="form-control"
                     id="formEmail"
-                    value={editedClient.email}
+                    value={form.email}
                     onChange={(e) =>
-                      setEditedClient({
-                        ...editedClient,
+                      setForm({
+                        ...form,
                         email: e.target.value,
                       })
                     }
@@ -115,10 +124,10 @@ const EditClientModal = ({
                     mask="(99) 99999-9999"
                     className="form-control"
                     id="formTelefone"
-                    value={editedClient.telefone}
+                    value={form.telefone}
                     onChange={(e) =>
-                      setEditedClient({
-                        ...editedClient,
+                      setForm({
+                        ...form,
                         telefone: e.target.value,
                       })
                     }
@@ -132,10 +141,10 @@ const EditClientModal = ({
                     type="text"
                     className="form-control"
                     id="formEndereco"
-                    value={editedClient.endereco}
+                    value={form.endereco}
                     onChange={(e) =>
-                      setEditedClient({
-                        ...editedClient,
+                      setForm({
+                        ...form,
                         endereco: e.target.value,
                       })
                     }

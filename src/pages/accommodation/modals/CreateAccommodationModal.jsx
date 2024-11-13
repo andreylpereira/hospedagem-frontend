@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createAccommodationAction } from "../../../redux/actions/accommodationActions";
-import { fetchAmenities } from "../../../redux/actions/amenityActions";
+import { createAccommodationAction } from "../../../redux/actions/AccommodationActions";
+import { fetchAmenities } from "../../../redux/actions/AmenityActions";
 
-
-const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) => {
-  const [newAccommodation, setNewAccommodation] = useState({
+const CreateAccommodationModal = ({
+  isVisible,
+  onClose,
+  fetchAccommodations,
+}) => {
+  const [form, setForm] = useState({
     nome: "",
     descricao: "",
     capacidade: "",
     preco: "",
-    habilitado: true,   
-    amenidades: []
+    habilitado: true,
+    amenidades: [],
   });
 
   const [availableAmenities, setAvailableAmenities] = useState([]);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
   const { amenities } = useSelector((state) => state.amenity);
 
- 
   useEffect(() => {
     if (isVisible) {
       dispatch(fetchAmenities());
@@ -33,57 +36,77 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
     }
   }, [amenities]);
 
-  const handleAmenityChange = (id) => {
-    const selectedAmenity = availableAmenities.find((amenity) => amenity.id === id);
-    let updatedAmenities = [...newAccommodation.amenidades];
+  const handleChange = (id) => {
+    const selectedAmenity = availableAmenities.find(
+      (amenity) => amenity.id === id
+    );
+    let updatedAmenities = [...form.amenidades];
 
     if (updatedAmenities.some((amenity) => amenity.id === id)) {
-      
-      updatedAmenities = updatedAmenities.filter((amenity) => amenity.id !== id);
+      updatedAmenities = updatedAmenities.filter(
+        (amenity) => amenity.id !== id
+      );
     } else {
-      
       updatedAmenities.push(selectedAmenity);
     }
 
-    setNewAccommodation({
-      ...newAccommodation,
-      amenidades: updatedAmenities
+    setForm({
+      ...form,
+      amenidades: updatedAmenities,
     });
   };
 
   const handleHabilitadoChange = () => {
-    setNewAccommodation({
-      ...newAccommodation,
-      habilitado: !newAccommodation.habilitado
+    setForm({
+      ...form,
+      habilitado: !form.habilitado,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createAccommodationAction(newAccommodation)).then(() => {
-      fetchAccommodations(); 
-      onClose(); 
-      setNewAccommodation({
-        nome: "",
-        descricao: "",
-        capacidade: "",
-        preco: "",
-        habilitado: true, 
-        amenidades: [] 
+    dispatch(createAccommodationAction(form))
+      .then(() => {
+        fetchAccommodations();
+        onClose();
+        setForm({
+          nome: "",
+          descricao: "",
+          capacidade: "",
+          preco: "",
+          habilitado: true,
+          amenidades: [],
+        });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setError(error.message);
+        //onClose();
       });
-    });
   };
 
   return (
     isVisible && (
-      <div className={`modal fade ${isVisible ? "show" : ""}`} style={{ display: isVisible ? "block" : "none" }}>
+      <div
+        className={`modal fade ${isVisible ? "show" : ""}`}
+        style={{ display: isVisible ? "block" : "none" }}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">CADASTRAR</h5>
-              <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                onClick={onClose}
+              ></button>
             </div>
             <div className="modal-body">
+              {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="formNome">Nome</label>
@@ -92,10 +115,8 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                     className="form-control"
                     id="formNome"
                     placeholder="Nome"
-                    value={newAccommodation.nome}
-                    onChange={(e) =>
-                      setNewAccommodation({ ...newAccommodation, nome: e.target.value })
-                    }
+                    value={form.nome}
+                    onChange={(e) => setForm({ ...form, nome: e.target.value })}
                   />
                 </div>
 
@@ -105,9 +126,9 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                     className="form-control"
                     id="formDescricao"
                     placeholder="Descrição"
-                    value={newAccommodation.descricao}
+                    value={form.descricao}
                     onChange={(e) =>
-                      setNewAccommodation({ ...newAccommodation, descricao: e.target.value })
+                      setForm({ ...form, descricao: e.target.value })
                     }
                   />
                 </div>
@@ -119,9 +140,9 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                     className="form-control"
                     id="formCapacidade"
                     placeholder="Capacidade"
-                    value={newAccommodation.capacidade}
+                    value={form.capacidade}
                     onChange={(e) =>
-                      setNewAccommodation({ ...newAccommodation, capacidade: e.target.value })
+                      setForm({ ...form, capacidade: e.target.value })
                     }
                   />
                 </div>
@@ -133,12 +154,13 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                     className="form-control"
                     id="formPreco"
                     placeholder="Preço"
-                    value={newAccommodation.preco}
+                    value={form.preco}
                     onChange={(e) =>
-                      setNewAccommodation({ ...newAccommodation, preco: e.target.value })
+                      setForm({ ...form, preco: e.target.value })
                     }
                   />
                 </div>
+
                 <div className="mb-3">
                   <label htmlFor="formHabilitado" className="form-label">
                     Habilitado
@@ -148,14 +170,18 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                       type="checkbox"
                       className="form-check-input"
                       id="formHabilitado"
-                      checked={newAccommodation.habilitado}
+                      checked={form.habilitado}
                       onChange={handleHabilitadoChange}
                     />
-                    <label className="form-check-label" htmlFor="formHabilitado">
+                    <label
+                      className="form-check-label"
+                      htmlFor="formHabilitado"
+                    >
                       Marque para habilitar a acomodação
                     </label>
                   </div>
                 </div>
+
                 <div className="mb-3">
                   <h6>Amenidades:</h6>
                   <div className="d-flex flex-wrap">
@@ -166,27 +192,43 @@ const CreateAccommodationModal = ({ isVisible, onClose, fetchAccommodations }) =
                             type="checkbox"
                             className="form-check-input"
                             id={`amenity-${amenity.id}`}
-                            checked={newAccommodation.amenidades.some(
-                              (selectedAmenity) => selectedAmenity.id === amenity.id
+                            checked={form.amenidades.some(
+                              (selectedAmenity) =>
+                                selectedAmenity.id === amenity.id
                             )}
-                            onChange={() => handleAmenityChange(amenity.id)}
+                            onChange={() => handleChange(amenity.id)}
                           />
-                          <label className="form-check-label" htmlFor={`amenity-${amenity.id}`}>
+                          <label
+                            className="form-check-label"
+                            htmlFor={`amenity-${amenity.id}`}
+                          >
                             {amenity.nome}
                           </label>
                         </div>
                       ))
                     ) : (
-                      <p>Carregando amenidades...</p>
+                      <div
+                        className="spinner-border text-primary"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
                     )}
                   </div>
                 </div>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary fw-bold bg-gradient rounded shadow" onClick={onClose}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                    onClick={onClose}
+                  >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                  >
                     Salvar
                   </button>
                 </div>

@@ -6,11 +6,12 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/_variables.css';
+import './styles/_modals.css';
 import './styles/index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}> {/* Envolvendo o App com o Provider e passando a store */}
+  <Provider store={store}>
     <App />
   </Provider>
 );

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/clientService";
+import { getClients } from "../../../services/ClientService";
 import { getUserIdFromToken } from "../../../services/api";
-import { createReservation } from "../../../services/reservationService";
+import { createReservation } from "../../../services/ReservationService";
 
 const CreateReservationModal = ({
   accommodationId,
@@ -10,7 +10,7 @@ const CreateReservationModal = ({
   onClose,
   onReservationCreated,
 }) => {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     clienteId: null,
     status: "Em andamento",
     dataInicio: "",
@@ -54,7 +54,7 @@ const CreateReservationModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { clienteId, status, dataInicio, dataFim } = formData;
+    const { clienteId, status, dataInicio, dataFim } = form;
 
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
@@ -73,20 +73,22 @@ const CreateReservationModal = ({
 
       onClose();
     } catch (error) {
-      setError("Erro ao criar a reserva.");
+      console.error(error.message);
+      setError(error.message);
+      //onClose();
     }
   };
 
   const handleDateInicioSelect = (date) => {
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       dataInicio: date,
     });
   };
 
   const handleDateFimSelect = (date) => {
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       dataFim: date,
     });
   };
@@ -95,12 +97,12 @@ const CreateReservationModal = ({
     const { name, value } = e.target;
 
     if (name === "clienteId") {
-      setFormData((prev) => ({
+      setForm((prev) => ({
         ...prev,
         [name]: value ? Number(value) : null,
       }));
     } else {
-      setFormData((prev) => ({
+      setForm((prev) => ({
         ...prev,
         [name]: value,
       }));
@@ -131,7 +133,11 @@ const CreateReservationModal = ({
             ></button>
           </div>
           <div className="modal-body">
-            {isLoading && <p>Carregando clientes...</p>}
+            {error && !isLoading (
+              <div className="alert alert-danger mt-3" role="alert">
+                {error}
+              </div>
+            )}
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -139,7 +145,7 @@ const CreateReservationModal = ({
                 <select
                   className="form-select"
                   name="clienteId"
-                  value={formData.clienteId || ""}
+                  value={form.clienteId || ""}
                   onChange={handleChange}
                   required
                 >
@@ -157,7 +163,7 @@ const CreateReservationModal = ({
                 <Calendar
                   onDateSelect={handleDateInicioSelect}
                   accommodationId={accommodationId}
-                  selectedDate={formData.dataInicio}
+                  selectedDate={form.dataInicio}
                 />
               </div>
 
@@ -166,7 +172,7 @@ const CreateReservationModal = ({
                 <Calendar
                   onDateSelect={handleDateFimSelect}
                   accommodationId={accommodationId}
-                  selectedDate={formData.dataFim}
+                  selectedDate={form.dataFim}
                 />
               </div>
 
@@ -175,7 +181,7 @@ const CreateReservationModal = ({
                 <select
                   className="form-select"
                   name="status"
-                  value={formData.status}
+                  value={form.status}
                   onChange={handleChange}
                   required
                 >
@@ -194,7 +200,10 @@ const CreateReservationModal = ({
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                <button
+                  type="submit"
+                  className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                >
                   Salvar
                 </button>
               </div>

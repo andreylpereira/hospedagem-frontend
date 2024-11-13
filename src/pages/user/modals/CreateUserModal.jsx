@@ -1,38 +1,53 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { createUserAction } from '../../../redux/actions/userActions';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createUserAction } from "../../../redux/actions/UserActions";
 import InputMask from "react-input-mask";
 
 const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
-  const [newUser, setNewUser] = useState({
-    cpf: '',
-    senha: '',
-    nome: '',
-    email: '',
-    perfil: '', 
+  const [form, setForm] = useState({
+    cpf: "",
+    senha: "",
+    nome: "",
+    email: "",
+    perfil: "",
     habilitado: false,
   });
+
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createUserAction(newUser)) 
+    dispatch(createUserAction(form))
       .then(() => {
-        fetchUsers(); 
-        onClose(); 
-        setNewUser({ cpf: '', senha: '', nome: '', email: '', perfil: '', habilitado: false }); 
+        fetchUsers();
+  
+        setForm({
+          cpf: "",
+          senha: "",
+          nome: "",
+          email: "",
+          perfil: "",
+          habilitado: false,
+        });
+      })
+      .catch((error) => {
+        console.error(error.message);
+        setError(error.message);
+        console.log("aaaaaaaaaaaaaaa");
+        
       });
   };
 
   return (
     isVisible && (
       <div
-        className={`modal fade ${isVisible ? 'show' : ''}`}
+        className={`modal fade ${isVisible ? "show" : ""}`}
         tabIndex="-1"
         aria-labelledby="createUserModalLabel"
         aria-hidden={!isVisible}
-        style={{ display: isVisible ? 'block' : 'none' }} 
+        style={{ display: isVisible ? "block" : "none" }}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -49,6 +64,11 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
             </div>
 
             <div className="modal-body">
+              {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="formNome" className="form-label">
@@ -59,8 +79,8 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     className="form-control"
                     id="formNome"
                     placeholder="Nome"
-                    value={newUser.nome}
-                    onChange={(e) => setNewUser({ ...newUser, nome: e.target.value })}
+                    value={form.nome}
+                    onChange={(e) => setForm({ ...form, nome: e.target.value })}
                   />
                 </div>
                 <div className="mb-3">
@@ -68,15 +88,15 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     CPF
                   </label>
                   <InputMask
-                        mask="999.999.999-99"
-                        type="text"
-                        className="form-control"
-                        name="cpf"
-                        id="cpf"
-                        placeholder="Digite seu CPF"
-                        value={newUser.cpf}
-                        onChange={(e) => setNewUser({ ...newUser, cpf: e.target.value })}
-                      />
+                    mask="999.999.999-99"
+                    type="text"
+                    className="form-control"
+                    name="cpf"
+                    id="cpf"
+                    placeholder="Digite seu CPF"
+                    value={form.cpf}
+                    onChange={(e) => setForm({ ...form, cpf: e.target.value })}
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="formSenha" className="form-label">
@@ -87,8 +107,10 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     className="form-control"
                     id="formSenha"
                     placeholder="Senha"
-                    value={newUser.senha}
-                    onChange={(e) => setNewUser({ ...newUser, senha: e.target.value })}
+                    value={form.senha}
+                    onChange={(e) =>
+                      setForm({ ...form, senha: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-3">
@@ -100,8 +122,10 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     className="form-control"
                     id="formEmail"
                     placeholder="Email"
-                    value={newUser.email}
-                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                    value={form.email}
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="mb-3">
@@ -111,8 +135,10 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                   <select
                     className="form-control"
                     id="formPerfil"
-                    value={newUser.perfil}
-                    onChange={(e) => setNewUser({ ...newUser, perfil: e.target.value })}
+                    value={form.perfil}
+                    onChange={(e) =>
+                      setForm({ ...form, perfil: e.target.value })
+                    }
                   >
                     <option value="">Selecione o Perfil</option>
                     <option value="ADMINISTRADOR">Administrador</option>
@@ -124,8 +150,10 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     type="checkbox"
                     className="form-check-input"
                     id="formHabilitado"
-                    checked={newUser.habilitado}
-                    onChange={(e) => setNewUser({ ...newUser, habilitado: e.target.checked })}
+                    checked={form.habilitado}
+                    onChange={(e) =>
+                      setForm({ ...form, habilitado: e.target.checked })
+                    }
                   />
                   <label className="form-check-label" htmlFor="formHabilitado">
                     Habilitado
@@ -140,7 +168,10 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                  >
                     Salvar
                   </button>
                 </div>

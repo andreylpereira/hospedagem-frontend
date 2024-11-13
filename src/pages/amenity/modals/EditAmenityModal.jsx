@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateAmenityAction } from "../../../redux/actions/amenityActions";
+import { updateAmenityAction } from "../../../redux/actions/AmenityActions";
 
 const EditAmenityModal = ({
   isVisible,
@@ -8,29 +8,33 @@ const EditAmenityModal = ({
   amenityToEdit,
   fetchAmenities,
 }) => {
-  const [editedAmenity, setEditAmenity] = useState({
+  const [form, setForm] = useState({
     id: "",
     nome: "",
   });
+
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (amenityToEdit) {
-      setEditAmenity(amenityToEdit);
+      setForm(amenityToEdit);
     }
   }, [amenityToEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(updateAmenityAction(editedAmenity.id, editedAmenity))
+    dispatch(updateAmenityAction(form.id, form))
       .then(() => {
         fetchAmenities();
         onClose();
       })
-      .catch((err) => {
-        console.error("Erro ao atualizar cliente:", err);
+      .catch((error) => {
+        console.error(error.message);
+        setError(error.message);
+        //onClose();
       });
   };
 
@@ -58,6 +62,11 @@ const EditAmenityModal = ({
             </div>
 
             <div className="modal-body">
+            {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="mb-3 col-12 col-md-6 w-100">
@@ -69,10 +78,10 @@ const EditAmenityModal = ({
                       className="form-control"
                       id="formNome"
                       placeholder="Nome"
-                      value={editedAmenity.nome}
+                      value={form.nome}
                       onChange={(e) =>
-                        setEditAmenity({
-                          ...editedAmenity,
+                        setForm({
+                          ...form,
                           nome: e.target.value,
                         })
                       }

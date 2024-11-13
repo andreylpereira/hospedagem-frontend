@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createClientAction } from "../../../redux/actions/clientActions";
+import { createClientAction } from "../../../redux/actions/ClientActions";
 import IMask from "react-input-mask";
 
 const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
-  const [newClient, setNewClient] = useState({
+  const [form, setForm] = useState({
     cpf: "",
     nome: "",
     email: "",
@@ -12,20 +12,27 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
     endereco: "",
   });
 
+  const [error, setError] = useState(null);
+
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createClientAction(newClient)).then(() => {
+    dispatch(createClientAction(form)).then(() => {
       fetchClients();
       onClose();
-      setNewClient({
+      setForm({
         cpf: "",
         nome: "",
         email: "",
         telefone: "",
         endereco: "",
       });
+    })
+    .catch((error) => {
+      console.error(error.message);
+      setError(error.message);
+      //onClose();
     });
   };
 
@@ -53,6 +60,11 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
             </div>
 
             <div className="modal-body">
+            {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="row">
                   <div className="mb-3 col-12 col-md-6">
@@ -64,9 +76,9 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                       className="form-control"
                       id="formCpf"
                       placeholder="CPF"
-                      value={newClient.cpf}
+                      value={form.cpf}
                       onChange={(e) =>
-                        setNewClient({ ...newClient, cpf: e.target.value })
+                        setForm({ ...form, cpf: e.target.value })
                       }
                     />
                   </div>
@@ -79,9 +91,9 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                       className="form-control"
                       id="formNome"
                       placeholder="Nome"
-                      value={newClient.nome}
+                      value={form.nome}
                       onChange={(e) =>
-                        setNewClient({ ...newClient, nome: e.target.value })
+                        setForm({ ...form, nome: e.target.value })
                       }
                     />
                   </div>
@@ -95,9 +107,9 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                     className="form-control"
                     id="formEmail"
                     placeholder="Email"
-                    value={newClient.email}
+                    value={form.email}
                     onChange={(e) =>
-                      setNewClient({ ...newClient, email: e.target.value })
+                      setForm({ ...form, email: e.target.value })
                     }
                   />
                 </div>
@@ -111,9 +123,9 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                     className="form-control"
                     id="formTelefone"
                     placeholder="Telefone"
-                    value={newClient.telefone}
+                    value={form.telefone}
                     onChange={(e) =>
-                      setNewClient({ ...newClient, telefone: e.target.value })
+                      setForm({ ...form, telefone: e.target.value })
                     }
                   />
                 </div>
@@ -126,9 +138,9 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                     className="form-control"
                     id="formEndereco"
                     placeholder="Endereço"
-                    value={newClient.endereco}
+                    value={form.endereco}
                     onChange={(e) =>
-                      setNewClient({ ...newClient, endereco: e.target.value })
+                      setForm({ ...form, endereco: e.target.value })
                     }
                   />
                 </div>

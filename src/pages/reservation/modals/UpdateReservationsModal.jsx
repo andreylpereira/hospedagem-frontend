@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/clientService";
-import { getReservationById } from "../../../services/reservationService";
-import { updateReservation } from "../../../services/reservationService";
+import { getClients } from "../../../services/ClientService";
+import { getReservationById } from "../../../services/ReservationService";
+import { updateReservation } from "../../../services/ReservationService";
 
 const UpdateReservationModal = ({
   reservationId,
@@ -10,7 +10,7 @@ const UpdateReservationModal = ({
   onClose,
   onReservationUpdated,
 }) => {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     clienteId: null,
     status: "Em andamento",
     dataInicio: "",
@@ -37,7 +37,7 @@ const UpdateReservationModal = ({
             acomodacaoId,
             funcionarioId,
           } = response;
-          setFormData({
+          setForm({
             clienteId,
             status,
             dataInicio,
@@ -92,7 +92,7 @@ const UpdateReservationModal = ({
       dataFim,
       acomodacaoId,
       funcionarioId,
-    } = formData;
+    } = form;
 
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
@@ -118,23 +118,25 @@ const UpdateReservationModal = ({
         }
         onClose();
       } else {
-        setError(updatedReservation || "Erro ao atualizar a reserva.");
+        setError(updatedReservation || "Erro ao atualizar a reserva1.");
       }
     } catch (error) {
-      setError("Erro ao atualizar a reserva.");
+      console.error(error.message);
+      setError(error.message);
+      //onClose();
     }
   };
 
   const handleDateInicioSelect = (date) => {
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       dataInicio: date,
     });
   };
 
   const handleDateFimSelect = (date) => {
-    setFormData({
-      ...formData,
+    setForm({
+      ...form,
       dataFim: date,
     });
   };
@@ -143,12 +145,12 @@ const UpdateReservationModal = ({
     const { name, value } = e.target;
 
     if (name === "clienteId") {
-      setFormData((prev) => ({
+      setForm((prev) => ({
         ...prev,
         [name]: value ? Number(value) : null,
       }));
     } else {
-      setFormData((prev) => ({
+      setForm((prev) => ({
         ...prev,
         [name]: value,
       }));
@@ -179,7 +181,11 @@ const UpdateReservationModal = ({
             ></button>
           </div>
           <div className="modal-body">
-            {isLoading && <p>Carregando dados...</p>}
+            {error && !isLoading (
+              <div className="alert alert-danger mt-3" role="alert">
+                {error}
+              </div>
+            )}
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
@@ -187,7 +193,7 @@ const UpdateReservationModal = ({
                 <select
                   className="form-select"
                   name="clienteId"
-                  value={formData.clienteId || ""}
+                  value={form.clienteId || ""}
                   onChange={handleChange}
                   required
                 >
@@ -204,8 +210,8 @@ const UpdateReservationModal = ({
                 <label className="form-label">Data Início</label>
                 <Calendar
                   onDateSelect={handleDateInicioSelect}
-                  accommodationId={formData.acomodacaoId}
-                  selectedDate={formData.dataInicio}
+                  accommodationId={form.acomodacaoId}
+                  selectedDate={form.dataInicio}
                 />
               </div>
 
@@ -213,8 +219,8 @@ const UpdateReservationModal = ({
                 <label className="form-label">Data Fim</label>
                 <Calendar
                   onDateSelect={handleDateFimSelect}
-                  accommodationId={formData.acomodacaoId}
-                  selectedDate={formData.dataFim}
+                  accommodationId={form.acomodacaoId}
+                  selectedDate={form.dataFim}
                 />
               </div>
 
@@ -223,7 +229,7 @@ const UpdateReservationModal = ({
                 <select
                   className="form-select"
                   name="status"
-                  value={formData.status}
+                  value={form.status}
                   onChange={handleChange}
                   required
                 >
@@ -242,7 +248,10 @@ const UpdateReservationModal = ({
                 >
                   Cancelar
                 </button>
-                <button type="submit" className="btn btn-primary fw-bold shadow">
+                <button
+                  type="submit"
+                  className="btn btn-primary fw-bold shadow"
+                >
                   Salvar
                 </button>
               </div>

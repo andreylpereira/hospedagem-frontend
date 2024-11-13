@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";  
+import { useNavigate } from "react-router-dom";
 import CreateAccommodationModal from "./modals/CreateAccommodationModal";
 import EditAccommodationModal from "./modals/EditAccommodationModal";
-import { fetchAccommodations } from "../../redux/actions/accommodationActions";
+import { fetchAccommodations } from "../../redux/actions/AccommodationActions";
 import "./Accommodation.css";
 
 const Accommodation = () => {
@@ -15,14 +15,13 @@ const Accommodation = () => {
     (state) => state.accommodations
   );
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   useEffect(() => {
     if (accommodations.length === 0) {
       dispatch(fetchAccommodations());
     }
   }, [dispatch, accommodations.length]);
 
-  
   const handleEdit = (accommodation) => {
     setAccommodationToEdit(accommodation);
     setEditModalVisible(true);
@@ -30,16 +29,14 @@ const Accommodation = () => {
 
   const getCurrentDateTime = () => {
     const now = new Date();
-    return now.toISOString().slice(0, 19); 
+    return now.toISOString().slice(0, 19);
   };
 
-  
   const handleNavigateToReservations = (accommodationId, dataInicio) => {
-    
-    const startDate = dataInicio ? dataInicio : getCurrentDateTime(); 
+    const startDate = dataInicio ? dataInicio : getCurrentDateTime();
 
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate }, 
+      state: { accommodationId, startDate },
     });
   };
 
@@ -48,7 +45,7 @@ const Accommodation = () => {
 
   return (
     <div className="container">
-      {loading ? (
+      {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ height: "calc(70vh - 50px)" }}
@@ -57,11 +54,13 @@ const Accommodation = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      ) : error ? (
+      )}
+      {error && !loading &&(
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
-      ) : (
+      )}
+      {accommodations.length > 0 && (
         <>
           <div className="d-flex mb-4">
             <button
@@ -76,7 +75,7 @@ const Accommodation = () => {
               onClose={handleCloseCreateModal}
               fetchAccommodations={() => dispatch(fetchAccommodations())}
             />
-          
+
             <EditAccommodationModal
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
@@ -97,7 +96,8 @@ const Accommodation = () => {
                     <div className="d-flex align-items-center">
                       {accommodation.habilitado === true ? (
                         <span className="badge bg-secondary bg-gradient ms-3 badge-button shadow">
-                          <i className="fas fa-calendar"
+                          <i
+                            className="fas fa-calendar"
                             onClick={() =>
                               handleNavigateToReservations(
                                 accommodation.id,
@@ -166,6 +166,11 @@ const Accommodation = () => {
             ))}
           </div>
         </>
+      )}
+      {!loading && accommodations.length === 0 && !error && (
+        <div className="alert alert-warning mt-3" role="alert">
+          Não há há acomodações cadastradas.
+        </div>
       )}
     </div>
   );

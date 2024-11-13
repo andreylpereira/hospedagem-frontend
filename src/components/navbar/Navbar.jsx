@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { fetchAccommodations } from "../../redux/actions/accommodationActions";
+import { fetchAccommodations } from "../../redux/actions/AccommodationActions";
 import { useAuth } from './../../context/AuthContext';
-import ChangePasswordModal from "./modals/ChangePasswordModal"; 
+import ChangePasswordModal from "./ChangePasswordModal.jsx"; 
 import "./Navbar.css";
 
 const Navbar = () => {

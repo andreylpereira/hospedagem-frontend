@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAccommodationAction } from "../../../redux/actions/accommodationActions";
-import { fetchAmenities } from "../../../redux/actions/amenityActions";
+import { updateAccommodationAction } from "../../../redux/actions/AccommodationActions";
+import { fetchAmenities } from "../../../redux/actions/AmenityActions";
 
-const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetchAccommodations }) => {
-  const [accommodation, setAccommodation] = useState(null);
+const EditAccommodationModal = ({
+  isVisible,
+  onClose,
+  accommodationToEdit,
+  fetchAccommodations,
+}) => {
+  const [form, setForm] = useState(null);
   const [availableAmenities, setAvailableAmenities] = useState([]);
+  const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -25,59 +31,76 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
 
   useEffect(() => {
     if (accommodationToEdit) {
-      setAccommodation(accommodationToEdit);
+      setForm(accommodationToEdit);
     }
   }, [accommodationToEdit]);
 
-  if (!isVisible || !accommodation) return null;
+  if (!isVisible || !form) return null;
 
-  const handleAmenityChange = (id) => {
-    const selectedAmenity = availableAmenities.find((amenity) => amenity.id === id);
-    let updatedAmenities = [...accommodation.amenidades];
+  const handleChange = (id) => {
+    const selectedAmenity = availableAmenities.find(
+      (amenity) => amenity.id === id
+    );
+    let updatedAmenities = [...form.amenidades];
 
     if (updatedAmenities.some((amenity) => amenity.id === id)) {
-      updatedAmenities = updatedAmenities.filter((amenity) => amenity.id !== id);
+      updatedAmenities = updatedAmenities.filter(
+        (amenity) => amenity.id !== id
+      );
     } else {
       updatedAmenities.push(selectedAmenity);
     }
 
-    setAccommodation({
-      ...accommodation,
-      amenidades: updatedAmenities
+    setForm({
+      ...form,
+      amenidades: updatedAmenities,
     });
   };
 
   const handleHabilitadoChange = () => {
-    setAccommodation({
-      ...accommodation,
-      habilitado: !accommodation.habilitado
+    setForm({
+      ...form,
+      habilitado: !form.habilitado,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    dispatch(updateAccommodationAction(accommodation.id, accommodation)) 
+
+    dispatch(updateAccommodationAction(form.id, form))
       .then(() => {
-        fetchAccommodations(); 
-        onClose(); 
+        fetchAccommodations();
+        onClose();
       })
       .catch((error) => {
-        console.error("Erro ao salvar a acomodação:", error);
+        console.error(error.message);
+        setError(error.message);
+        //onClose();
       });
   };
-  
 
   return (
     isVisible && (
-      <div className={`modal fade ${isVisible ? "show" : ""}`} style={{ display: isVisible ? "block" : "none" }}>
+      <div
+        className={`modal fade ${isVisible ? "show" : ""}`}
+        style={{ display: isVisible ? "block" : "none" }}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Editar Acomodação</h5>
-              <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                onClick={onClose}
+              ></button>
             </div>
             <div className="modal-body">
+              {error && (
+                <div className="alert alert-danger mt-3" role="alert">
+                  {error}
+                </div>
+              )}
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label htmlFor="formNome">Nome</label>
@@ -86,10 +109,8 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                     className="form-control"
                     id="formNome"
                     placeholder="Nome"
-                    value={accommodation.nome}
-                    onChange={(e) =>
-                      setAccommodation({ ...accommodation, nome: e.target.value })
-                    }
+                    value={form.nome}
+                    onChange={(e) => setForm({ ...form, nome: e.target.value })}
                   />
                 </div>
 
@@ -99,9 +120,9 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                     className="form-control"
                     id="formDescricao"
                     placeholder="Descrição"
-                    value={accommodation.descricao}
+                    value={form.descricao}
                     onChange={(e) =>
-                      setAccommodation({ ...accommodation, descricao: e.target.value })
+                      setForm({ ...form, descricao: e.target.value })
                     }
                   />
                 </div>
@@ -113,9 +134,9 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                     className="form-control"
                     id="formCapacidade"
                     placeholder="Capacidade"
-                    value={accommodation.capacidade}
+                    value={form.capacidade}
                     onChange={(e) =>
-                      setAccommodation({ ...accommodation, capacidade: e.target.value })
+                      setForm({ ...form, capacidade: e.target.value })
                     }
                   />
                 </div>
@@ -127,9 +148,9 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                     className="form-control"
                     id="formPreco"
                     placeholder="Preço"
-                    value={accommodation.preco}
+                    value={form.preco}
                     onChange={(e) =>
-                      setAccommodation({ ...accommodation, preco: e.target.value })
+                      setForm({ ...form, preco: e.target.value })
                     }
                   />
                 </div>
@@ -143,10 +164,13 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                       type="checkbox"
                       className="form-check-input"
                       id="formHabilitado"
-                      checked={accommodation.habilitado}
+                      checked={form.habilitado}
                       onChange={handleHabilitadoChange}
                     />
-                    <label className="form-check-label" htmlFor="formHabilitado">
+                    <label
+                      className="form-check-label"
+                      htmlFor="formHabilitado"
+                    >
                       Marque para habilitar a acomodação
                     </label>
                   </div>
@@ -162,12 +186,16 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                             type="checkbox"
                             className="form-check-input"
                             id={`amenity-${amenity.id}`}
-                            checked={accommodation.amenidades.some(
-                              (selectedAmenity) => selectedAmenity.id === amenity.id
+                            checked={form.amenidades.some(
+                              (selectedAmenity) =>
+                                selectedAmenity.id === amenity.id
                             )}
-                            onChange={() => handleAmenityChange(amenity.id)}
+                            onChange={() => handleChange(amenity.id)}
                           />
-                          <label className="form-check-label" htmlFor={`amenity-${amenity.id}`}>
+                          <label
+                            className="form-check-label"
+                            htmlFor={`amenity-${amenity.id}`}
+                          >
                             {amenity.nome}
                           </label>
                         </div>
@@ -179,10 +207,17 @@ const EditAccommodationModal = ({ isVisible, onClose, accommodationToEdit, fetch
                 </div>
 
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary fw-bold bg-gradient rounded shadow" onClick={onClose}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                    onClick={onClose}
+                  >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                  >
                     Salvar
                   </button>
                 </div>
