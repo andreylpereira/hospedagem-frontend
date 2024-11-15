@@ -32,9 +32,7 @@ const EditAmenityModal = ({
         onClose();
       })
       .catch((error) => {
-        console.error(error.message);
-        setError(error.message);
-        //onClose();
+        setError(error.response.data);
       });
   };
 

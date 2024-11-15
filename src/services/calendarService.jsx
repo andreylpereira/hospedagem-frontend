@@ -22,7 +22,6 @@ export const calendarService = async (idAccommodation, date) => {
 
     return response.data;
   } catch (error) {
-    console.error('Erro ao buscar a agenda:', error);
     return [];
   }
 };

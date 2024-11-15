@@ -23,10 +23,12 @@ const User = () => {
       .then(() => {
         dispatch(fetchUsers());
       })
-      .catch((err) => {
-        console.error("Erro ao atualizar autorização", err);
+      .catch((error) => {
+        throw error;
       });
   };
+
+  const handleCloseCreateModal = () => setModalVisible(false);
 
   return (
     <div className="container d-flex justify-content-center min-vh-100">
@@ -58,7 +60,7 @@ const User = () => {
 
             <CreateUserModal
               isVisible={modalVisible}
-              onClose={() => setModalVisible(false)}
+              onClose={handleCloseCreateModal}
               fetchUsers={() => dispatch(fetchUsers())}
             />
             <table className="table table-striped table-bordered shadow">

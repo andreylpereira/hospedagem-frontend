@@ -1,11 +1,9 @@
 import {
     FETCH_AMENITIES_REQUEST,
     FETCH_AMENITIES_SUCCESS,
-    FETCH_AMENITIES_FAILURE,
+    FETCH_ACCOMMODATIONS_FAILURE,
     CREATE_AMENITY_SUCCESS,
-    CREATE_AMENITY_FAILURE,
-    UPDATE_AMENITY_SUCCESS,
-    UPDATE_AMENITY_FAILURE
+    UPDATE_AMENITY_SUCCESS
   } from "../types/actionTypes";
   import {
     getAmenities,
@@ -24,8 +22,8 @@ import {
       });
     } catch (error) {
       dispatch({
-        type: FETCH_AMENITIES_FAILURE,
-        payload: "Erro ao carregar amenidades. Tente novamente mais tarde.",
+        type: FETCH_ACCOMMODATIONS_FAILURE,
+        payload: "Erro ao carregar as amenidades. Tente novamente mais tarde."
       });
     }
   };
@@ -38,10 +36,6 @@ import {
         payload: newAmenity,
       });
     } catch (error) {
-      dispatch({
-        type: CREATE_AMENITY_FAILURE,
-        payload: "Erro ao criar amenidade."
-      });
       throw error;  
     }
   };
@@ -55,10 +49,6 @@ import {
         payload: updatedAmenity,
       });
     } catch (error) {
-      dispatch({
-        type: UPDATE_AMENITY_FAILURE,
-        payload: "Erro ao atualizar amenidade."
-      });
       throw error;  
     }
   };

@@ -3,9 +3,7 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
   CREATE_USER_SUCCESS,
-  CREATE_USER_FAILURE,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE,
 } from "../types/actionTypes";
 
 const initialState = {
@@ -40,13 +38,8 @@ const userReducer = (state = initialState, action) => {
     case CREATE_USER_SUCCESS:
       return {
         ...state,
+        loading: true,
         users: [...state.users, action.payload],
-      };
-
-    case CREATE_USER_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
       };
 
     case UPDATE_USER_SUCCESS:
@@ -57,12 +50,6 @@ const userReducer = (state = initialState, action) => {
             ? { ...user, habilitado: action.payload.habilitado }
             : user
         ),
-      };
-
-    case UPDATE_USER_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
       };
 
     default:

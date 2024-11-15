@@ -1,11 +1,10 @@
 import {
   FETCH_ACCOMMODATIONS_REQUEST,
   FETCH_ACCOMMODATIONS_SUCCESS,
-  //FETCH_ACCOMMODATIONS_FAILURE,
+  FETCH_ACCOMMODATIONS_FAILURE,
   CREATE_ACCOMMODATION_SUCCESS,
-  CREATE_ACCOMMODATION_FAILURE,
   UPDATE_ACCOMMODATION_SUCCESS,
-  UPDATE_ACCOMMODATION_FAILURE,
+
 } from "../types/actionTypes";
 
 const initialState = {
@@ -23,32 +22,25 @@ const accommodationReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case FETCH_ACCOMMODATIONS_SUCCESS:
+    case FETCH_ACCOMMODATIONS_FAILURE:
       return {
         ...state,
         loading: false,
-        accommodations: action.payload,
+        error: action.payload,
       };
 
-    // case FETCH_ACCOMMODATIONS_FAILURE:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     error: action.payload,
-    //   };
+      case FETCH_ACCOMMODATIONS_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          accommodations: action.payload,
+        };
 
     case CREATE_ACCOMMODATION_SUCCESS:
       return {
         ...state,
         loading: true,
         accommodations: [...state.accommodations, action.payload],
-      };
-
-    case CREATE_ACCOMMODATION_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
       };
 
     case UPDATE_ACCOMMODATION_SUCCESS:
@@ -59,12 +51,6 @@ const accommodationReducer = (state = initialState, action) => {
             ? { ...accommodation, ...action.payload }
             : accommodation
         ),
-      };
-
-    case UPDATE_ACCOMMODATION_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
       };
 
     default:

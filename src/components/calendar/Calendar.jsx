@@ -45,7 +45,7 @@ const Calendar = ({ onDateSelect }) => {
       );
       setImportantDates(agendaData);
     } catch (error) {
-      console.error("Erro ao buscar as datas ocupadas:", error);
+      throw error;
     }
   };
 

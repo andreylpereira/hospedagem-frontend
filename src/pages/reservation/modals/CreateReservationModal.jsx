@@ -18,7 +18,6 @@ const CreateReservationModal = ({
   });
 
   const [clientes, setClientes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   const funcionarioId = getUserIdFromToken();
@@ -27,13 +26,10 @@ const CreateReservationModal = ({
     if (isVisible) {
       const fetchClients = async () => {
         try {
-          setIsLoading(true);
           const response = await getClients();
           setClientes(response);
         } catch (error) {
           setError("Erro ao carregar os clientes.");
-        } finally {
-          setIsLoading(false);
         }
       };
 
@@ -73,9 +69,7 @@ const CreateReservationModal = ({
 
       onClose();
     } catch (error) {
-      console.error(error.message);
-      setError(error.message);
-      //onClose();
+      setError(error.response.data);
     }
   };
 
@@ -133,11 +127,6 @@ const CreateReservationModal = ({
             ></button>
           </div>
           <div className="modal-body">
-            {error && !isLoading (
-              <div className="alert alert-danger mt-3" role="alert">
-                {error}
-              </div>
-            )}
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">

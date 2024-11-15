@@ -13,6 +13,7 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     dispatch(createAmenityAction(form))
       .then(() => {
         fetchAmenities();
@@ -22,9 +23,7 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
         });
       })
       .catch((error) => {
-        console.error(error.message);
-        setError(error.message);
-        //onClose();
+        setError(error.response.data);
       });
   };
 

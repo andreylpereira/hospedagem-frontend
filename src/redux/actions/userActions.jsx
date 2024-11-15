@@ -3,9 +3,7 @@ import {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
   CREATE_USER_SUCCESS,
-  CREATE_USER_FAILURE,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE,
 } from "../types/actionTypes";
 
 import {
@@ -26,7 +24,7 @@ export const fetchUsers = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FETCH_USERS_FAILURE,
-      payload: "Erro ao carregar usuários. Tente novamente mais tarde."
+      payload: "Erro ao carregar usuários. Tente novamente mais tarde.",
     });
   }
 };
@@ -39,28 +37,21 @@ export const createUserAction = (user) => async (dispatch) => {
       payload: newUser,
     });
   } catch (error) {
-    dispatch({
-      type: CREATE_USER_FAILURE,
-      payload: "Erro ao criar usuário"
-    });
+    throw error;
   }
 };
 
 export const updateUserAuthorizationAction = (idUser, newAuthorization) => {
   return async (dispatch) => {
     try {
-     
       const result = await updateAuthorization(idUser, newAuthorization);
 
       dispatch({
         type: UPDATE_USER_SUCCESS,
-        payload: { ...result, habilitado: newAuthorization }, 
+        payload: { ...result, habilitado: newAuthorization },
       });
     } catch (error) {
-      dispatch({
-        type: UPDATE_USER_FAILURE,
-        payload: "Erro ao atualizar usuário"
-      });
+      throw error;
     }
   };
 };

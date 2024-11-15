@@ -20,12 +20,10 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
 
     updatePassword(newPassword)
       .then(() => {
-        console.log("Senha alterada com sucesso!");
         onClose();
       })
       .catch((err) => {
         setError("Ocorreu um erro ao alterar a senha.");
-        console.error(err);
       });
   };
 

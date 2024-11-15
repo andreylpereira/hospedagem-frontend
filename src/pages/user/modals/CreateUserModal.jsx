@@ -22,7 +22,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
     dispatch(createUserAction(form))
       .then(() => {
         fetchUsers();
-  
+        onClose();
         setForm({
           cpf: "",
           senha: "",
@@ -33,10 +33,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
         });
       })
       .catch((error) => {
-        console.error(error.message);
-        setError(error.message);
-        console.log("aaaaaaaaaaaaaaa");
-        
+        setError(error.response.data);
       });
   };
 
@@ -44,9 +41,6 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
     isVisible && (
       <div
         className={`modal fade ${isVisible ? "show" : ""}`}
-        tabIndex="-1"
-        aria-labelledby="createUserModalLabel"
-        aria-hidden={!isVisible}
         style={{ display: isVisible ? "block" : "none" }}
       >
         <div className="modal-dialog">

@@ -7,7 +7,6 @@ export const getClients = async () => {
     const response = await api.get(`${_URL}/clientes`);
     return response.data;
   } catch (error) {
-    console.error("Erro ao buscar clientes", error);
     throw error;
   }
 };
@@ -17,7 +16,6 @@ export const getClientById = async (idClient) => {
     const response = await api.get(`${_URL}/clientes/${idClient}`);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao buscar cliente com ID ${idClient}:`, error);
     throw error;
   }
 };
@@ -31,7 +29,6 @@ export const createClient = async (Client) => {
     const response = await api.post(`${_URL}/${idUser}/clientes`, Client);
     return response.data;
   } catch (error) {
-    console.error("Erro ao criar cliente.", error);
     throw error;
   }
 };
@@ -48,7 +45,6 @@ export const updateClient = async (idClient, Client) => {
     );
     return response.data;
   } catch (error) {
-    console.error(`Erro ao atualizar cliente com ID ${idClient}:`, error);
     throw error;
   }
 };

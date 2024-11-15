@@ -20,14 +20,12 @@ const UpdateReservationModal = ({
   });
 
   const [clientes, setClientes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (isVisible && reservationId) {
       const fetchReservation = async () => {
         try {
-          setIsLoading(true);
           const response = await getReservationById(reservationId);
           const {
             clienteId,
@@ -47,9 +45,7 @@ const UpdateReservationModal = ({
           });
         } catch (error) {
           setError("Erro ao carregar os dados da reserva.");
-        } finally {
-          setIsLoading(false);
-        }
+        } 
       };
 
       fetchReservation();
@@ -59,14 +55,11 @@ const UpdateReservationModal = ({
   useEffect(() => {
     const fetchClients = async () => {
       try {
-        setIsLoading(true);
         const response = await getClients();
         setClientes(response);
       } catch (error) {
         setError("Erro ao carregar os clientes.");
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     };
 
     fetchClients();
@@ -121,9 +114,7 @@ const UpdateReservationModal = ({
         setError(updatedReservation || "Erro ao atualizar a reserva1.");
       }
     } catch (error) {
-      console.error(error.message);
-      setError(error.message);
-      //onClose();
+      setError(error.response.data);
     }
   };
 
@@ -181,11 +172,6 @@ const UpdateReservationModal = ({
             ></button>
           </div>
           <div className="modal-body">
-            {error && !isLoading (
-              <div className="alert alert-danger mt-3" role="alert">
-                {error}
-              </div>
-            )}
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
               <div className="mb-3">

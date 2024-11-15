@@ -3,9 +3,7 @@ import {
   FETCH_ACCOMMODATIONS_SUCCESS,
   FETCH_ACCOMMODATIONS_FAILURE,
   CREATE_ACCOMMODATION_SUCCESS,
-  CREATE_ACCOMMODATION_FAILURE,
   UPDATE_ACCOMMODATION_SUCCESS, 
-  UPDATE_ACCOMMODATION_FAILURE
 } from "../types/actionTypes.jsx"; 
 
 import {
@@ -26,7 +24,7 @@ export const fetchAccommodations = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
-      payload: "Erro ao carregar as acomodações. Tente novamente mais tarde."
+      payload: "Erro ao carregar os usuários. Tente novamente mais tarde."
     });
   }
 };
@@ -40,10 +38,6 @@ export const createAccommodationAction = (accommodation) => async (dispatch) => 
     });
     return newAccommodation;  
   } catch (error) {
-    // dispatch({
-    //   type: CREATE_ACCOMMODATION_FAILURE,
-    //   payload: error.message //aki
-    // });
     throw error;  
   }
 };
@@ -57,10 +51,6 @@ export const updateAccommodationAction = (idAccommodation, accommodation) => asy
     });
     return updatedAccommodation;  
   } catch (error) {
-    dispatch({
-      type: UPDATE_ACCOMMODATION_FAILURE,
-      payload: "Erro ao atualizar a acomodação."
-    });
     throw error;  
   }
 };
