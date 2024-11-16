@@ -16,6 +16,7 @@ const Accommodation = () => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (accommodations.length === 0) {
       dispatch(fetchAccommodations());
@@ -34,7 +35,6 @@ const Accommodation = () => {
 
   const handleNavigateToReservations = (accommodationId, dataInicio) => {
     const startDate = dataInicio ? dataInicio : getCurrentDateTime();
-
     navigate("/painel/reservas", {
       state: { accommodationId, startDate },
     });
@@ -44,7 +44,7 @@ const Accommodation = () => {
   const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
-    <div className="container">
+    <div className="container user-select-none">
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -55,7 +55,7 @@ const Accommodation = () => {
           </div>
         </div>
       )}
-      {error && !loading &&(
+      {error && !loading && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
@@ -136,7 +136,13 @@ const Accommodation = () => {
                         <label>
                           <strong>Preço</strong>
                         </label>
-                        <p>R$ {accommodation.preco}</p>
+
+                        <p>
+                          {accommodation.preco.toLocaleString("pt-br", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </p>
                       </div>
                     </div>
 
@@ -158,7 +164,9 @@ const Accommodation = () => {
                         </div>
                       </div>
                     ) : (
-                      <p>Acomodação sem amenidades.</p>
+                      <div class="alert alert-primary" role="alert">
+                        Acomodação sem amenidades.
+                      </div>
                     )}
                   </div>
                 </div>
@@ -169,7 +177,7 @@ const Accommodation = () => {
       )}
       {!loading && accommodations.length === 0 && !error && (
         <div className="alert alert-warning mt-3" role="alert">
-          Não há há acomodações cadastradas.
+          Não há acomodações cadastradas.
         </div>
       )}
     </div>

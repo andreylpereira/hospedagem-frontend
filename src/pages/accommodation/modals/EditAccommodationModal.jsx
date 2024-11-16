@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAccommodationAction } from "../../../redux/actions/AccommodationActions";
 import { fetchAmenities } from "../../../redux/actions/AmenityActions";
+import { toast } from "sonner";
 
 const EditAccommodationModal = ({
   isVisible,
@@ -70,9 +71,11 @@ const EditAccommodationModal = ({
     dispatch(updateAccommodationAction(form.id, form))
       .then(() => {
         fetchAccommodations();
+        toast.success("Acomodação atualizada com sucesso.");
         onClose();
       })
       .catch((error) => {
+        toast.error(error.response.data);
         setError(error.response.data);
       });
   };
@@ -86,7 +89,7 @@ const EditAccommodationModal = ({
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">Editar Acomodação</h5>
+              <h5 className="modal-title">EDITAR</h5>
               <button
                 type="button"
                 className="btn-close btn-close-white"

@@ -5,3 +5,8 @@
 .nav-link:hover {
     color: var(--bs-border) !important;
 }
+
+.logo {
+    font-size: 10px;
+    font-family: 'Roboto', sans-serif;
+}

@@ -27,7 +27,7 @@ const Amenity = () => {
   const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
-    <div className="container d-flex justify-content-center min-vh-100">
+    <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
         {loading && (
           <div

@@ -4,13 +4,14 @@ import { loginService } from "../../services/LoginService.jsx";
 import { useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import "./Login.css";
+import { toast } from "sonner";
 
 const Login = () => {
   const [form, setForm] = useState({
     cpf: "",
     senha: "",
   });
-  const [error, setError] = useState("");
+
   const { login, auth } = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -31,20 +32,20 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
     setIsLoading(true);
     try {
       const acessToken = await loginService(form);
       login(acessToken);
+      toast.success("Login efetuado com sucesso.");
     } catch (err) {
       setIsLoading(false);
-      setError(err.message);
+      toast.error(err.message);
     }
     setIsLoading(false);
   };
 
   return (
-    <div className="bg-primary bg-gradient d-flex justify-content-center align-items-center page-height">
+    <div className="bg-primary bg-gradient d-flex justify-content-center align-items-center page-height  user-select-none">
       <div className="d-flex">
         <div className="row justify-content-center card-width">
           <div>
@@ -91,14 +92,6 @@ const Login = () => {
                         onChange={handleChange}
                       />
                     </div>
-                    {error && (
-                      <div
-                        className="alert alert-danger p-1 mt-2 mb-1"
-                        role="alert"
-                      >
-                        {error}
-                      </div>
-                    )}
                     {isLoading ? (
                       <div className="d-flex justify-content-center align-items-center mt-3">
                         <div

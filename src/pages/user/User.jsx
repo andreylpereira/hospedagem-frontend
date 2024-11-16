@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchUsers } from "../../redux/actions/UserActions";
 import { updateUserAuthorizationAction } from "../../redux/actions/UserActions";
 import CreateUserModal from "./modals/CreateUserModal";
+import { toast } from "sonner";
 import "./User.css";
 
 const User = () => {
@@ -16,22 +17,23 @@ const User = () => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  const updateAuthorization = (id, currentAuthorization) => {
+  const updateAuthorization = (id, currentAuthorization, nome) => {
     const newAuthorization = !currentAuthorization;
 
     dispatch(updateUserAuthorizationAction(id, newAuthorization))
       .then(() => {
         dispatch(fetchUsers());
+        toast.success(`Authorização de acesso do usuário ${nome} atualizada com sucesso.`);
       })
       .catch((error) => {
-        throw error;
+        toast.error(error.message);
       });
   };
 
   const handleCloseCreateModal = () => setModalVisible(false);
 
   return (
-    <div className="container d-flex justify-content-center min-vh-100">
+    <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
         {loading && (
           <div
@@ -90,14 +92,22 @@ const User = () => {
                       <td>{user.email || "Não informado"}</td>
                       <td>{user.habilitado ? "Sim" : "Não"}</td>
                       <td>
-                        <button
-                          className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
-                          onClick={() =>
-                            updateAuthorization(user.id, user.habilitado)
-                          }
-                        >
-                          <i className="fas fa-user-shield"></i>
-                        </button>
+                        {user.id !== 1 ? (
+                          <button
+                            className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                            onClick={() =>
+                              updateAuthorization(user.id, user.habilitado, user.nome)
+                            }
+                          >
+                            <i className="fas fa-user-shield"></i>
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled"
+                          >
+                            <i className="fas fa-user-shield"></i>
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );

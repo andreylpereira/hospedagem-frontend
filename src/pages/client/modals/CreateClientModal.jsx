@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createClientAction } from "../../../redux/actions/ClientActions";
 import IMask from "react-input-mask";
+import { toast } from "sonner";
 
 const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
   const [form, setForm] = useState({
@@ -20,6 +21,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
     e.preventDefault();
     dispatch(createClientAction(form)).then(() => {
       fetchClients();
+      toast.success("Cliente cadastrado com sucesso.");
       onClose();
       setForm({
         cpf: "",
@@ -30,6 +32,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
       });
     })
     .catch((error) => {
+      toast.error(error.response.data);
       setError(error.response.data);
     });
   };

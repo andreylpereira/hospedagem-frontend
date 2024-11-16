@@ -38,7 +38,7 @@ const Client = () => {
   const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
-    <div className="container d-flex justify-content-center min-vh-100">
+    <div className="container d-flex justify-content-center min-vh-100  user-select-none">
       <div className="w-100">
         {loading && (
           <div
@@ -65,13 +65,14 @@ const Client = () => {
               CADASTRAR
             </button>
 
-            <CreateClientModal
+            <CreateClientModal 
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
               fetchClients={() => dispatch(fetchClients())}
             />
 
             <EditClientModal
+            cpfMask={cpfMask}
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
               clientToEdit={clientToEdit}

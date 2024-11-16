@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createAmenityAction } from "../../../redux/actions/AmenityActions";
+import { toast } from "sonner";
 
 const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
   const [form, setForm] = useState({
@@ -17,12 +18,14 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
     dispatch(createAmenityAction(form))
       .then(() => {
         fetchAmenities();
+        toast.success("Amenidade cadastrada com sucesso.");
         onClose();
         setForm({
           nome: "",
         });
       })
       .catch((error) => {
+        toast.error(error.response.data);
         setError(error.response.data);
       });
   };

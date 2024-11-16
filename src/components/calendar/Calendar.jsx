@@ -5,7 +5,7 @@ import { ptBR } from "date-fns/locale";
 import { calendarService } from "../../services/CalendarService.jsx";
 import "./Calendar.css";
 
-const Calendar = ({ onDateSelect }) => {
+const Calendar = ({ onDateSelect, accommodationId }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [importantDates, setImportantDates] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -40,7 +40,7 @@ const Calendar = ({ onDateSelect }) => {
 
     try {
       const agendaData = await calendarService(
-        1,
+        accommodationId,
         `${year}-${month < 10 ? "0" + month : month}-01T01:00:00`
       );
       setImportantDates(agendaData);

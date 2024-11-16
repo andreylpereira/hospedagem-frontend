@@ -15,12 +15,14 @@ const Reservation = () => {
   const location = useLocation();
   const { accommodationId, startDate } = location.state;
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
+  
 
   useEffect(() => {
     if (accommodationId && startDate) {
+     
       dispatch(fetchReservationsAction(accommodationId, startDate));
     }
   }, [dispatch, accommodationId, startDate]);
@@ -32,15 +34,36 @@ const Reservation = () => {
 
   const handleEditClick = (reservationId) => {
     setSelectedReservationId(reservationId);
-    setIsEditModalVisible(true);
+    setEditModalVisible(true);
   };
 
   const handleReservationUpdated = () => {
     dispatch(fetchReservationsAction(accommodationId, startDate));
   };
+  const handleCloseCreateModal = () => setModalVisible(false);
+  const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
-    <div className="container">
+    <div className="container user-select-none">
+      <div className="d-flex justify-content-start mb-3">
+        <button
+          className="btn btn-primary fw-bold bg-gradient rounded shadow"
+          onClick={() => setModalVisible(true)}
+        >
+          CADASTRAR
+        </button>
+      </div>
+      <CreateReservationModal
+        accommodationId={accommodationId}
+        isVisible={modalVisible}
+        onClose={() => handleCloseCreateModal}
+      />
+      <UpdateReservationModal
+        reservationId={selectedReservationId}
+        isVisible={editModalVisible}
+        onClose={() => handleCloseEditModal}
+        onReservationUpdated={handleReservationUpdated}
+      />
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -59,26 +82,6 @@ const Reservation = () => {
       )}
       {reservations.length > 0 && (
         <div>
-          <div className="d-flex justify-content-start mb-3">
-            <button
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setIsModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
-          </div>
-          <CreateReservationModal
-            accommodationId={accommodationId}
-            isVisible={isModalVisible}
-            onClose={() => setIsModalVisible(false)}
-          />
-
-          <UpdateReservationModal
-            reservationId={selectedReservationId}
-            isVisible={isEditModalVisible}
-            onClose={() => setIsEditModalVisible(false)}
-            onReservationUpdated={handleReservationUpdated}
-          />
           <div className="table-responsive">
             <table className="table table-striped table-bordered shadow">
               <thead>

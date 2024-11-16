@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { updatePassword } from "./../../services/UserService";
+import { toast } from "sonner";
 
 const ChangePasswordModal = ({ isVisible, onClose }) => {
   const [form, setForm] = useState({
@@ -20,10 +21,15 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
 
     updatePassword(newPassword)
       .then(() => {
+        toast.success("Senha atualizada com sucesso.");
         onClose();
+        setForm({
+          senha: "",
+        });
       })
-      .catch((err) => {
-        setError("Ocorreu um erro ao alterar a senha.");
+      .catch((error) => {
+        toast.error(error.response.data);
+        setError(error.response.data);
       });
   };
 

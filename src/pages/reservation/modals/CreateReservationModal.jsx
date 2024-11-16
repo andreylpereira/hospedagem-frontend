@@ -3,12 +3,13 @@ import Calendar from "../../../components/calendar/Calendar";
 import { getClients } from "../../../services/ClientService";
 import { getUserIdFromToken } from "../../../services/api";
 import { createReservation } from "../../../services/ReservationService";
+import { toast } from "sonner";
 
 const CreateReservationModal = ({
   accommodationId,
   isVisible,
   onClose,
-  onReservationCreated,
+  //onReservationCreated,
 }) => {
   const [form, setForm] = useState({
     clienteId: null,
@@ -29,7 +30,7 @@ const CreateReservationModal = ({
           const response = await getClients();
           setClientes(response);
         } catch (error) {
-          setError("Erro ao carregar os clientes.");
+          toast.error(error.response.data);
         }
       };
 
@@ -63,13 +64,16 @@ const CreateReservationModal = ({
         dataInicio: formattedDataInicio,
         dataFim: formattedDataFim,
         status,
+      }).then(()=>{
+//fazer actions para  o create modal e o update do reservations
+        //onReservationCreated(reservation);
+        toast.success("Reserva efetuada com sucesso.");
+        onClose();
+        console.log("nao fechou modal;")
       });
-
-      onReservationCreated(reservation);
-
-      onClose();
     } catch (error) {
-      setError(error.response.data);
+      toast.error(error.response);
+      setError(error.response);
     }
   };
 

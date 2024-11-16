@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { toast } from 'sonner'
 
 const AuthContext = createContext();
 
@@ -72,6 +73,7 @@ const AuthProvider = ({ children }) => {
       user: null,
       isAdmin: false,
     });
+    toast.success('Logout efetuado com sucesso.');
     navigate("/login");
   };
 

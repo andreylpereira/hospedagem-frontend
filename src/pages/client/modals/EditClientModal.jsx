@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateClientAction } from "../../../redux/actions/ClientActions";
 import IMask from "react-input-mask";
+import { toast } from "sonner";
 
 const EditClientModal = ({
   isVisible,
   onClose,
   clientToEdit,
   fetchClients,
+  cpfMask
 }) => {
   const [form, setForm] = useState({
     id: "",
@@ -34,9 +36,11 @@ const EditClientModal = ({
     dispatch(updateClientAction(form.id, form))
       .then(() => {
         fetchClients();
+        toast.success("Cliente atualizado com sucesso.");
         onClose();
       })
       .catch((error) => {
+        toast.error(error.response.data);
         setError(error.response.data);
       });
   };
@@ -54,7 +58,7 @@ const EditClientModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="editClientModalLabel">
-                Editar Cliente
+              EDITAR
               </h5>
               <button
                 type="button"
@@ -75,13 +79,7 @@ const EditClientModal = ({
                   <label htmlFor="formCpf" className="form-label">
                     CPF
                   </label>
-                  <IMask
-                    mask="999.999.999-99"
-                    className="form-control"
-                    id="formCpf"
-                    value={form.cpf}
-                    disabled
-                  />
+                  <input type="text" className="form-control" disabled value={cpfMask(form.cpf)} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="formNome" className="form-label">
@@ -157,7 +155,7 @@ const EditClientModal = ({
                     Fechar
                   </button>
                   <button type="submit" className="btn btn-primary bg-gradient rounded fw-bold shadow">
-                    Salvar alterações
+                    Salvar
                   </button>
                 </div>
               </form>

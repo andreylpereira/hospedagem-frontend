@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createUserAction } from "../../../redux/actions/UserActions";
 import InputMask from "react-input-mask";
+import { toast } from "sonner";
 
 const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
   const [form, setForm] = useState({
@@ -22,6 +23,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
     dispatch(createUserAction(form))
       .then(() => {
         fetchUsers();
+        toast.success("Usuário cadastrado com sucesso.");
         onClose();
         setForm({
           cpf: "",
@@ -33,6 +35,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
         });
       })
       .catch((error) => {
+        toast.error(error.response.data);
         setError(error.response.data);
       });
   };

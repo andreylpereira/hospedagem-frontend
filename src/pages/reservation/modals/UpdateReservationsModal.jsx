@@ -3,6 +3,7 @@ import Calendar from "../../../components/calendar/Calendar";
 import { getClients } from "../../../services/ClientService";
 import { getReservationById } from "../../../services/ReservationService";
 import { updateReservation } from "../../../services/ReservationService";
+import { toast } from "sonner";
 
 const UpdateReservationModal = ({
   reservationId,
@@ -91,6 +92,7 @@ const UpdateReservationModal = ({
     const formattedDataFim = formatDateToISO(dataFim);
 
     if (!clienteId || !status || !formattedDataInicio || !formattedDataFim) {
+      toast.error("Todos os campos são obrigatórios.");
       setError("Todos os campos são obrigatórios.");
       return;
     }
@@ -109,11 +111,14 @@ const UpdateReservationModal = ({
         if (typeof onReservationUpdated === "function") {
           onReservationUpdated();
         }
+        toast.success("Reserva atualizada com sucesso.");
         onClose();
       } else {
-        setError(updatedReservation || "Erro ao atualizar a reserva1.");
+        toast.error(updatedReservation || "Erro ao atualizar a reserva.");
+        setError(updatedReservation || "Erro ao atualizar a reserva.");
       }
     } catch (error) {
+      toast.error(error.response.data);
       setError(error.response.data);
     }
   };

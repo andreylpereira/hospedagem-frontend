@@ -14,10 +14,12 @@ import Reservation from "../pages/reservation/Reservation.jsx";
 import User from "../pages/user/User.jsx";
 import Client from "../pages/client/Client.jsx";
 import Amenity from "../pages/amenity/Amenity.jsx";
+import { Toaster } from 'sonner'
 
 const Routers = () => {
   return (<>
   <Router>
+  <Toaster richColors />
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />

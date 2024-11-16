@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createAccommodationAction } from "../../../redux/actions/AccommodationActions";
 import { fetchAmenities } from "../../../redux/actions/AmenityActions";
+import { toast } from "sonner";
 
 const CreateAccommodationModal = ({
   isVisible,
@@ -68,6 +69,7 @@ const CreateAccommodationModal = ({
     dispatch(createAccommodationAction(form))
       .then(() => {
         fetchAccommodations();
+        toast.success("Acomodação cadastrada com sucesso.");
         onClose();
         setForm({
           nome: "",
@@ -79,6 +81,7 @@ const CreateAccommodationModal = ({
         });
       })
       .catch((error) => {
+        toast.error(error.response.data);
         setError(error.response.data);
       });
   };

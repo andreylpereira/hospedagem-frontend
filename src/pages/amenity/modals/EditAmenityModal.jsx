@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { updateAmenityAction } from "../../../redux/actions/AmenityActions";
+import { toast } from "sonner";
 
 const EditAmenityModal = ({
   isVisible,
@@ -29,9 +30,11 @@ const EditAmenityModal = ({
     dispatch(updateAmenityAction(form.id, form))
       .then(() => {
         fetchAmenities();
+        toast.success("Amenidade atualizada com sucesso.");
         onClose();
       })
       .catch((error) => {
+        toast.error(error.message);
         setError(error.response.data);
       });
   };
@@ -49,7 +52,7 @@ const EditAmenityModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="editAmenityModalLabel">
-                Editar Amenidade
+              EDITAR
               </h5>
               <button
                 type="button"
