@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { loginService } from "../../services/LoginService.jsx";
+import { loginService } from "../../services/loginService";
 import { useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import "./Login.css";

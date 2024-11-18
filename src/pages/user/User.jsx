@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../redux/actions/UserActions";
-import { updateUserAuthorizationAction } from "../../redux/actions/UserActions";
+import { fetchUsers } from "../../redux/actions/userActions";
+import { updateUserAuthorizationAction } from "../../redux/actions/userActions";
 import CreateUserModal from "./modals/CreateUserModal";
 import { toast } from "sonner";
 import "./User.css";

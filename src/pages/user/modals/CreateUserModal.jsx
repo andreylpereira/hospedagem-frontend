@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createUserAction } from "../../../redux/actions/UserActions";
+import { createUserAction } from "../../../redux/actions/userActions";
 import InputMask from "react-input-mask";
 import { toast } from "sonner";
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAccommodationAction } from "../../../redux/actions/AccommodationActions";
-import { fetchAmenities } from "../../../redux/actions/AmenityActions";
+import { updateAccommodationAction } from "../../../redux/actions/accommodationActions";
+import { fetchAmenities } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
 const EditAccommodationModal = ({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAccommodations } from "../../redux/actions/AccommodationActions";
+import { fetchAccommodations } from "../../redux/actions/accommodationActions";
 import { useNavigate } from "react-router-dom";
 import { realTimeService } from "../../services/RealTimeService";
 import "./RealTime.css";
@@ -97,7 +97,7 @@ const RealTime = () => {
                     <h5 className="mb-0 text-light">{accommodation.nome}</h5>
                     <div className="d-flex align-items-center">
                       {isReserved ? (
-                        <span className="badge bg-secondary bg-gradient ms-3 badge-button shadow disabled">
+                        <span className="badge bg-danger bg-gradient ms-3 badge-button pe-none">
                           <i className="fas fa-lock"></i>
                         </span>
                       ) : (

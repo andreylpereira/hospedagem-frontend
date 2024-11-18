@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CreateAccommodationModal from "./modals/CreateAccommodationModal";
 import EditAccommodationModal from "./modals/EditAccommodationModal";
-import { fetchAccommodations } from "../../redux/actions/AccommodationActions";
+import { fetchAccommodations } from "../../redux/actions/accommodationActions";
 import "./Accommodation.css";
 
 const Accommodation = () => {
@@ -80,7 +80,7 @@ const Accommodation = () => {
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
               accommodationToEdit={accommodationToEdit}
-              fetchAccommodations={() => dispatch(fetchAccommodations())}             
+              fetchAccommodations={() => dispatch(fetchAccommodations())}
             />
           </div>
 
@@ -138,10 +138,12 @@ const Accommodation = () => {
                         </label>
 
                         <p>
-                          {accommodation.preco.toLocaleString("pt-br", {
+                          {accommodation.preco}
+
+                          {/* {accommodation.preco.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL",
-                          })}
+                          })} */}
                         </p>
                       </div>
                     </div>

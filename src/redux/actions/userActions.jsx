@@ -10,7 +10,7 @@ import {
   getUsers,
   createUser,
   updateAuthorization,
-} from "../../services/UserService";
+} from "../../services/userService";
 
 export const fetchUsers = () => async (dispatch) => {
   dispatch({ type: FETCH_USERS_REQUEST });

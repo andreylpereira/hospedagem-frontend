@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchClients } from "../../redux/actions/ClientActions";
+import { fetchClients } from "../../redux/actions/clientActions";
 import CreateClientModal from "./modals/CreateClientModal";
 import EditClientModal from "./modals/EditClientModal";
 import "./Client.css";

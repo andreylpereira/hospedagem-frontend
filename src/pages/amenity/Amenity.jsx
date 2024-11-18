@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateAmenityModal from "./modals/CreateAmenityModal";
-import { fetchAmenities } from "../../redux/actions/AmenityActions";
+import { fetchAmenities } from "../../redux/actions/amenityActions";
 import EditAmenityModal from "./modals/EditAmenityModal";
 import "./Amenity.css";
 

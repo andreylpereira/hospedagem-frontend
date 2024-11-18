@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { updateAmenityAction } from "../../../redux/actions/AmenityActions";
+import { updateAmenityAction } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
 const EditAmenityModal = ({

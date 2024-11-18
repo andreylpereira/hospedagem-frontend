@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { fetchReservations } from "../../redux/actions/ReservationActions.jsx";
+import { fetchReservations } from "../../redux/actions/reservationActions";
 import CreateReservationModal from "./modals/CreateReservationModal";
 import UpdateReservationModal from "./modals/UpdateReservationsModal";
 import "./Reservation.css";
