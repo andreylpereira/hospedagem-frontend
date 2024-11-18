@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/clientService";
-import { getReservationById } from "../../../services/reservationService";
+import { getClients } from "../../../services/ClientService.jsx";
+import { getReservationById } from "../../../services/ReservationService.jsx";
 import {
   updateReservationAction,
   fetchReservations,
-} from "../../../redux/actions/reservationActions";
+} from "../../../redux/actions/reservationActions.jsx";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 

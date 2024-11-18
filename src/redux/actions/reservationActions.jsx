@@ -5,7 +5,7 @@ import {
     CREATE_RESERVATION_SUCCESS,
     UPDATE_RESERVATION_SUCCESS
   } from '../types/actionTypes';
-  import { getReservationsByAccommodation, createReservation, updateReservation } from '../../services/reservationService';
+  import { getReservationsByAccommodation, createReservation, updateReservation } from '../../services/ReservationService';
 
   export const fetchReservations = (accommodationId, startDate) => async (dispatch) => {
     dispatch({ type: FETCH_RESERVATIONS_REQUEST });

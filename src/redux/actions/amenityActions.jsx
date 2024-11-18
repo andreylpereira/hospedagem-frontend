@@ -9,7 +9,7 @@ import {
     getAmenities,
     createAmenity,
     updateAmenity,
-  } from "../../services/amenityService";
+  } from "../../services/AmenityService";
   
   export const fetchAmenities = () => async (dispatch) => {
     dispatch({ type: FETCH_AMENITIES_REQUEST });

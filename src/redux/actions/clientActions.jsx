@@ -9,7 +9,7 @@ import {
   getClients,
   createClient,
   updateClient,
-} from "../../services/clientService";
+} from "../../services/ClientService";
 
 export const fetchClients = () => async (dispatch) => {
   dispatch({ type: FETCH_CLIENTS_REQUEST });

@@ -4,13 +4,13 @@ import {
   FETCH_USERS_FAILURE,
   CREATE_USER_SUCCESS,
   UPDATE_USER_SUCCESS,
-} from "../types/actionTypes";
+} from "../types/actionTypes.jsx";
 
 import {
   getUsers,
   createUser,
   updateAuthorization,
-} from "../../services/userService";
+} from "../../services/UserService";
 
 export const fetchUsers = () => async (dispatch) => {
   dispatch({ type: FETCH_USERS_REQUEST });
