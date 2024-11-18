@@ -4,7 +4,6 @@ import {
   FETCH_ACCOMMODATIONS_FAILURE,
   CREATE_ACCOMMODATION_SUCCESS,
   UPDATE_ACCOMMODATION_SUCCESS,
-
 } from "../types/actionTypes";
 
 const initialState = {
@@ -29,12 +28,12 @@ const accommodationReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-      case FETCH_ACCOMMODATIONS_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          accommodations: action.payload,
-        };
+    case FETCH_ACCOMMODATIONS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        accommodations: action.payload,
+      };
 
     case CREATE_ACCOMMODATION_SUCCESS:
       return {

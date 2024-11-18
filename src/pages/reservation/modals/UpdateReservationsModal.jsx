@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
 import { getClients } from "../../../services/ClientService";
 import { getReservationById } from "../../../services/ReservationService";
-import { updateReservation } from "../../../services/ReservationService";
+import {
+  updateReservationAction,
+  fetchReservations,
+} from "../../../redux/actions/ReservationActions";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
 
 const UpdateReservationModal = ({
+  accommodationId,
+  startDate,
   reservationId,
   isVisible,
   onClose,
-  onReservationUpdated,
 }) => {
   const [form, setForm] = useState({
     clienteId: null,
@@ -19,6 +24,8 @@ const UpdateReservationModal = ({
     acomodacaoId: null,
     funcionarioId: null,
   });
+
+  const dispatch = useDispatch();
 
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState("");
@@ -46,7 +53,7 @@ const UpdateReservationModal = ({
           });
         } catch (error) {
           setError("Erro ao carregar os dados da reserva.");
-        } 
+        }
       };
 
       fetchReservation();
@@ -60,7 +67,7 @@ const UpdateReservationModal = ({
         setClientes(response);
       } catch (error) {
         setError("Erro ao carregar os clientes.");
-      } 
+      }
     };
 
     fetchClients();
@@ -84,7 +91,6 @@ const UpdateReservationModal = ({
       status,
       dataInicio,
       dataFim,
-      acomodacaoId,
       funcionarioId,
     } = form;
 
@@ -97,30 +103,34 @@ const UpdateReservationModal = ({
       return;
     }
 
-    try {
-      const updatedReservation = await updateReservation(reservationId, {
+    dispatch(
+      updateReservationAction(reservationId, {
+        funcionarioId,
         clienteId,
-        status,
+        acomodacaoId: accommodationId,
         dataInicio: formattedDataInicio,
         dataFim: formattedDataFim,
-        acomodacaoId,
-        funcionarioId,
-      });
+        status,
+      })
+    )
+      .then(() => {
+        dispatch(fetchReservations(accommodationId, startDate));
 
-      if (updatedReservation === "Reserva atualizada com sucesso.") {
-        if (typeof onReservationUpdated === "function") {
-          onReservationUpdated();
-        }
-        toast.success("Reserva atualizada com sucesso.");
+        toast.success("Reserva efetuada com sucesso.");
+
         onClose();
-      } else {
-        toast.error(updatedReservation || "Erro ao atualizar a reserva.");
-        setError(updatedReservation || "Erro ao atualizar a reserva.");
-      }
-    } catch (error) {
-      toast.error(error.response.data);
-      setError(error.response.data);
-    }
+        setForm({
+          funcionarioId,
+          clienteId: null,
+          status: "Em andamento",
+          dataInicio: "",
+          dataFim: "",
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+        setError(error.response.data);
+      });
   };
 
   const handleDateInicioSelect = (date) => {
@@ -201,7 +211,7 @@ const UpdateReservationModal = ({
                 <label className="form-label">Data Início</label>
                 <Calendar
                   onDateSelect={handleDateInicioSelect}
-                  accommodationId={form.acomodacaoId}
+                  accommodationId={accommodationId}
                   selectedDate={form.dataInicio}
                 />
               </div>
@@ -210,7 +220,7 @@ const UpdateReservationModal = ({
                 <label className="form-label">Data Fim</label>
                 <Calendar
                   onDateSelect={handleDateFimSelect}
-                  accommodationId={form.acomodacaoId}
+                  accommodationId={accommodationId}
                   selectedDate={form.dataFim}
                 />
               </div>

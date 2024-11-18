@@ -2,26 +2,32 @@ import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
 import { getClients } from "../../../services/ClientService";
 import { getUserIdFromToken } from "../../../services/api";
-import { createReservation } from "../../../services/ReservationService";
+import {
+  createReservationAction,
+  fetchReservations,
+} from "../../../redux/actions/ReservationActions";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
 
 const CreateReservationModal = ({
   accommodationId,
+  startDate,
   isVisible,
   onClose,
-  //onReservationCreated,
 }) => {
   const [form, setForm] = useState({
+    funcionarioId: null,
     clienteId: null,
+    accommodationId: accommodationId,
     status: "Em andamento",
     dataInicio: "",
     dataFim: "",
   });
 
+  const dispatch = useDispatch();
+
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState("");
-
-  const funcionarioId = getUserIdFromToken();
 
   useEffect(() => {
     if (isVisible) {
@@ -51,30 +57,48 @@ const CreateReservationModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const funcionarioId = getUserIdFromToken();
+
+    if (!funcionarioId) {
+      toast.error(
+        "Funcionario não encontrado. Por favor, faça login novamente."
+      );
+      return;
+    }
+
     const { clienteId, status, dataInicio, dataFim } = form;
 
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
 
-    try {
-      const reservation = await createReservation({
+    dispatch(
+      createReservationAction({
         funcionarioId,
         clienteId,
         acomodacaoId: accommodationId,
         dataInicio: formattedDataInicio,
         dataFim: formattedDataFim,
         status,
-      }).then(()=>{
-//fazer actions para  o create modal e o update do reservations
-        //onReservationCreated(reservation);
+      })
+    )
+      .then(() => {
+        dispatch(fetchReservations(accommodationId, startDate));
+
         toast.success("Reserva efetuada com sucesso.");
+
         onClose();
-        console.log("nao fechou modal;")
+        setForm({
+          funcionarioId,
+          clienteId: null,
+          status: "Em andamento",
+          dataInicio: "",
+          dataFim: "",
+        });
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+        setError(error.response.data);
       });
-    } catch (error) {
-      toast.error(error.response);
-      setError(error.response);
-    }
   };
 
   const handleDateInicioSelect = (date) => {

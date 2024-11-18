@@ -15,6 +15,7 @@ import User from "../pages/user/User.jsx";
 import Client from "../pages/client/Client.jsx";
 import Amenity from "../pages/amenity/Amenity.jsx";
 import { Toaster } from 'sonner'
+import RealTime from "../pages/real-time/RealTime.jsx";
 
 const Routers = () => {
   return (<>
@@ -25,7 +26,7 @@ const Routers = () => {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/painel" element={<Navigate to="/painel/acomodacoes" />} />
+        <Route path="/painel" element={<Navigate to="/painel/tempo-real" />} />
 
         <Route
           path="/painel"
@@ -35,6 +36,7 @@ const Routers = () => {
             </PrivateRoute>
           }
         >
+          <Route path="tempo-real" element={<RealTime />} />
           <Route path="acomodacoes" element={<Accommodation />} />
           <Route path="clientes" element={<Client />} />
           <Route

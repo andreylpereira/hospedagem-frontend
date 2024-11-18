@@ -1,50 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import CreateAccommodationModal from "./modals/CreateAccommodationModal";
-import EditAccommodationModal from "./modals/EditAccommodationModal";
 import { fetchAccommodations } from "../../redux/actions/AccommodationActions";
-import "./Accommodation.css";
+import { useNavigate } from "react-router-dom";
+import { realTimeService } from "../../services/RealTimeService";
+import "./RealTime.css";
 
-const Accommodation = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [editModalVisible, setEditModalVisible] = useState(false);
-  const [accommodationToEdit, setAccommodationToEdit] = useState(null);
+const RealTime = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { accommodations, loading, error } = useSelector(
     (state) => state.accommodations
   );
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  const [reservedAccommodations, setReservedAccommodations] = useState([]);
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 19));
 
   useEffect(() => {
-    if (accommodations.length === 0) {
+    dispatch(fetchAccommodations());
+
+    const intervalId = setInterval(() => {
       dispatch(fetchAccommodations());
-    }
-  }, [dispatch, accommodations.length]);
+    }, 10000);
 
-  const handleEdit = (accommodation) => {
-    setAccommodationToEdit(accommodation);
-    setEditModalVisible(true);
-  };
+    return () => clearInterval(intervalId);
+  }, [dispatch]);
 
-  const getCurrentDateTime = () => {
-    const now = new Date();
-    return now.toISOString().slice(0, 19);
-  };
+  useEffect(() => {
+    const fetchReservedAccommodations = async () => {
+      const reserved = await realTimeService(date);
+      const reservedIds = reserved.map(
+        (reservation) => reservation.acomodacaoId
+      );
+      setReservedAccommodations(reservedIds);
+    };
+
+    fetchReservedAccommodations();
+  }, [date]);
 
   const handleNavigateToReservations = (accommodationId, dataInicio) => {
-    const startDate = dataInicio ? dataInicio : getCurrentDateTime();
+    const startDate = dataInicio
+      ? dataInicio
+      : new Date().toISOString().slice(0, 19);
     navigate("/painel/reservas", {
       state: { accommodationId, startDate },
     });
   };
 
-  const handleCloseCreateModal = () => setModalVisible(false);
-  const handleCloseEditModal = () => setEditModalVisible(false);
-
   return (
     <div className="container user-select-none">
+      <h2>Acomodações em Tempo Real</h2>
+
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -55,46 +61,46 @@ const Accommodation = () => {
           </div>
         </div>
       )}
+
       {error && !loading && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
       )}
-      {accommodations.length > 0 && (
-        <>
-          <div className="d-flex mb-4">
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
-            <CreateAccommodationModal
-              isVisible={modalVisible}
-              onClose={handleCloseCreateModal}
-              fetchAccommodations={() => dispatch(fetchAccommodations())}
-            />
 
-            <EditAccommodationModal
-              isVisible={editModalVisible}
-              onClose={handleCloseEditModal}
-              accommodationToEdit={accommodationToEdit}
-              fetchAccommodations={() => dispatch(fetchAccommodations())}             
-            />
-          </div>
+      {!loading && accommodations.length === 0 && !error && (
+        <div className="alert alert-danger mt-3" role="alert">
+          Não há acomodações disponíveis.
+        </div>
+      )}
 
-          <div className="row g-4">
-            {accommodations.map((accommodation) => (
+      {!loading && accommodations.length > 0 && (
+        <div className="row g-4">
+          {accommodations.map((accommodation) => {
+            const isReserved = reservedAccommodations.includes(
+              accommodation.id
+            );
+
+            return (
               <div
-                className="col-12 col-sm-6 col-md-4 col-lg-3"
+                className={`col-12 col-sm-6 col-md-4 col-lg-3 ${
+                  isReserved ? "text-dark" : ""
+                }`}
                 key={accommodation.id}
               >
                 <div className="card shadow">
-                  <div className="card-header bg-primary bg-gradient d-flex justify-content-between">
+                  <div
+                    className={`card-header ${
+                      isReserved ? "bg-danger" : "bg-primary"
+                    } bg-gradient d-flex justify-content-between`}
+                  >
                     <h5 className="mb-0 text-light">{accommodation.nome}</h5>
                     <div className="d-flex align-items-center">
-                      {accommodation.habilitado === true ? (
+                      {isReserved ? (
+                        <span className="badge bg-secondary bg-gradient ms-3 badge-button shadow disabled">
+                          <i className="fas fa-lock"></i>
+                        </span>
+                      ) : (
                         <span className="badge bg-secondary bg-gradient ms-3 badge-button shadow">
                           <i
                             className="fas fa-calendar"
@@ -106,15 +112,7 @@ const Accommodation = () => {
                             }
                           ></i>
                         </span>
-                      ) : (
-                        <span></span>
                       )}
-                      <span
-                        className="badge bg-secondary bg-gradient ms-3 badge-button shadow"
-                        onClick={() => handleEdit(accommodation)}
-                      >
-                        <i className="fas fa-edit"></i>
-                      </span>
                     </div>
                   </div>
                   <div className="card-body">
@@ -136,7 +134,6 @@ const Accommodation = () => {
                         <label>
                           <strong>Preço</strong>
                         </label>
-
                         <p>
                           {accommodation.preco.toLocaleString("pt-br", {
                             style: "currency",
@@ -164,24 +161,19 @@ const Accommodation = () => {
                         </div>
                       </div>
                     ) : (
-                      <div class="alert alert-primary" role="alert">
+                      <div className="alert alert-primary" role="alert">
                         Acomodação sem amenidades.
                       </div>
                     )}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </>
-      )}
-      {!loading && accommodations.length === 0 && !error && (
-        <div className="alert alert-warning mt-3" role="alert">
-          Não há acomodações cadastradas.
+            );
+          })}
         </div>
       )}
     </div>
   );
 };
 
-export default Accommodation;
+export default RealTime;

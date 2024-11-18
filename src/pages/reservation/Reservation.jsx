@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { fetchReservationsAction } from "../../redux/actions/ReservationActions.jsx";
+import { fetchReservations } from "../../redux/actions/ReservationActions.jsx";
 import CreateReservationModal from "./modals/CreateReservationModal";
 import UpdateReservationModal from "./modals/UpdateReservationsModal";
 import "./Reservation.css";
@@ -18,12 +18,10 @@ const Reservation = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
-  
 
   useEffect(() => {
     if (accommodationId && startDate) {
-     
-      dispatch(fetchReservationsAction(accommodationId, startDate));
+      dispatch(fetchReservations(accommodationId, startDate));
     }
   }, [dispatch, accommodationId, startDate]);
 
@@ -38,7 +36,7 @@ const Reservation = () => {
   };
 
   const handleReservationUpdated = () => {
-    dispatch(fetchReservationsAction(accommodationId, startDate));
+    dispatch(fetchReservations(accommodationId, startDate));
   };
   const handleCloseCreateModal = () => setModalVisible(false);
   const handleCloseEditModal = () => setEditModalVisible(false);
@@ -55,13 +53,16 @@ const Reservation = () => {
       </div>
       <CreateReservationModal
         accommodationId={accommodationId}
+        startDate={startDate}
         isVisible={modalVisible}
-        onClose={() => handleCloseCreateModal}
+        onClose={handleCloseCreateModal}
       />
       <UpdateReservationModal
+        accommodationId={accommodationId}
+        startDate={startDate}
         reservationId={selectedReservationId}
         isVisible={editModalVisible}
-        onClose={() => handleCloseEditModal}
+        onClose={handleCloseEditModal}
         onReservationUpdated={handleReservationUpdated}
       />
       {loading && (

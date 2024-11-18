@@ -54,11 +54,11 @@ const Navbar = () => {
             id="navbarNav"
           >
             <ul className="navbar-nav ms-auto">
-              {/* <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link text-white" to="/painel/tempo-real">
                   Tempo Real
                 </Link>
-              </li> */}
+              </li>
               <li className="nav-item">
                 <Link className="nav-link text-white" to="/painel/acomodacoes">
                   Acomodação
