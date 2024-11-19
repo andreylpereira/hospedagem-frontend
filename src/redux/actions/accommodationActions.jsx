@@ -24,7 +24,7 @@ export const fetchAccommodations = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
-      payload: "Erro ao carregar os usuários. Tente novamente mais tarde.",
+      payload: "Erro ao carregar as acomodações. Tente novamente mais tarde.",
     });
   }
 };
