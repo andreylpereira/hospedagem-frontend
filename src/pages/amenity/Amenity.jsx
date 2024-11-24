@@ -46,6 +46,9 @@ const Amenity = () => {
         )}
         {amenities.length > 0 && (
           <div>
+            <h2 className="text-uppercase text-center fw-bold mb-4">
+              Amenidades Cadastradas
+            </h2>
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"

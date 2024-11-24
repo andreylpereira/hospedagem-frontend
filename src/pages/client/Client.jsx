@@ -57,6 +57,9 @@ const Client = () => {
         )}
         {clients.length > 0 && (
           <div>
+            <h2 className="text-uppercase text-center fw-bold mb-4">
+              Clientes Cadastrados
+            </h2>
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -65,14 +68,14 @@ const Client = () => {
               CADASTRAR
             </button>
 
-            <CreateClientModal 
+            <CreateClientModal
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
               fetchClients={() => dispatch(fetchClients())}
             />
 
             <EditClientModal
-            cpfMask={cpfMask}
+              cpfMask={cpfMask}
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
               clientToEdit={clientToEdit}

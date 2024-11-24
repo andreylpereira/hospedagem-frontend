@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -30,6 +31,14 @@ const Reservation = () => {
     return date.toLocaleDateString("pt-BR");
   };
 
+  const reservaStatusEnum = {
+    EM_ANDAMENTO: "Em andamento",
+    CONFIRMADO: "Confirmado",
+    CANCELADO: "Cancelado",
+    PENDENTE: "Pendente"
+  };
+
+  
   const handleEditClick = (reservationId) => {
     setSelectedReservationId(reservationId);
     setEditModalVisible(true);
@@ -103,29 +112,37 @@ const Reservation = () => {
                     Email
                   </th>
                   <th className="text-center table-primary text-light">
+                    Status
+                  </th>
+                  <th className="text-center table-primary text-light">
                     Ações
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {reservations.map((reservation) => (
-                  <tr key={reservation.reservaId}>
-                    <td>{formatDate(reservation.dataInicio)}</td>
-                    <td>{formatDate(reservation.dataFim)}</td>
-                    <td>{reservation.clienteNome}</td>
-                    <td>{reservation.clienteTelefone}</td>
-                    <td>{reservation.clienteEmail}</td>
-                    <td>
-                      <button
-                        className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
-                        onClick={() => handleEditClick(reservation.reservaId)}
-                      >
-                        <i className="fas fa-edit"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+        {reservations.map((reservation) => {
+          const statusTexto = reservaStatusEnum[reservation.reservaStatus] || "Status não carregado.";
+          
+          return (
+            <tr key={reservation.reservaId}>
+              <td>{formatDate(reservation.dataInicio)}</td>
+              <td>{formatDate(reservation.dataFim)}</td>
+              <td>{reservation.clienteNome}</td>
+              <td>{reservation.clienteTelefone}</td>
+              <td>{reservation.clienteEmail}</td>
+              <td>{statusTexto}</td>
+              <td>
+                <button
+                  className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                  onClick={() => handleEditClick(reservation.reservaId)}
+                >
+                  <i className="fas fa-edit"></i>
+                </button>
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
             </table>
           </div>
         </div>

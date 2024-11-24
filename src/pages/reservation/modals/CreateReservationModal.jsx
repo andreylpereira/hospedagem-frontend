@@ -206,6 +206,7 @@ const CreateReservationModal = ({
                   <option value="Confirmado">Confirmado</option>
                   <option value="Cancelado">Cancelado</option>
                   <option value="Pendente">Pendente</option>
+                  <option value="Concluido">Concluído</option>
                 </select>
               </div>
 

@@ -83,6 +83,9 @@ const UpdateReservationModal = ({
     );
   };
 
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -94,6 +97,11 @@ const UpdateReservationModal = ({
       funcionarioId,
     } = form;
 
+    if (dataFim < dataInicio) {
+      toast.error("A data final não pode ser um valor anterior ao da data inicial.");
+      return;
+    }
+    
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
 
@@ -116,7 +124,7 @@ const UpdateReservationModal = ({
       .then(() => {
         dispatch(fetchReservations(accommodationId, startDate));
 
-        toast.success("Reserva efetuada com sucesso.");
+        toast.success("Reserva atualizada com sucesso.");
 
         onClose();
         setForm({
@@ -128,8 +136,8 @@ const UpdateReservationModal = ({
         });
       })
       .catch((error) => {
-        toast.error(error.response.data);
-        setError(error.response.data);
+        toast.error(error.response?.data);
+        setError(error.response?.data);
       });
   };
 
@@ -177,7 +185,7 @@ const UpdateReservationModal = ({
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title" id="updateReservationModalLabel">
-              Atualizar Reserva
+              EDITAR
             </h5>
             <button
               type="button"
@@ -238,6 +246,7 @@ const UpdateReservationModal = ({
                   <option value="Confirmado">Confirmado</option>
                   <option value="Cancelado">Cancelado</option>
                   <option value="Pendente">Pendente</option>
+                  <option value="Concluido">Concluído</option>
                 </select>
               </div>
 

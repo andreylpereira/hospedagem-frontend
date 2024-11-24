@@ -23,7 +23,9 @@ const User = () => {
     dispatch(updateUserAuthorizationAction(id, newAuthorization))
       .then(() => {
         dispatch(fetchUsers());
-        toast.success(`Authorização de acesso do usuário ${nome} atualizada com sucesso.`);
+        toast.success(
+          `Authorização de acesso do usuário ${nome} atualizada com sucesso.`
+        );
       })
       .catch((error) => {
         toast.error(error.message);
@@ -52,6 +54,9 @@ const User = () => {
         )}
         {users.length > 0 && (
           <div>
+            <h2 className="text-uppercase text-center fw-bold mb-4">
+              Usuários Cadastrados
+            </h2>
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -96,15 +101,17 @@ const User = () => {
                           <button
                             className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
                             onClick={() =>
-                              updateAuthorization(user.id, user.habilitado, user.nome)
+                              updateAuthorization(
+                                user.id,
+                                user.habilitado,
+                                user.nome
+                              )
                             }
                           >
                             <i className="fas fa-user-shield"></i>
                           </button>
                         ) : (
-                          <button
-                            className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled"
-                          >
+                          <button className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled">
                             <i className="fas fa-user-shield"></i>
                           </button>
                         )}

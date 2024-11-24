@@ -50,7 +50,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="createClientModalLabel">
-                Cadastrar Cliente
+                CADASTRAR
               </h5>
               <button
                 type="button"

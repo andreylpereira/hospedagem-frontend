@@ -16,6 +16,11 @@ const RealTime = () => {
   const [reservedAccommodations, setReservedAccommodations] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().slice(0, 19));
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pt-BR");
+  };
+
   useEffect(() => {
     dispatch(fetchAccommodations());
 
@@ -29,6 +34,7 @@ const RealTime = () => {
   useEffect(() => {
     const fetchReservedAccommodations = async () => {
       const reserved = await realTimeService(date);
+
       const reservedIds = reserved.map(
         (reservation) => reservation.acomodacaoId
       );
@@ -49,8 +55,9 @@ const RealTime = () => {
 
   return (
     <div className="container user-select-none">
-      <h2>Acomodações em Tempo Real</h2>
-
+      <h2 className="text-uppercase fw-bold mb-4">
+        Acomodações em Tempo Real : {formatDate(date)}
+      </h2>
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -91,7 +98,7 @@ const RealTime = () => {
                 <div className="card shadow">
                   <div
                     className={`card-header ${
-                      isReserved ? "bg-danger" : "bg-primary"
+                      isReserved ? "bg-danger" : "bg-success"
                     } bg-gradient d-flex justify-content-between`}
                   >
                     <h5 className="mb-0 text-light">{accommodation.nome}</h5>
@@ -135,10 +142,10 @@ const RealTime = () => {
                           <strong>Preço</strong>
                         </label>
                         <p>
-                          {accommodation.preco.toLocaleString("pt-br", {
+                          {accommodation.preco?.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL",
-                          })}
+                          }) || "Preço não disponível"}
                         </p>
                       </div>
                     </div>

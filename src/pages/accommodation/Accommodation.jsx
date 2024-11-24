@@ -33,10 +33,10 @@ const Accommodation = () => {
     return now.toISOString().slice(0, 19);
   };
 
-  const handleNavigateToReservations = (accommodationId, dataInicio) => {
-    const startDate = dataInicio ? dataInicio : getCurrentDateTime();
+  const handleNavigateToReservations = (accommodationId, dateStart, nameAccommodation) => {
+    const startDate = dateStart ? dateStart : getCurrentDateTime();
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate },
+      state: { accommodationId, startDate, nameAccommodation },
     });
   };
 
@@ -62,6 +62,9 @@ const Accommodation = () => {
       )}
       {accommodations.length > 0 && (
         <>
+          <h2 className="text-uppercase text-center fw-bold mb-4">
+            Acomodações Cadastradas
+          </h2>
           <div className="d-flex mb-4">
             <button
               type="button"
@@ -101,7 +104,8 @@ const Accommodation = () => {
                             onClick={() =>
                               handleNavigateToReservations(
                                 accommodation.id,
-                                accommodation.dataInicio
+                                accommodation.dataInicio,
+                                accommodation.nome
                               )
                             }
                           ></i>
@@ -136,18 +140,14 @@ const Accommodation = () => {
                         <label>
                           <strong>Preço</strong>
                         </label>
-
                         <p>
-                          {accommodation.preco}
-
-                          {/* {accommodation.preco.toLocaleString("pt-br", {
+                          {accommodation.preco?.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL",
-                          })} */}
+                          }) || "Preço não disponível"}
                         </p>
                       </div>
                     </div>
-
                     {accommodation.amenidades &&
                     accommodation.amenidades.length > 0 ? (
                       <div>
