@@ -1,0 +1,24 @@
+body {
+  background-color: rgb(236, 236, 236) !important;
+}
+
+.container {
+    min-height: 100vh; 
+    margin-top: 100px;
+}
+
+
+table {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  th, td {
+    width: 20%;
+  }
+  
