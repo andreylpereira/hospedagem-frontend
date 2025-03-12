@@ -40,22 +40,7 @@ const Client = () => {
   return (
     <div className="container d-flex justify-content-center min-vh-100  user-select-none">
       <div className="w-100">
-        {loading && (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "calc(70vh - 50px)" }}
-          >
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
-        {error && !loading && (
-          <div className="alert alert-danger mt-3" role="alert">
-            {error}
-          </div>
-        )}
-        {clients.length > 0 && (
+        {!loading && clients.length >= 0 && (
           <div>
             <h2 className="text-uppercase text-center fw-bold mb-4">
               Clientes Cadastrados
@@ -81,6 +66,25 @@ const Client = () => {
               clientToEdit={clientToEdit}
               fetchClients={() => dispatch(fetchClients())}
             />
+          </div>
+        )}
+        {loading && (
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "calc(70vh - 50px)" }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
+        {error && !loading && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
+        )}
+        {clients.length > 0 && (
+          <div>
             <table className="table table-striped table-bordered shadow">
               <thead>
                 <tr>
@@ -122,12 +126,12 @@ const Client = () => {
             </table>
           </div>
         )}
+        {!loading && clients.length === 0 && !error && (
+          <div className="alert alert-warning mt-3" role="alert">
+            Não há clientes cadastrados.
+          </div>
+        )}
       </div>
-      {!loading && clients.length === 0 && !error && (
-        <div className="alert alert-warning mt-3" role="alert">
-          Não há clientes cadastrados.
-        </div>
-      )}
     </div>
   );
 };

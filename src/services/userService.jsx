@@ -12,7 +12,7 @@ export const getUsers = async () => {
 };
 
 export const getUserById = async () => {
-  const idUser = getUserIdFromToken();  
+  const idUser = getUserIdFromToken();
   if (!idUser) {
     throw new Error("Usuário não autenticado.");
   }
@@ -33,14 +33,21 @@ export const createUser = async (user) => {
   }
 };
 
-
-export const updatePassword = async (user) => {
-  const idUser = getUserIdFromToken();  
+export const updatePassword = async (password) => {
+  const idUser = getUserIdFromToken();
   if (!idUser) {
     throw new Error("Usuário não autenticado.");
   }
   try {
-    const response = await api.put(`${_URL}/atualizarSenha/${idUser}`, user);
+    const response = await api.put(
+      `${_URL}/atualizarSenha/${idUser}`,
+      password,
+      {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;

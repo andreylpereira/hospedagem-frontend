@@ -17,7 +17,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
       return;
     }
 
-    const newPassword = { senha: form.senha };
+    const newPassword = form.senha;
 
     updatePassword(newPassword)
       .then(() => {
@@ -25,6 +25,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
         onClose();
         setForm({
           senha: "",
+          confirmarSenha: ""
         });
       })
       .catch((error) => {
