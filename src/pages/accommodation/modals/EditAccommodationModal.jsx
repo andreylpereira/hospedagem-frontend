@@ -92,7 +92,7 @@ const EditAccommodationModal = ({
               <h5 className="modal-title">EDITAR</h5>
               <button
                 type="button"
-                className="btn-close btn-close-white"
+                className="btn-close"
                 onClick={onClose}
               ></button>
             </div>
@@ -210,7 +210,7 @@ const EditAccommodationModal = ({
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                    className="btn btn-outline-danger fw-bold bg-gradient rounded shadow"
                     onClick={onClose}
                   >
                     Fechar

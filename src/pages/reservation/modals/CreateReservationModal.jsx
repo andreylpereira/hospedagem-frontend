@@ -149,7 +149,7 @@ const CreateReservationModal = ({
             </h5>
             <button
               type="button"
-              className="btn-close btn-close-white"
+              className="btn-close"
               onClick={onClose}
               aria-label="Close"
             ></button>
@@ -213,7 +213,7 @@ const CreateReservationModal = ({
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                  className="btn btn-outline-danger fw-bold bg-gradient rounded shadow"
                   onClick={onClose}
                 >
                   Cancelar

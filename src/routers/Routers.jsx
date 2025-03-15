@@ -53,7 +53,7 @@ const Routers = () => {
         </Route>
       </Routes>
     </AuthProvider>
-  </Router>;
+  </Router>
   </>)
 };
 

@@ -29,7 +29,9 @@ const Amenity = () => {
   return (
     <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
-      <h2 className="text-uppercase text-center fw-bold mb-4">
+        {!loading && amenities.length >= 0 && (
+          <div>
+            <h2 className="text-uppercase text-center fw-bold mb-4">
               Amenidades Cadastradas
             </h2>
             <button
@@ -44,6 +46,8 @@ const Amenity = () => {
               onClose={handleCloseCreateModal}
               fetchAmenities={() => dispatch(fetchAmenities())}
             />
+          </div>
+        )}
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"

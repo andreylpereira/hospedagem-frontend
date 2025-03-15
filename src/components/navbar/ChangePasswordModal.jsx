@@ -25,7 +25,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
         onClose();
         setForm({
           senha: "",
-          confirmarSenha: ""
+          confirmarSenha: "",
         });
       })
       .catch((error) => {
@@ -51,7 +51,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
               </h5>
               <button
                 type="button"
-                className="btn-close btn-close-white"
+                className="btn-close"
                 aria-label="Fechar"
                 onClick={onClose}
               ></button>
@@ -97,7 +97,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-outline-danger"
                     onClick={onClose}
                   >
                     Fechar
