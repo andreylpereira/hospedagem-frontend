@@ -4,6 +4,7 @@ import { fetchClients } from "../../redux/actions/clientActions";
 import CreateClientModal from "./modals/CreateClientModal";
 import EditClientModal from "./modals/EditClientModal";
 import "./Client.css";
+import Bread from "../../components/bread/Bread";
 
 const Client = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,9 +43,7 @@ const Client = () => {
       <div className="w-100">
         {!loading && clients.length >= 0 && (
           <div>
-            <h2 className="text-uppercase text-center fw-bold mb-4">
-              Clientes Cadastrados
-            </h2>
+            <Bread current={"CLIENTES"} />
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -117,7 +116,7 @@ const Client = () => {
                         className="btn btn-primary fw-bold shadow bg-gradient rounded btn-sm me-2"
                         onClick={() => handleEdit(client)}
                       >
-                        <i className="fas fa-edit"></i>
+                        <i className="fas fa-edit shadow"></i>
                       </button>
                     </td>
                   </tr>

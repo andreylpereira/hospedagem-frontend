@@ -1,4 +1,4 @@
-:root {
+/* :root {
 
   --bs-primary: #007bff; 
   --bs-primary-rgb: 13, 128, 223; 
@@ -184,4 +184,8 @@ h6 {
   background-color: var(--bs-secondary) !important;
   border-color: var(--bs-secondary) !important;
   filter: brightness(0.80) !important;
+} */
+
+.table-primary {
+  background-color: var(--bs-blue) !important;
 }

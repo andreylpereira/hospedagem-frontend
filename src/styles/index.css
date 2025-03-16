@@ -1,5 +1,3 @@
-/* @import url('https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/cosmo/bootstrap.min.css'); */
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -15,3 +13,6 @@ code {
     monospace;
 }
 
+td, td, th {
+  border: 0px;
+}

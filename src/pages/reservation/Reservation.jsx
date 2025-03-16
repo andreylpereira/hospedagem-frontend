@@ -14,7 +14,7 @@ const Reservation = () => {
   );
 
   const location = useLocation();
-  const { accommodationId, startDate } = location.state;
+  const { accommodationId, startDate } = location.state || {};
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);

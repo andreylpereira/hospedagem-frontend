@@ -16,6 +16,8 @@ const CreateAccommodationModal = ({
     preco: "",
     habilitado: true,
     amenidades: [],
+    contentType: "",
+    base64Image: "",
   });
 
   const [availableAmenities, setAvailableAmenities] = useState([]);
@@ -64,8 +66,33 @@ const CreateAccommodationModal = ({
     });
   };
 
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result;
+        const contentType = file.type;
+        const base64Image = base64String.split(",")[1];
+
+        setForm({
+          ...form,
+          contentType,
+          base64Image,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!form.nome || !form.descricao || !form.capacidade || !form.preco) {
+      toast.error("Preencha todos os campos obrigatórios.");
+      return;
+    }
+
     dispatch(createAccommodationAction(form))
       .then(() => {
         fetchAccommodations();
@@ -78,6 +105,8 @@ const CreateAccommodationModal = ({
           preco: "",
           habilitado: true,
           amenidades: [],
+          contentType: "",
+          base64Image: "",
         });
       })
       .catch((error) => {
@@ -216,6 +245,26 @@ const CreateAccommodationModal = ({
                       </div>
                     )}
                   </div>
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="formImagem">Imagem</label>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="formImagem"
+                    onChange={handleImageUpload}
+                  />
+                  {form.base64Image && (
+                    <div className="mt-2">
+                      <img
+                        src={`data:${form.contentType};base64,${form.base64Image}`}
+                        alt="Imagem pré-visualização"
+                        className="img-fluid"
+                        style={{ maxHeight: "200px", objectFit: "contain" }}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="modal-footer">

@@ -4,6 +4,7 @@ import CreateAmenityModal from "./modals/CreateAmenityModal";
 import { fetchAmenities } from "../../redux/actions/amenityActions";
 import EditAmenityModal from "./modals/EditAmenityModal";
 import "./Amenity.css";
+import Bread from "../../components/bread/Bread";
 
 const Amenity = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,9 +32,7 @@ const Amenity = () => {
       <div className="w-100">
         {!loading && amenities.length >= 0 && (
           <div>
-            <h2 className="text-uppercase text-center fw-bold mb-4">
-              Amenidades Cadastradas
-            </h2>
+            <Bread current={"AMENIDADES"} />
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
