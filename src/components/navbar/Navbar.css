@@ -13,3 +13,8 @@ a:hover {
  a:active, a:focus {
     color: var(--bs-border) !important;
  }
+
+ .nav-link:focus {
+    color: white !important;
+    font-weight: bold !important;
+ }

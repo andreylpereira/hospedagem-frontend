@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { fetchReservations } from "../../redux/actions/reservationActions";
 import CreateReservationModal from "./modals/CreateReservationModal";
 import UpdateReservationModal from "./modals/UpdateReservationsModal";
+import Bread from "../../components/bread/Bread";
 import "./Reservation.css";
 
 const Reservation = () => {
@@ -35,7 +36,8 @@ const Reservation = () => {
     EM_ANDAMENTO: "Em andamento",
     CONFIRMADO: "Confirmado",
     CANCELADO: "Cancelado",
-    PENDENTE: "Pendente"
+    PENDENTE: "Pendente",
+    CONCLUIDO: "Concluído"
   };
 
   
@@ -52,6 +54,7 @@ const Reservation = () => {
 
   return (
     <div className="container user-select-none">
+      <Bread current={"RESERVAS"}/>
       <div className="d-flex justify-content-start mb-3">
         <button
           className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -84,7 +87,6 @@ const Reservation = () => {
           </div>
         </div>
       )}
-
       {error && !loading && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}

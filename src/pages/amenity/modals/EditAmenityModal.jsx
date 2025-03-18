@@ -19,6 +19,7 @@ const EditAmenityModal = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setError("");
     if (amenityToEdit) {
       setForm(amenityToEdit);
     }
@@ -52,7 +53,7 @@ const EditAmenityModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="editAmenityModalLabel">
-              EDITAR
+                EDITAR
               </h5>
               <button
                 type="button"
@@ -61,9 +62,8 @@ const EditAmenityModal = ({
                 onClick={onClose}
               ></button>
             </div>
-
             <div className="modal-body">
-            {error && (
+              {error && (
                 <div className="alert alert-danger mt-3" role="alert">
                   {error}
                 </div>
@@ -97,7 +97,10 @@ const EditAmenityModal = ({
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                  >
                     Salvar
                   </button>
                 </div>

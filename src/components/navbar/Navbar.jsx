@@ -12,10 +12,7 @@ const Navbar = () => {
   const location = useLocation();
   const { logout, auth } = useAuth();
 
-  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
-
-  const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
 
   useEffect(() => {
     if (location.pathname === "/painel/acomodacoes") {
@@ -66,16 +63,17 @@ const Navbar = () => {
                     <ul
                       className="dropdown-menu bg-primary bg-gradient"
                       aria-labelledby="navbarDropdownMenuLink"
-                    >{auth.isAdmin && (
-                      <li>
-                        <Link
-                          className="dropdown-item text-white"
-                          to="/painel/dashboard"
-                        >
-                          DASHBOARD
-                        </Link>
-                      </li>
-                    )}
+                    >
+                      {auth.isAdmin && (
+                        <li>
+                          <Link
+                            className="dropdown-item text-white"
+                            to="/painel/dashboard"
+                          >
+                            DASHBOARD
+                          </Link>
+                        </li>
+                      )}
                       <li>
                         <Link
                           className="dropdown-item text-white"

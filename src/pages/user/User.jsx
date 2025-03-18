@@ -55,7 +55,7 @@ const User = () => {
         )}
         {users.length > 0 && (
           <div>
-            <Bread current={"USUÁRIOS"}/>
+            <Bread current={"USUÁRIOS"} />
 
             <button
               type="button"

@@ -31,6 +31,7 @@ const UpdateReservationModal = ({
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setError("");
     if (isVisible && reservationId) {
       const fetchReservation = async () => {
         try {
@@ -61,6 +62,7 @@ const UpdateReservationModal = ({
   }, [isVisible, reservationId]);
 
   useEffect(() => {
+    setError("")
     const fetchClients = async () => {
       try {
         const response = await getClients();
@@ -83,25 +85,21 @@ const UpdateReservationModal = ({
     );
   };
 
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const {
-      clienteId,
-      status,
-      dataInicio,
-      dataFim,
-      funcionarioId,
-    } = form;
+    const { clienteId, status, dataInicio, dataFim, funcionarioId } = form;
 
     if (dataFim < dataInicio) {
-      toast.error("A data final não pode ser um valor anterior ao da data inicial.");
+      setError(
+        "A data final não pode ser um valor anterior ao da data inicial."
+      );
+      toast.error(
+        "A data final não pode ser um valor anterior ao da data inicial."
+      );
       return;
     }
-    
+
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
 
@@ -127,6 +125,7 @@ const UpdateReservationModal = ({
         toast.success("Reserva atualizada com sucesso.");
 
         onClose();
+        setError("");
         setForm({
           funcionarioId,
           clienteId: null,
@@ -214,22 +213,24 @@ const UpdateReservationModal = ({
                   ))}
                 </select>
               </div>
-
               <div className="mb-3 w-100">
                 <label className="form-label">Data Início</label>
                 <Calendar
                   onDateSelect={handleDateInicioSelect}
                   accommodationId={accommodationId}
                   selectedDate={form.dataInicio}
+                  selectedStartDate={form.dataInicio}
+                  selectedEndDate={form.dataFim}
                 />
               </div>
-
               <div className="mb-3">
                 <label className="form-label">Data Fim</label>
                 <Calendar
                   onDateSelect={handleDateFimSelect}
                   accommodationId={accommodationId}
                   selectedDate={form.dataFim}
+                  selectedStartDate={form.dataInicio}
+                  selectedEndDate={form.dataFim}
                 />
               </div>
 
@@ -246,10 +247,9 @@ const UpdateReservationModal = ({
                   <option value="Confirmado">Confirmado</option>
                   <option value="Cancelado">Cancelado</option>
                   <option value="Pendente">Pendente</option>
-                  <option value="Concluido">Concluído</option>
+                  <option value="Concluído">Concluído</option>
                 </select>
               </div>
-
               <div className="modal-footer">
                 <button
                   type="button"
