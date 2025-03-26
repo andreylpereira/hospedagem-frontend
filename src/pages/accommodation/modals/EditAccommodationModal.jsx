@@ -161,7 +161,9 @@ const EditAccommodationModal = ({
                     className="form-check-input"
                     id="habilitado"
                     checked={form.habilitado}
-                    onChange={handleChange}
+                    onChange={() =>
+                      setForm({ ...form, habilitado: !form.habilitado })
+                    }
                   />
                   <label className="form-check-label" htmlFor="habilitado">
                     Marque para habilitar a acomodação
@@ -183,7 +185,7 @@ const EditAccommodationModal = ({
                             (selectedAmenity) =>
                               selectedAmenity.id === amenity.id
                           )}
-                          onChange={handleChange}
+                          onChange={() => handleChange({ target: { id: amenity.id, type: 'checkbox', checked: !form.amenidades.some((selectedAmenity) => selectedAmenity.id === amenity.id) } })}
                         />
                         <label
                           className="form-check-label"
