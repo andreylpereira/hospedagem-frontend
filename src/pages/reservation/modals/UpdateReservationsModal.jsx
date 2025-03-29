@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/ClientService.jsx";
-import { getReservationById } from "../../../services/ReservationService.jsx";
+import { getClients } from "../../../services/clientService.jsx";
+import { getReservationById } from "../../../services/reservationService.jsx";
 import {
   updateReservationAction,
   fetchReservations,
 } from "../../../redux/actions/reservationActions.jsx";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
+import { getUserIdFromToken } from "../../../services/api";
 
 const UpdateReservationModal = ({
   accommodationId,
@@ -89,7 +90,7 @@ const UpdateReservationModal = ({
     e.preventDefault();
 
     const { clienteId, status, dataInicio, dataFim, funcionarioId } = form;
-
+  
     if (dataFim < dataInicio) {
       setError(
         "A data final não pode ser um valor anterior ao da data inicial."
@@ -99,7 +100,7 @@ const UpdateReservationModal = ({
       );
       return;
     }
-
+    
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
 
@@ -111,7 +112,7 @@ const UpdateReservationModal = ({
 
     dispatch(
       updateReservationAction(reservationId, {
-        funcionarioId,
+        funcionarioId: getUserIdFromToken(),
         clienteId,
         acomodacaoId: accommodationId,
         dataInicio: formattedDataInicio,
@@ -120,8 +121,7 @@ const UpdateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, startDate));
-
+        dispatch(fetchReservations(accommodationId, `${startDate}-01T00:00:00`));
         toast.success("Reserva atualizada com sucesso.");
 
         onClose();

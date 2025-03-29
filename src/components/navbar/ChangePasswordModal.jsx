@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updatePassword } from "./../../services/UserService";
+import { updatePassword } from "./../../services/userService";
 import { toast } from "sonner";
 
 const ChangePasswordModal = ({ isVisible, onClose }) => {

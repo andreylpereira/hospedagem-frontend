@@ -38,8 +38,13 @@ const RealTime = () => {
   useEffect(() => {
     const fetchReservedAccommodations = async () => {
       const reserved = await realTimeService(date);
-
-      const reservedIds = reserved.map(
+      
+      const reservasFiltradas = reserved.filter(
+        (reserva) =>
+          reserva.reservaStatus !== "CANCELADO" &&
+          reserva.reservaStatus !== "CONCLUIDO"
+      );
+      const reservedIds = reservasFiltradas.map(
         (reservation) => reservation.acomodacaoId
       );
       setReservedAccommodations(reservedIds);

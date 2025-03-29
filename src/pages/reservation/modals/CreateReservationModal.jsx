@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/ClientService";
+import { getClients } from "../../../services/clientService";
 import { getUserIdFromToken } from "../../../services/api";
 import {
   createReservationAction,
@@ -84,7 +84,7 @@ const CreateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, startDate));
+        dispatch(fetchReservations(accommodationId, `${startDate}-01T00:00:00`));
 
         toast.success("Reserva efetuada com sucesso.");
 
