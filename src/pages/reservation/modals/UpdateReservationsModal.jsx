@@ -121,7 +121,8 @@ const UpdateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, `${startDate}-01T00:00:00`));
+        console.log(formatDateToISO(startDate))
+        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
         toast.success("Reserva atualizada com sucesso.");
 
         onClose();

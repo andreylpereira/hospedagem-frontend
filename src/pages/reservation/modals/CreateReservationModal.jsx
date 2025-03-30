@@ -84,7 +84,7 @@ const CreateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, `${startDate}-01T00:00:00`));
+        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
 
         toast.success("Reserva efetuada com sucesso.");
 

@@ -87,19 +87,20 @@ const Reservation = () => {
           CADASTRAR
         </button>
       </div>
-      {!loading && reservations.length !== 0 && !error && (
+     
         <div className="container-fluid d-flex justify-content-center w-25">
-          <DatePicker
-            className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
-            selected={currentMonth}
-            onChange={handleMonthChange}
-            dateFormat="MMMM yyyy"
-            showMonthYearPicker
-            locale={ptBR}
-            showFullMonthYearPicker
-          />
-        </div>
-      )}
+  <DatePicker
+    className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
+    selected={currentMonth}
+    onChange={handleMonthChange}
+    dateFormat="MMMM yyyy"
+    showMonthYearPicker
+    locale={ptBR}
+    showFullMonthYearPicker
+  />
+</div>
+
+     
 
       <CreateReservationModal
         accommodationId={accommodationId}
