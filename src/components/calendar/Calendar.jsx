@@ -2,19 +2,23 @@ import React, { useState, useEffect, useRef } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ptBR } from "date-fns/locale";
-import { calendarService } from "../../services/CalendarService";
+import { calendarService } from "./../../services/calendarService";
 import "./Calendar.css";
 
-const Calendar = ({ onDateSelect, accommodationId }) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+const Calendar = ({
+  onDateSelect,
+  accommodationId,
+  selectedDate,
+  selectedStartDate,
+  selectedEndDate,
+}) => {
   const [importantDates, setImportantDates] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [calendarOpen, setCalendarOpen] = useState(false);
-  
+
   const datePickerRef = useRef(null);
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
     if (onDateSelect) {
       onDateSelect(date);
     }
@@ -24,14 +28,31 @@ const Calendar = ({ onDateSelect, accommodationId }) => {
     const year = monthDate.getFullYear();
     const month = monthDate.getMonth();
 
-    return importantDates
-      .filter(
-        (item) =>
-          item.ocupado === true &&
-          new Date(item.data).getFullYear() === year &&
-          new Date(item.data).getMonth() === month
-      )
-      .map((item) => new Date(item.data));
+    const validStartDate = selectedStartDate
+      ? new Date(selectedStartDate)
+      : null;
+    const validEndDate = selectedEndDate ? new Date(selectedEndDate) : null;
+
+    const isValidDate = (date) => !isNaN(new Date(date).getTime());
+
+    const updatedImportantDates = importantDates.filter((item) => {
+      const itemDate = new Date(item.data);
+
+      const isInCorrectMonth =
+        itemDate.getFullYear() === year && itemDate.getMonth() === month;
+
+      const isNotExcluded =
+        (!validStartDate ||
+          !isValidDate(validStartDate) ||
+          itemDate.getTime() !== validStartDate.getTime()) &&
+        (!validEndDate ||
+          !isValidDate(validEndDate) ||
+          itemDate.getTime() !== validEndDate.getTime());
+
+      return item.ocupado === true && isInCorrectMonth && isNotExcluded;
+    });
+
+    return updatedImportantDates.map((item) => new Date(item.data));
   };
 
   const fetchAgenda = async (monthDate) => {
@@ -45,7 +66,7 @@ const Calendar = ({ onDateSelect, accommodationId }) => {
       );
       setImportantDates(agendaData);
     } catch (error) {
-      throw error;
+      console.error("Erro ao buscar agenda:", error);
     }
   };
 
@@ -55,12 +76,6 @@ const Calendar = ({ onDateSelect, accommodationId }) => {
 
   const handleMonthChange = (date) => {
     setCurrentMonth(date);
-    if (!selectedDate) {
-      const firstAvailableDate =
-        loadImportantDates(date)[0] ||
-        new Date(date.getFullYear(), date.getMonth(), 1);
-      setSelectedDate(firstAvailableDate);
-    }
   };
 
   const toggleCalendar = () => {
@@ -88,7 +103,7 @@ const Calendar = ({ onDateSelect, accommodationId }) => {
     <div ref={datePickerRef}>
       <DatePicker
         className="form-control"
-        selected={selectedDate}
+        selected={selectedDate ? new Date(selectedDate) : null}
         onChange={handleDateChange}
         onMonthChange={handleMonthChange}
         dateFormat="dd/MM/yyyy"

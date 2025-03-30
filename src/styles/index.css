@@ -13,3 +13,6 @@ code {
     monospace;
 }
 
+td, td, th {
+  border: 0px;
+}

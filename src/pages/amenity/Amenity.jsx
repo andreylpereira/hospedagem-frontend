@@ -4,6 +4,7 @@ import CreateAmenityModal from "./modals/CreateAmenityModal";
 import { fetchAmenities } from "../../redux/actions/amenityActions";
 import EditAmenityModal from "./modals/EditAmenityModal";
 import "./Amenity.css";
+import Bread from "../../components/bread/Bread";
 
 const Amenity = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,6 +30,23 @@ const Amenity = () => {
   return (
     <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
+        {!loading && amenities.length >= 0 && (
+          <div>
+            <Bread current={"AMENIDADES"} />
+            <button
+              type="button"
+              className="btn btn-primary fw-bold bg-gradient rounded shadow"
+              onClick={() => setModalVisible(true)}
+            >
+              CADASTRAR
+            </button>
+            <CreateAmenityModal
+              isVisible={modalVisible}
+              onClose={handleCloseCreateModal}
+              fetchAmenities={() => dispatch(fetchAmenities())}
+            />
+          </div>
+        )}
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -46,22 +64,6 @@ const Amenity = () => {
         )}
         {amenities.length > 0 && (
           <div>
-            <h2 className="text-uppercase text-center fw-bold mb-4">
-              Amenidades Cadastradas
-            </h2>
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
-            <CreateAmenityModal
-              isVisible={modalVisible}
-              onClose={handleCloseCreateModal}
-              fetchAmenities={() => dispatch(fetchAmenities())}
-            />
-
             <EditAmenityModal
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
@@ -95,12 +97,12 @@ const Amenity = () => {
             </table>
           </div>
         )}
+        {!loading && amenities.length === 0 && !error && (
+          <div className="alert alert-warning mt-3" role="alert">
+            Não há amenidades cadastradas.
+          </div>
+        )}
       </div>
-      {!loading && amenities.length === 0 && !error && (
-        <div className="alert alert-warning mt-3" role="alert">
-          Não há amenidades cadastradas.
-        </div>
-      )}
     </div>
   );
 };

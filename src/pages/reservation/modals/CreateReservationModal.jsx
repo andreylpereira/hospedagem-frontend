@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "../../../components/calendar/Calendar";
-import { getClients } from "../../../services/ClientService";
+import { getClients } from "../../../services/clientService";
 import { getUserIdFromToken } from "../../../services/api";
 import {
   createReservationAction,
@@ -30,6 +30,7 @@ const CreateReservationModal = ({
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setError("");
     if (isVisible) {
       const fetchClients = async () => {
         try {
@@ -60,6 +61,7 @@ const CreateReservationModal = ({
     const funcionarioId = getUserIdFromToken();
 
     if (!funcionarioId) {
+      setError("Funcionario não encontrado. Por favor, faça login novamente.");
       toast.error(
         "Funcionario não encontrado. Por favor, faça login novamente."
       );
@@ -82,7 +84,7 @@ const CreateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, startDate));
+        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
 
         toast.success("Reserva efetuada com sucesso.");
 
@@ -149,7 +151,7 @@ const CreateReservationModal = ({
             </h5>
             <button
               type="button"
-              className="btn-close btn-close-white"
+              className="btn-close"
               onClick={onClose}
               aria-label="Close"
             ></button>
@@ -174,7 +176,6 @@ const CreateReservationModal = ({
                   ))}
                 </select>
               </div>
-
               <div className="mb-3 w-100">
                 <label className="form-label">Data Início</label>
                 <Calendar
@@ -183,7 +184,6 @@ const CreateReservationModal = ({
                   selectedDate={form.dataInicio}
                 />
               </div>
-
               <div className="mb-3">
                 <label className="form-label">Data Fim</label>
                 <Calendar
@@ -206,14 +206,13 @@ const CreateReservationModal = ({
                   <option value="Confirmado">Confirmado</option>
                   <option value="Cancelado">Cancelado</option>
                   <option value="Pendente">Pendente</option>
-                  <option value="Concluido">Concluído</option>
+                  <option value="Concluído">Concluído</option>
                 </select>
               </div>
-
               <div className="modal-footer">
                 <button
                   type="button"
-                  className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                  className="btn btn-outline-danger fw-bold bg-gradient rounded shadow"
                   onClick={onClose}
                 >
                   Cancelar

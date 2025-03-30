@@ -5,6 +5,7 @@ import { updateUserAuthorizationAction } from "../../redux/actions/userActions";
 import CreateUserModal from "./modals/CreateUserModal";
 import { toast } from "sonner";
 import "./User.css";
+import Bread from "../../components/bread/Bread";
 
 const User = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -54,9 +55,8 @@ const User = () => {
         )}
         {users.length > 0 && (
           <div>
-            <h2 className="text-uppercase text-center fw-bold mb-4">
-              Usuários Cadastrados
-            </h2>
+            <Bread current={"USUÁRIOS"} />
+
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -64,7 +64,6 @@ const User = () => {
             >
               CADASTRAR
             </button>
-
             <CreateUserModal
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
@@ -112,7 +111,7 @@ const User = () => {
                           </button>
                         ) : (
                           <button className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled">
-                            <i className="fas fa-user-shield"></i>
+                            <i className="fas fa-user-shield shadow"></i>
                           </button>
                         )}
                       </td>

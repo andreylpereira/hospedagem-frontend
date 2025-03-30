@@ -10,7 +10,7 @@ import {
   getAccommodations,
   createAccommodation,
   updateAccommodation,
-} from "../../services/AccommodationService.jsx";
+} from "../../services/accommodationService.jsx";
 
 export const fetchAccommodations = () => async (dispatch) => {
   dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });

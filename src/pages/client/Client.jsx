@@ -4,6 +4,7 @@ import { fetchClients } from "../../redux/actions/clientActions";
 import CreateClientModal from "./modals/CreateClientModal";
 import EditClientModal from "./modals/EditClientModal";
 import "./Client.css";
+import Bread from "../../components/bread/Bread";
 
 const Client = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,26 +41,9 @@ const Client = () => {
   return (
     <div className="container d-flex justify-content-center min-vh-100  user-select-none">
       <div className="w-100">
-        {loading && (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{ height: "calc(70vh - 50px)" }}
-          >
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
-        {error && !loading && (
-          <div className="alert alert-danger mt-3" role="alert">
-            {error}
-          </div>
-        )}
-        {clients.length > 0 && (
+        {!loading && clients.length >= 0 && (
           <div>
-            <h2 className="text-uppercase text-center fw-bold mb-4">
-              Clientes Cadastrados
-            </h2>
+            <Bread current={"CLIENTES"} />
             <button
               type="button"
               className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -81,6 +65,25 @@ const Client = () => {
               clientToEdit={clientToEdit}
               fetchClients={() => dispatch(fetchClients())}
             />
+          </div>
+        )}
+        {loading && (
+          <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "calc(70vh - 50px)" }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        )}
+        {error && !loading && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {error}
+          </div>
+        )}
+        {clients.length > 0 && (
+          <div>
             <table className="table table-striped table-bordered shadow">
               <thead>
                 <tr>
@@ -113,7 +116,7 @@ const Client = () => {
                         className="btn btn-primary fw-bold shadow bg-gradient rounded btn-sm me-2"
                         onClick={() => handleEdit(client)}
                       >
-                        <i className="fas fa-edit"></i>
+                        <i className="fas fa-edit shadow"></i>
                       </button>
                     </td>
                   </tr>
@@ -122,12 +125,12 @@ const Client = () => {
             </table>
           </div>
         )}
+        {!loading && clients.length === 0 && !error && (
+          <div className="alert alert-warning mt-3" role="alert">
+            Não há clientes cadastrados.
+          </div>
+        )}
       </div>
-      {!loading && clients.length === 0 && !error && (
-        <div className="alert alert-warning mt-3" role="alert">
-          Não há clientes cadastrados.
-        </div>
-      )}
     </div>
   );
 };

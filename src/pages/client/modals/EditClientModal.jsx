@@ -9,7 +9,7 @@ const EditClientModal = ({
   onClose,
   clientToEdit,
   fetchClients,
-  cpfMask
+  cpfMask,
 }) => {
   const [form, setForm] = useState({
     id: "",
@@ -21,10 +21,11 @@ const EditClientModal = ({
   });
 
   const [error, setError] = useState(null);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setError("");
     if (clientToEdit) {
       setForm(clientToEdit);
     }
@@ -58,18 +59,17 @@ const EditClientModal = ({
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="editClientModalLabel">
-              EDITAR
+                EDITAR
               </h5>
               <button
                 type="button"
-                className="btn-close btn-close-white"
+                className="btn-close"
                 aria-label="Fechar"
                 onClick={onClose}
               ></button>
             </div>
-
             <div className="modal-body">
-            {error && (
+              {error && (
                 <div className="alert alert-danger mt-3" role="alert">
                   {error}
                 </div>
@@ -79,7 +79,12 @@ const EditClientModal = ({
                   <label htmlFor="formCpf" className="form-label">
                     CPF
                   </label>
-                  <input type="text" className="form-control" disabled value={cpfMask(form.cpf)} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    disabled
+                    value={cpfMask(form.cpf)}
+                  />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="formNome" className="form-label">
@@ -90,9 +95,7 @@ const EditClientModal = ({
                     className="form-control"
                     id="formNome"
                     value={form.nome}
-                    onChange={(e) =>
-                      setForm({ ...form, nome: e.target.value })
-                    }
+                    onChange={(e) => setForm({ ...form, nome: e.target.value })}
                   />
                 </div>
                 <div className="mb-3">
@@ -149,12 +152,15 @@ const EditClientModal = ({
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-secondary fw-bold bg-gradient rounded shadow"
+                    className="btn btn-outline-danger fw-bold bg-gradient rounded shadow"
                     onClick={onClose}
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary bg-gradient rounded fw-bold shadow">
+                  <button
+                    type="submit"
+                    className="btn btn-primary bg-gradient rounded fw-bold shadow"
+                  >
                     Salvar
                   </button>
                 </div>

@@ -6,7 +6,15 @@
     color: var(--bs-border) !important;
 }
 
-.logo {
-    font-size: 10px;
-    font-family: 'Roboto', sans-serif;
-}
+a:hover {
+    color: var(--bs-primary) !important;
+ }
+
+ a:active, a:focus {
+    color: var(--bs-border) !important;
+ }
+
+ .nav-link:focus {
+    color: white !important;
+    font-weight: bold !important;
+ }

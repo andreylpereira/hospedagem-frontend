@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAccommodations } from "../../redux/actions/accommodationActions";
 import { useNavigate } from "react-router-dom";
 import { realTimeService } from "../../services/RealTimeService";
+import PhotoModal from "../../components/photo-modal/PhotoModal";
 import "./RealTime.css";
+import semFoto from "./../../assets/semFoto.png";
+import Bread from "../../components/bread/Bread";
 
 const RealTime = () => {
   const dispatch = useDispatch();
@@ -14,6 +17,7 @@ const RealTime = () => {
   );
 
   const [reservedAccommodations, setReservedAccommodations] = useState([]);
+
   const [date, setDate] = useState(new Date().toISOString().slice(0, 19));
 
   const formatDate = (dateString) => {
@@ -34,8 +38,13 @@ const RealTime = () => {
   useEffect(() => {
     const fetchReservedAccommodations = async () => {
       const reserved = await realTimeService(date);
-
-      const reservedIds = reserved.map(
+      
+      const reservasFiltradas = reserved.filter(
+        (reserva) =>
+          reserva.reservaStatus !== "CANCELADO" &&
+          reserva.reservaStatus !== "CONCLUIDO"
+      );
+      const reservedIds = reservasFiltradas.map(
         (reservation) => reservation.acomodacaoId
       );
       setReservedAccommodations(reservedIds);
@@ -53,11 +62,20 @@ const RealTime = () => {
     });
   };
 
+  const [photo, setPhoto] = useState(null);
+  const [photoModalVisible, setPhotoModalVisible] = useState(false);
+  const handleClosePhotoModal = () => setPhotoModalVisible(false);
+  const handleOpenPhotoModal = (accommodation) => {
+    if (accommodation.contentType && accommodation.base64Image) {
+      const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
+      setPhoto(imageUrl);
+      setPhotoModalVisible(true);
+    }
+  };
+
   return (
     <div className="container user-select-none">
-      <h2 className="text-uppercase fw-bold mb-4">
-        Acomodações em Tempo Real : {formatDate(date)}
-      </h2>
+      <Bread current={"TEMPO REAL"} />
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -81,8 +99,13 @@ const RealTime = () => {
         </div>
       )}
 
+      <PhotoModal
+        isVisible={photoModalVisible}
+        onClose={handleClosePhotoModal}
+        photo={photo}
+      />
       {!loading && accommodations.length > 0 && (
-        <div className="row g-4">
+        <div className="row g-4 justify-content-center mb-4 mt-2">
           {accommodations.map((accommodation) => {
             const isReserved = reservedAccommodations.includes(
               accommodation.id
@@ -90,58 +113,71 @@ const RealTime = () => {
 
             return (
               <div
-                className={`col-12 col-sm-6 col-md-4 col-lg-3 ${
-                  isReserved ? "text-dark" : ""
-                }`}
+                className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center"
                 key={accommodation.id}
               >
-                <div className="card shadow">
-                  <div
-                    className={`card-header ${
-                      isReserved ? "bg-danger" : "bg-success"
-                    } bg-gradient d-flex justify-content-between`}
-                  >
-                    <h5 className="mb-0 text-light">{accommodation.nome}</h5>
+                <div
+                  className="card shadow d-flex flex-column"
+                  style={{ width: "296px" }}
+                >
+                  <img
+                    className={`card-img-top ${
+                      accommodation.contentType === null
+                        ? "cursor-none"
+                        : "cursor-pointer"
+                    }`}
+                    style={{
+                      width: "100%",
+                      height: "230px",
+                      objectFit: accommodation.base64Image
+                        ? "cover"
+                        : "contain",
+                    }}
+                    alt="Imagem"
+                    src={
+                      accommodation.base64Image
+                        ? `data:${accommodation.contentType};base64,${accommodation.base64Image}`
+                        : semFoto
+                    }
+                    onClick={() => handleOpenPhotoModal(accommodation)}
+                  />
+                  <div className="card-header bg-white d-flex justify-content-between border-0">
+                    <h5 className="mb-0 fw-bold text-uppercase">
+                      {accommodation.nome}
+                    </h5>
                     <div className="d-flex align-items-center">
-                      {isReserved ? (
-                        <span className="badge bg-danger bg-gradient ms-3 badge-button pe-none">
-                          <i className="fas fa-lock"></i>
-                        </span>
-                      ) : (
-                        <span className="badge bg-secondary bg-gradient ms-3 badge-button shadow">
-                          <i
-                            className="fas fa-calendar"
-                            onClick={() =>
-                              handleNavigateToReservations(
-                                accommodation.id,
-                                accommodation.dataInicio
-                              )
-                            }
-                          ></i>
-                        </span>
-                      )}
+                      <span
+                        className={`badge ${
+                          isReserved ? "bg-danger" : "bg-success"
+                        } ms-3 cursor-none`}
+                      >
+                        {isReserved ? "Ocupado" : "Disponível"}
+                      </span>
                     </div>
                   </div>
-                  <div className="card-body">
-                    <div className="mb-3">
+
+                  <div className="card-body pt-0 flex-grow-1">
+                    <div className="mb-1">
                       <label>
                         <strong>Descrição</strong>
                       </label>
                       <p>{accommodation.descricao}</p>
                     </div>
 
-                    <div className="mb-3 d-flex justify-content-between">
+                    <div className="d-flex justify-content-between">
                       <div className="capacidade-preco">
                         <label>
                           <strong>Capacidade</strong>
                         </label>
-                        <p>{accommodation.capacidade} pessoas</p>
+                        <p className="mb-1">
+                          {accommodation.capacidade} pessoas
+                        </p>
                       </div>
                       <div className="capacidade-preco">
                         <label>
                           <strong>Preço</strong>
                         </label>
-                        <p>
+                        <p className="mb-1">
                           {accommodation.preco?.toLocaleString("pt-br", {
                             style: "currency",
                             currency: "BRL",
@@ -172,6 +208,23 @@ const RealTime = () => {
                         Acomodação sem amenidades.
                       </div>
                     )}
+                  </div>
+
+                  <div className="card-footer bg-white d-flex justify-content-between border-0">
+                    <button
+                      className="btn btn-primary w-100 shadow"
+                      onClick={() =>
+                        isReserved
+                          ? null
+                          : handleNavigateToReservations(
+                              accommodation.id,
+                              accommodation.dataInicio
+                            )
+                      }
+                      disabled={isReserved}
+                    >
+                      Reservar
+                    </button>
                   </div>
                 </div>
               </div>

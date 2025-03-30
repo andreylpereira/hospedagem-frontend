@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updatePassword } from "./../../services/UserService";
+import { updatePassword } from "./../../services/userService";
 import { toast } from "sonner";
 
 const ChangePasswordModal = ({ isVisible, onClose }) => {
@@ -17,7 +17,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
       return;
     }
 
-    const newPassword = { senha: form.senha };
+    const newPassword = form.senha;
 
     updatePassword(newPassword)
       .then(() => {
@@ -25,6 +25,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
         onClose();
         setForm({
           senha: "",
+          confirmarSenha: "",
         });
       })
       .catch((error) => {
@@ -50,7 +51,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
               </h5>
               <button
                 type="button"
-                className="btn-close btn-close-white"
+                className="btn-close"
                 aria-label="Fechar"
                 onClick={onClose}
               ></button>
@@ -96,7 +97,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-secondary"
+                    className="btn btn-outline-danger"
                     onClick={onClose}
                   >
                     Fechar
