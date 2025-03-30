@@ -178,6 +178,7 @@ const Reservation = () => {
                         <button
                           className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
                           onClick={() => handleEditClick(reservation.reservaId)}
+                          disabled={reservation.reservaStatus == 'CONCLUIDO' || reservation.reservaStatus == 'CANCELADO'}
                         >
                           <i className="fas fa-edit"></i>
                         </button>
