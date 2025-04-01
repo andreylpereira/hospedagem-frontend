@@ -131,7 +131,7 @@ const Reservation = () => {
           {error}
         </div>
       )}
-      {reservations.length > 0 && (
+      {!loading && reservations.length > 0 && (
         <div>
           <div className="table-responsive mt-1">
             <table className="table table-striped table-bordered shadow">

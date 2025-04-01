@@ -62,7 +62,7 @@ const Amenity = () => {
             {error}
           </div>
         )}
-        {amenities.length > 0 && (
+        {!loading && amenities.length > 0 && (
           <div>
             <EditAmenityModal
               isVisible={editModalVisible}

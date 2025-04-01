@@ -104,7 +104,7 @@ const Accommodation = () => {
             {error}
           </div>
         )}
-        {accommodations.length > 0 && (
+        {!loading && accommodations.length > 0 && (
           <>
             <div className="row g-4 justify-content-center mb-4">
               {accommodations.map((accommodation) => (

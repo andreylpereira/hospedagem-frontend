@@ -82,7 +82,7 @@ const Client = () => {
             {error}
           </div>
         )}
-        {clients.length > 0 && (
+        {!loading && clients.length > 0 && (
           <div>
             <table className="table table-striped table-bordered shadow">
               <thead>

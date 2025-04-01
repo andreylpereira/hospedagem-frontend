@@ -53,7 +53,7 @@ const User = () => {
             {error}
           </div>
         )}
-        {users.length > 0 && (
+        {!loading && users.length > 0 && (
           <div>
             <Bread current={"USUÁRIOS"} />
 
