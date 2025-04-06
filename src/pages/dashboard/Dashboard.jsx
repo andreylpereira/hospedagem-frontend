@@ -9,7 +9,7 @@ const Dashboard = () => {
           <Bread current={"DASHBOARD"} />
         </div>
         <div>
-        <iframe title="quinta" width="800" height="636" src="https://app.powerbi.com/view?r=eyJrIjoiYTdlYmRhM2MtODVjZS00NjJhLWI3ZWMtOTMzYjE0NWZhYmUzIiwidCI6IjJjZjdkNGQ1LWJkMWItNDk1Ni1hY2Y4LTI5OTUzOTliMjE2OCJ9" frameborder="0" allowFullScreen="true"></iframe>
+        <iframe title="quinta" width="100%" height="100%" src="https://app.powerbi.com/view?r=eyJrIjoiYTdlYmRhM2MtODVjZS00NjJhLWI3ZWMtOTMzYjE0NWZhYmUzIiwidCI6IjJjZjdkNGQ1LWJkMWItNDk1Ni1hY2Y4LTI5OTUzOTliMjE2OCJ9" frameborder="0" allowFullScreen="true"></iframe>
         </div>
       </div>
     </div>
