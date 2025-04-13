@@ -175,7 +175,7 @@ const Reservation = () => {
                       <td>{reservation.clienteTelefone}</td>
                       <td>{reservation.clienteEmail}</td>
                       <td>
-                        {accommodation.valorTotal?.toLocaleString("pt-br", {
+                        {reservation.valorTotal?.toLocaleString("pt-br", {
                           style: "currency",
                           currency: "BRL",
                         }) || "Valor não disponível"}
