@@ -87,20 +87,18 @@ const Reservation = () => {
           CADASTRAR
         </button>
       </div>
-     
-        <div className="container-fluid d-flex justify-content-center w-25">
-  <DatePicker
-    className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
-    selected={currentMonth}
-    onChange={handleMonthChange}
-    dateFormat="MMMM yyyy"
-    showMonthYearPicker
-    locale={ptBR}
-    showFullMonthYearPicker
-  />
-</div>
 
-     
+      <div className="container-fluid d-flex justify-content-center w-25">
+        <DatePicker
+          className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
+          selected={currentMonth}
+          onChange={handleMonthChange}
+          dateFormat="MMMM yyyy"
+          showMonthYearPicker
+          locale={ptBR}
+          showFullMonthYearPicker
+        />
+      </div>
 
       <CreateReservationModal
         accommodationId={accommodationId}
@@ -176,13 +174,21 @@ const Reservation = () => {
                       <td>{reservation.clienteNome}</td>
                       <td>{reservation.clienteTelefone}</td>
                       <td>{reservation.clienteEmail}</td>
-                      <td>{reservation.valorTotal}</td>
+                      <td>
+                        {accommodation.valorTotal?.toLocaleString("pt-br", {
+                          style: "currency",
+                          currency: "BRL",
+                        }) || "Valor não disponível"}
+                      </td>
                       <td>{statusTexto}</td>
                       <td>
                         <button
                           className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
                           onClick={() => handleEditClick(reservation.reservaId)}
-                          disabled={reservation.reservaStatus == 'CONCLUIDO' || reservation.reservaStatus == 'CANCELADO'}
+                          disabled={
+                            reservation.reservaStatus == "CONCLUIDO" ||
+                            reservation.reservaStatus == "CANCELADO"
+                          }
                         >
                           <i className="fas fa-edit"></i>
                         </button>
