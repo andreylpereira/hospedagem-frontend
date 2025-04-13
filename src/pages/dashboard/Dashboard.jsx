@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import Bread from "../../components/bread/Bread";
 
 const Dashboard = () => {
-
   const [timestamp, setTimestamp] = useState(Date.now());
 
   useEffect(() => {
-    setTimestamp(Date.now());
-  }, []); 
+    const interval = setInterval(() => {
+      setTimestamp(Date.now());
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const iFrame = `https://app.powerbi.com/view?r=eyJrIjoiYTdlYmRhM2MtODVjZS00NjJhLWI3ZWMtOTMzYjE0NWZhYmUzIiwidCI6IjJjZjdkNGQ1LWJkMWItNDk1Ni1hY2Y4LTI5OTUzOTliMjE2OCJ9&t=${timestamp}`;
 
@@ -26,7 +29,9 @@ const Dashboard = () => {
             src={iFrame}
             frameBorder="0"
             allowFullScreen="true"
-            key={timestamp} 
+            key={timestamp}
+            loading="eager"
+            sandbox="allow-scripts allow-same-origin"
           ></iframe>
         </div>
       </div>
