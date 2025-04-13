@@ -153,6 +153,9 @@ const Reservation = () => {
                     Email
                   </th>
                   <th className="text-center table-primary text-light">
+                    Valor Total
+                  </th>
+                  <th className="text-center table-primary text-light">
                     Status
                   </th>
                   <th className="text-center table-primary text-light">
@@ -173,6 +176,7 @@ const Reservation = () => {
                       <td>{reservation.clienteNome}</td>
                       <td>{reservation.clienteTelefone}</td>
                       <td>{reservation.clienteEmail}</td>
+                      <td>{reservation.valorTotal}</td>
                       <td>{statusTexto}</td>
                       <td>
                         <button
