@@ -1,12 +1,13 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Bread from "../../components/bread/Bread";
 
 const Dashboard = () => {
+
   const [timestamp, setTimestamp] = useState(Date.now());
 
   useEffect(() => {
     setTimestamp(Date.now());
-  }, []);
+  }, []); 
 
   const iFrame = `https://app.powerbi.com/view?r=eyJrIjoiYTdlYmRhM2MtODVjZS00NjJhLWI3ZWMtOTMzYjE0NWZhYmUzIiwidCI6IjJjZjdkNGQ1LWJkMWItNDk1Ni1hY2Y4LTI5OTUzOTliMjE2OCJ9&t=${timestamp}`;
 
@@ -19,12 +20,13 @@ const Dashboard = () => {
         <div>
           <iframe
             className="shadow"
-            title="quinta"
+            title="Power BI Dashboard"
             width="100%"
             height="800"
             src={iFrame}
-            frameborder="0"
+            frameBorder="0"
             allowFullScreen="true"
+            key={timestamp} 
           ></iframe>
         </div>
       </div>
