@@ -107,8 +107,9 @@ const RealTime = () => {
       {!loading && accommodations.length > 0 && (
         <div className="row g-4 justify-content-center mb-4 mt-2">
           {accommodations.map((accommodation) => {
+            let isReserved = false;
             if (accommodation.habilitado === true) {
-              const isReserved = reservedAccommodations.includes(
+              isReserved = reservedAccommodations.includes(
                 accommodation.id
               );
             }
