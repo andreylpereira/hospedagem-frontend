@@ -38,7 +38,7 @@ const RealTime = () => {
   useEffect(() => {
     const fetchReservedAccommodations = async () => {
       const reserved = await realTimeService(date);
-      
+
       const reservasFiltradas = reserved.filter(
         (reserva) =>
           reserva.reservaStatus !== "CANCELADO" &&
@@ -116,117 +116,119 @@ const RealTime = () => {
                 className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center"
                 key={accommodation.id}
               >
-                <div
-                  className="card shadow d-flex flex-column"
-                  style={{ width: "296px" }}
-                >
-                  <img
-                    className={`card-img-top ${
-                      accommodation.contentType === null
-                        ? "cursor-none"
-                        : "cursor-pointer"
-                    }`}
-                    style={{
-                      width: "100%",
-                      height: "230px",
-                      objectFit: accommodation.base64Image
-                        ? "cover"
-                        : "contain",
-                    }}
-                    alt="Imagem"
-                    src={
-                      accommodation.base64Image
-                        ? `data:${accommodation.contentType};base64,${accommodation.base64Image}`
-                        : semFoto
-                    }
-                    onClick={() => handleOpenPhotoModal(accommodation)}
-                  />
-                  <div className="card-header bg-white d-flex justify-content-between border-0">
-                    <h5 className="mb-0 fw-bold text-uppercase">
-                      {accommodation.nome}
-                    </h5>
-                    <div className="d-flex align-items-center">
-                      <span
-                        className={`badge ${
-                          isReserved ? "bg-danger" : "bg-success"
-                        } ms-3 cursor-none`}
-                      >
-                        {isReserved ? "Ocupado" : "Disponível"}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="card-body pt-0 flex-grow-1">
-                    <div className="mb-1">
-                      <label>
-                        <strong>Descrição</strong>
-                      </label>
-                      <p>{accommodation.descricao}</p>
-                    </div>
-
-                    <div className="d-flex justify-content-between">
-                      <div className="capacidade-preco">
-                        <label>
-                          <strong>Capacidade</strong>
-                        </label>
-                        <p className="mb-1">
-                          {accommodation.capacidade} pessoas
-                        </p>
-                      </div>
-                      <div className="capacidade-preco">
-                        <label>
-                          <strong>Preço</strong>
-                        </label>
-                        <p className="mb-1">
-                          {accommodation.preco?.toLocaleString("pt-br", {
-                            style: "currency",
-                            currency: "BRL",
-                          }) || "Preço não disponível"}
-                        </p>
+                {accommodation.habilitado && (
+                  <div
+                    className="card shadow d-flex flex-column"
+                    style={{ width: "296px" }}
+                  >
+                    <img
+                      className={`card-img-top ${
+                        accommodation.contentType === null
+                          ? "cursor-none"
+                          : "cursor-pointer"
+                      }`}
+                      style={{
+                        width: "100%",
+                        height: "230px",
+                        objectFit: accommodation.base64Image
+                          ? "cover"
+                          : "contain",
+                      }}
+                      alt="Imagem"
+                      src={
+                        accommodation.base64Image
+                          ? `data:${accommodation.contentType};base64,${accommodation.base64Image}`
+                          : semFoto
+                      }
+                      onClick={() => handleOpenPhotoModal(accommodation)}
+                    />
+                    <div className="card-header bg-white d-flex justify-content-between border-0">
+                      <h5 className="mb-0 fw-bold text-uppercase">
+                        {accommodation.nome}
+                      </h5>
+                      <div className="d-flex align-items-center">
+                        <span
+                          className={`badge ${
+                            isReserved ? "bg-danger" : "bg-success"
+                          } ms-3 cursor-none`}
+                        >
+                          {isReserved ? "Ocupado" : "Disponível"}
+                        </span>
                       </div>
                     </div>
 
-                    {accommodation.amenidades &&
-                    accommodation.amenidades.length > 0 ? (
-                      <div>
+                    <div className="card-body pt-0 flex-grow-1">
+                      <div className="mb-1">
                         <label>
-                          <strong>Amenidades</strong>
+                          <strong>Descrição</strong>
                         </label>
-                        <div>
-                          {accommodation.amenidades.map((amenidade) => (
-                            <span
-                              key={amenidade.id}
-                              className="badge bg-info me-2"
-                            >
-                              {amenidade.nome}
-                            </span>
-                          ))}
+                        <p>{accommodation.descricao}</p>
+                      </div>
+
+                      <div className="d-flex justify-content-between">
+                        <div className="capacidade-preco">
+                          <label>
+                            <strong>Capacidade</strong>
+                          </label>
+                          <p className="mb-1">
+                            {accommodation.capacidade} pessoas
+                          </p>
+                        </div>
+                        <div className="capacidade-preco">
+                          <label>
+                            <strong>Preço</strong>
+                          </label>
+                          <p className="mb-1">
+                            {accommodation.preco?.toLocaleString("pt-br", {
+                              style: "currency",
+                              currency: "BRL",
+                            }) || "Preço não disponível"}
+                          </p>
                         </div>
                       </div>
-                    ) : (
-                      <div className="alert alert-primary" role="alert">
-                        Acomodação sem amenidades.
-                      </div>
-                    )}
-                  </div>
 
-                  <div className="card-footer bg-white d-flex justify-content-between border-0">
-                    <button
-                      className="btn btn-primary w-100 shadow"
-                      onClick={() =>
-                        isReserved
-                          ? null
-                          : handleNavigateToReservations(
-                              accommodation.id,
-                              accommodation.dataInicio
-                            )
-                      }
-                      disabled={isReserved}
-                    >
-                      Reservar
-                    </button>
+                      {accommodation.amenidades &&
+                      accommodation.amenidades.length > 0 ? (
+                        <div>
+                          <label>
+                            <strong>Amenidades</strong>
+                          </label>
+                          <div>
+                            {accommodation.amenidades.map((amenidade) => (
+                              <span
+                                key={amenidade.id}
+                                className="badge bg-info me-2"
+                              >
+                                {amenidade.nome}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="alert alert-primary" role="alert">
+                          Acomodação sem amenidades.
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="card-footer bg-white d-flex justify-content-between border-0">
+                      <button
+                        className="btn btn-primary w-100 shadow"
+                        onClick={() =>
+                          isReserved
+                            ? null
+                            : handleNavigateToReservations(
+                                accommodation.id,
+                                accommodation.dataInicio
+                              )
+                        }
+                        disabled={isReserved}
+                      >
+                        Reservar
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           })}
