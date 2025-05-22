@@ -98,7 +98,8 @@ const User = () => {
                 value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Filtrar por nome..."
-                className="form-control"
+                className="form-control shadow"
+                style={{ width: "18ch" }}
               />
             </div>
 
@@ -146,7 +147,7 @@ const User = () => {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="btn btn-secondary mx-1"
+                className="btn btn-primary mx-1"
               >
                 Anterior
               </button>
@@ -154,7 +155,7 @@ const User = () => {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage * itemsPerPage >= filteredUsers.length}
-                className="btn btn-secondary mx-1"
+                className="btn btn-primary mx-1"
               >
                 Próxima
               </button>
