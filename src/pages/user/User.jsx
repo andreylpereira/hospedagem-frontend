@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../redux/actions/userActions";
-import { updateUserAuthorizationAction } from "../../redux/actions/userActions";
+import {
+  fetchUsers,
+  updateUserAuthorizationAction,
+} from "../../redux/actions/userActions";
 import CreateUserModal from "./modals/CreateUserModal";
 import { toast } from "sonner";
-import "./User.css";
 import Bread from "../../components/bread/Bread";
+import ReactPaginate from "react-paginate";
+import "./User.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const User = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 10;
 
   const dispatch = useDispatch();
@@ -21,22 +25,22 @@ const User = () => {
   }, [dispatch]);
 
   const filteredUsers = useMemo(() => {
-    return users.filter(user =>
+    return users.filter((user) =>
       user.nome.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [users, searchQuery]);
 
-  const indexOfLastUser = currentPage * itemsPerPage;
-  const indexOfFirstUser = indexOfLastUser - itemsPerPage;
-  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const offset = currentPage * itemsPerPage;
+  const currentUsers = filteredUsers.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredUsers.length / itemsPerPage);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
   };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setCurrentPage(1);
+    setCurrentPage(0);
   };
 
   const updateAuthorization = (id, currentAuthorization, nome) => {
@@ -107,64 +111,88 @@ const User = () => {
               <thead>
                 <tr>
                   <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">Perfil</th>
-                  <th className="text-center table-primary text-light">Email</th>
-                  <th className="text-center table-primary text-light">Habilitado</th>
-                  <th className="text-center table-primary text-light">Ações</th>
+                  <th className="text-center table-primary text-light">
+                    Perfil
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Email
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Habilitado
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Ações
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {currentUsers.map((user) => {
-                  return (
-                    <tr key={user.id}>
-                      <td>{user.nome}</td>
-                      <td>{user.perfil}</td>
-                      <td>{user.email || "Não informado"}</td>
-                      <td>{user.habilitado ? "Sim" : "Não"}</td>
-                      <td>
-                        {user.id !== 1 ? (
-                          <button
-                            className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
-                            onClick={() =>
-                              updateAuthorization(user.id, user.habilitado, user.nome)
-                            }
-                          >
-                            <i className="fas fa-user-shield"></i>
-                          </button>
-                        ) : (
-                          <button className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled">
-                            <i className="fas fa-user-shield shadow"></i>
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {currentUsers.map((user) => (
+                  <tr key={user.id}>
+                    <td>{user.nome}</td>
+                    <td>{user.perfil}</td>
+                    <td>{user.email || "Não informado"}</td>
+                    <td>{user.habilitado ? "Sim" : "Não"}</td>
+                    <td>
+                      {user.id !== 1 ? (
+                        <button
+                          className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                          onClick={() =>
+                            updateAuthorization(
+                              user.id,
+                              user.habilitado,
+                              user.nome
+                            )
+                          }
+                        >
+                          <i className="fas fa-user-shield"></i>
+                        </button>
+                      ) : (
+                        <button className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled">
+                          <i className="fas fa-user-shield shadow"></i>
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
-            <div className="d-flex justify-content-center">
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="btn btn-primary mx-1"
-              >
-                Anterior
-              </button>
-              <span className="my-auto">Página {currentPage}</span>
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage * itemsPerPage >= filteredUsers.length}
-                className="btn btn-primary mx-1"
-              >
-                Próxima
-              </button>
+            <div className="d-flex justify-content-center mt-3">
+              <ReactPaginate
+                previousLabel={"← Anterior"}
+                nextLabel={"Próxima →"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                onPageChange={handlePageClick}
+                forcePage={currentPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                containerClassName={"pagination"}
+                pageClassName={"page-item"}
+                pageLinkClassName={
+                  "page-link bg-light text-primary border-primary"
+                }
+                previousClassName={"page-item"}
+                previousLinkClassName={
+                  "page-link bg-light text-primary border-primary"
+                }
+                nextClassName={"page-item"}
+                nextLinkClassName={
+                  "page-link bg-light text-primary border-primary"
+                }
+                breakClassName={"page-item"}
+                breakLinkClassName={
+                  "page-link bg-light text-primary border-primary"
+                }
+                activeClassName={"active"}
+                activeLinkClassName={"bg-primary text-white border-primary"}
+              />
             </div>
           </div>
         )}
         {!loading && users.length === 0 && !error && (
           <div className="alert alert-warning mt-3" role="alert">
-            Não há usuário cadastrados.
+            Não há usuários cadastrados.
           </div>
         )}
       </div>
