@@ -26,7 +26,7 @@ const User = () => {
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
-      user.nome.toLowerCase().includes(searchQuery.toLowerCase())
+       user?.nome?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [users, searchQuery]);
 
@@ -185,7 +185,7 @@ const User = () => {
                   "page-link bg-light text-primary border-primary"
                 }
                 activeClassName={"active"}
-                activeLinkClassName={"bg-info text-primary border-primary"}
+                activeLinkClassName={"bg-primary text-light border-primary"}
               />
             </div>
           </div>
