@@ -159,8 +159,8 @@ const User = () => {
 
             <div className="d-flex justify-content-center mt-3">
               <ReactPaginate
-                previousLabel={"Anterior"}
-                nextLabel={"Próxima"}
+                previousLabel={"<"}
+                nextLabel={">"}
                 breakLabel={"..."}
                 pageCount={pageCount}
                 onPageChange={handlePageClick}
@@ -178,11 +178,11 @@ const User = () => {
                 }
                 nextClassName={"page-item"}
                 nextLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 breakClassName={"page-item"}
                 breakLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 activeClassName={"active"}
                 activeLinkClassName={"bg-primary text-light border-primary"}
