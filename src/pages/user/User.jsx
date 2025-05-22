@@ -26,7 +26,7 @@ const User = () => {
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) =>
-       user?.nome?.toLowerCase().includes(searchQuery.toLowerCase())
+      user?.nome?.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [users, searchQuery]);
 
@@ -167,7 +167,7 @@ const User = () => {
                 forcePage={currentPage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
-                containerClassName={"pagination"}
+                containerClassName={"pagination justify-content-center"}
                 pageClassName={"page-item"}
                 pageLinkClassName={
                   "page-link bg-light text-primary border-primary"
@@ -178,14 +178,14 @@ const User = () => {
                 }
                 nextClassName={"page-item"}
                 nextLinkClassName={
-                  "page-link text-primary border-primary"
+                  "page-link bg-light text-primary border-primary"
                 }
                 breakClassName={"page-item"}
                 breakLinkClassName={
-                  "page-link text-primary border-primary"
+                  "page-link bg-light text-primary border-primary"
                 }
                 activeClassName={"active"}
-                activeLinkClassName={"bg-primary text-light border-primary"}
+                activeLinkClassName={"bg-primary text-white border-primary"}
               />
             </div>
           </div>
