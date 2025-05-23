@@ -19,26 +19,30 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const currentAccommodations = getState().accommodations.accommodations;
     const newAccommodationsRaw = await getAccommodations();
 
-const normalize = (accommodations) =>
-  accommodations.map((accommodation) => ({
-    id: accommodation.id,
-    nome: accommodation.nome,
-    descricao: accommodation.descricao,
-    capacidade: accommodation.capacidade,
-    preco: accommodation.preco,
-    habilitado: accommodation.habilitado,
+    const normalize = (accommodations) =>
+      accommodations.map((accommodation) => ({
+        id: accommodation.id,
+        nome: accommodation.nome,
+        descricao: accommodation.descricao,
+        capacidade: accommodation.capacidade,
+        preco: accommodation.preco,
+        habilitado: accommodation.habilitado,
 
-    amenidades: accommodation.amenidades
-      ?.map((a) => a.nome)
-      .sort(),
-  }));
-
+        amenidades: accommodation.amenidades?.map((a) => a.nome).sort(),
+      }));
 
     const currentNormalized = normalize(currentAccommodations);
     const newNormalized = normalize(newAccommodationsRaw);
-
     const isSame = isEqual(currentNormalized, newNormalized);
-
+    console.log(
+      "Dados antigos normalizados:",
+      JSON.stringify(currentNormalized, null, 2)
+    );
+    console.log(
+      "Dados novos normalizados:",
+      JSON.stringify(newNormalized, null, 2)
+    );
+    console.log("São iguais?", isSame);
     if (!isSame) {
       dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
 
@@ -47,7 +51,6 @@ const normalize = (accommodations) =>
         payload: newAccommodationsRaw,
       });
     }
-
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
@@ -55,7 +58,6 @@ const normalize = (accommodations) =>
     });
   }
 };
-
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {
