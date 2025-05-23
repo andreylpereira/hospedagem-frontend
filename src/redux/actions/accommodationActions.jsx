@@ -15,6 +15,8 @@ import {
 } from "../../services/accommodationService.jsx";
 
 export const fetchAccommodations = () => async (dispatch, getState) => {
+  dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+
   try {
     const newAccommodations = await getAccommodations();
     const currentAccommodations = getState().accommodations.accommodations;
@@ -22,10 +24,14 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const isSame = isEqual(newAccommodations, currentAccommodations);
 
     if (!isSame) {
-      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
       dispatch({
         type: FETCH_ACCOMMODATIONS_SUCCESS,
         payload: newAccommodations,
+      });
+    } else {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: currentAccommodations,
       });
     }
   } catch (error) {

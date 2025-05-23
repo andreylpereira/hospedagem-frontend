@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   accommodations: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
