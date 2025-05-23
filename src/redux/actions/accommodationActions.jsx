@@ -1,3 +1,5 @@
+import isEqual from "lodash.isequal";
+
 import {
   FETCH_ACCOMMODATIONS_REQUEST,
   FETCH_ACCOMMODATIONS_SUCCESS,
@@ -17,9 +19,9 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const newAccommodations = await getAccommodations();
     const currentAccommodations = getState().accommodations.accommodations;
 
-    const isEqual = JSON.stringify(newAccommodations) === JSON.stringify(currentAccommodations);
+    const isSame = isEqual(newAccommodations, currentAccommodations);
 
-    if (!isEqual) {
+    if (!isSame) {
       dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
       dispatch({
         type: FETCH_ACCOMMODATIONS_SUCCESS,
@@ -33,7 +35,6 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     });
   }
 };
-
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {
