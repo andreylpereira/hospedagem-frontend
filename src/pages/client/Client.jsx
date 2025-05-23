@@ -22,15 +22,16 @@ const Client = () => {
     dispatch(fetchClients());
   }, [dispatch]);
 
-  const cpfMask = (value) => {
-    if (value) {
-      const cpfStr = String(value).replace(/\D/g, "");
-      if (cpfStr.length === 11) {
-        return cpfStr.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.***-**");
-      }
+const cpfMask = (value) => {
+  if (value) {
+    const cpfStr = String(value).replace(/\*/g, "");
+
+    if (cpfStr.length === 6) { 
+      return cpfStr.replace(/(\d{3})(\d{3})/, "$1.$2.***-**");
     }
-    return "";
-  };
+  }
+  return "";
+};
 
   const filteredClients = useMemo(() => {
     return clients.filter((client) =>
