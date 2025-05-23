@@ -34,15 +34,7 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const currentNormalized = normalize(currentAccommodations);
     const newNormalized = normalize(newAccommodationsRaw);
     const isSame = isEqual(currentNormalized, newNormalized);
-    console.log(
-      "Dados antigos normalizados:",
-      JSON.stringify(currentNormalized, null, 2)
-    );
-    console.log(
-      "Dados novos normalizados:",
-      JSON.stringify(newNormalized, null, 2)
-    );
-    console.log("São iguais?", isSame);
+    
     if (!isSame) {
       dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
 
