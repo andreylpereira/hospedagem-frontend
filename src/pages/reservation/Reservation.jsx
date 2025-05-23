@@ -106,8 +106,8 @@ const Reservation = () => {
                 : "cursor-pointer"
             }`}
             style={{
-              width: "250px",
-              height: "250px",
+              width: "200px",
+              height: "200px",
               objectFit: accommodation.base64Image ? "cover" : "contain",
               borderTopLeftRadius: "0.25rem",
               borderBottomLeftRadius: "0.25rem",
@@ -309,7 +309,7 @@ const Reservation = () => {
       )}
       {photoModalVisible && (
         <PhotoModal
-          image={photo}
+          image={`data:${accommodation.contentType};base64,${accommodation.base64Image}`}
           isVisible={photoModalVisible}
           onClose={handleClosePhotoModal}
         />
