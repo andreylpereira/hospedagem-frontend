@@ -65,14 +65,26 @@ const Client = () => {
         {!loading && clients.length >= 0 && (
           <div>
             <Bread current={"CLIENTES"} />
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <button
+                type="button"
+                className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                onClick={() => setModalVisible(true)}
+              >
+                CADASTRAR
+              </button>
 
+              <div className="mt-3">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Filtrar por nome..."
+                  className="form-control shadow"
+                  style={{ width: "18ch" }}
+                />
+              </div>
+            </div>
             <CreateClientModal
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
@@ -86,17 +98,6 @@ const Client = () => {
               clientToEdit={clientToEdit}
               fetchClients={() => dispatch(fetchClients())}
             />
-
-            <div className="mt-3">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Filtrar por nome..."
-                className="form-control shadow"
-                style={{ width: "18ch" }}
-              />
-            </div>
           </div>
         )}
 
@@ -124,10 +125,18 @@ const Client = () => {
                 <tr>
                   <th className="text-center table-primary text-light">CPF</th>
                   <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">Email</th>
-                  <th className="text-center table-primary text-light">Telefone</th>
-                  <th className="text-center table-primary text-light">Endereço</th>
-                  <th className="text-center table-primary text-light">Ações</th>
+                  <th className="text-center table-primary text-light">
+                    Email
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Telefone
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Endereço
+                  </th>
+                  <th className="text-center table-primary text-light">
+                    Ações
+                  </th>
                 </tr>
               </thead>
               <tbody>

@@ -122,7 +122,7 @@ const Reservation = () => {
     <div className="container user-select-none">
       <Bread current={"RESERVAS"} />
 
-      <div className="d-flex justify-content-center my-4 mt-4 mb-2">
+      <div className="d-flex justify-content-between align-items-center my-4 mt-4 mb-2">
         <div
           className="card shadow d-flex flex-row"
           style={{ maxWidth: "900px", width: "100%" }}

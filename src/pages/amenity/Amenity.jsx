@@ -29,7 +29,10 @@ const Amenity = () => {
   }, [amenities, searchQuery]);
 
   const offset = currentPage * itemsPerPage;
-  const currentAmenities = filteredAmenities.slice(offset, offset + itemsPerPage);
+  const currentAmenities = filteredAmenities.slice(
+    offset,
+    offset + itemsPerPage
+  );
   const pageCount = Math.ceil(filteredAmenities.length / itemsPerPage);
 
   const handlePageClick = ({ selected }) => setCurrentPage(selected);
@@ -52,28 +55,31 @@ const Amenity = () => {
         {!loading && amenities.length >= 0 && (
           <div>
             <Bread current={"AMENIDADES"} />
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <button
+                type="button"
+                className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                onClick={() => setModalVisible(true)}
+              >
+                CADASTRAR
+              </button>
+
+              <div className="mt-3">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Filtrar por nome..."
+                  className="form-control shadow"
+                  style={{ width: "18ch" }}
+                />
+              </div>
+            </div>
             <CreateAmenityModal
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
               fetchAmenities={() => dispatch(fetchAmenities())}
             />
-            <div className="mt-3">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Filtrar por nome..."
-                className="form-control shadow"
-                style={{ width: "18ch" }}
-              />
-            </div>
           </div>
         )}
 
@@ -107,7 +113,9 @@ const Amenity = () => {
               <thead>
                 <tr>
                   <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">Ações</th>
+                  <th className="text-center table-primary text-light">
+                    Ações
+                  </th>
                 </tr>
               </thead>
               <tbody>

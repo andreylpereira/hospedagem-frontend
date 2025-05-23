@@ -175,13 +175,15 @@ const RealTime = () => {
                       <h5 className="mb-0 fw-bold text-uppercase">
                         {accommodation.nome}
                       </h5>
-                      <span
-                        className={`badge ${
-                          isReserved ? "bg-danger" : "bg-success"
-                        } ms-3 cursor-none`}
-                      >
-                        {isReserved ? "Ocupado" : "Disponível"}
-                      </span>
+                      <div className="d-flex align-items-center">
+                        <span
+                          className={`badge ${
+                            isReserved ? "bg-danger" : "bg-success"
+                          } ms-3 cursor-none`}
+                        >
+                          {isReserved ? "Ocupado" : "Disponível"}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="card-body pt-0 flex-grow-1">
