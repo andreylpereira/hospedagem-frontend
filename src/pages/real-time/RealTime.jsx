@@ -13,6 +13,7 @@ import AmenidadesList from "../../components/amenityList/AmenityList";
 const RealTime = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+    const [timestamp, setTimestamp] = useState(Date.now());
 
   const { accommodations, loading, error } = useSelector(
     (state) => state.accommodations
