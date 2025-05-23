@@ -22,7 +22,7 @@ img {
 }
 
 .background {
-  background: url('./../../assets/wallpaper.png');
+  background: url('./../assets/wallpaper.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
