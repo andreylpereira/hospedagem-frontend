@@ -17,7 +17,7 @@ const Reservation = () => {
   );
 
   const location = useLocation();
-  const { accommodationId, startDate } = location.state || {};
+  const { accommodationId, startDate, accommodation } = location.state || {};
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
@@ -79,6 +79,8 @@ const Reservation = () => {
   return (
     <div className="container user-select-none">
       <Bread current={"RESERVAS"} />
+
+      { accommodation.nome }
       <div className="d-flex justify-content-start mb-2">
         <button
           className="btn btn-primary fw-bold bg-gradient rounded shadow"

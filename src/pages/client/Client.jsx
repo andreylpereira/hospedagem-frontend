@@ -23,7 +23,7 @@ const Client = () => {
       const cpfStr = String(value).replace(/\D/g, "");
 
       if (cpfStr.length === 11) {
-        return cpfStr.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.XXX-XX");
+        return cpfStr.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.***-**");
       }
     }
 

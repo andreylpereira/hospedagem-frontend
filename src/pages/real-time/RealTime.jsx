@@ -53,12 +53,12 @@ const RealTime = () => {
     fetchReservedAccommodations();
   }, [date]);
 
-  const handleNavigateToReservations = (accommodationId, dataInicio) => {
+  const handleNavigateToReservations = (accommodationId, dataInicio,accommodation) => {
     const startDate = dataInicio
       ? dataInicio
       : new Date().toISOString().slice(0, 19);
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate },
+      state: { accommodationId, startDate, accommodation},
     });
   };
 
@@ -219,7 +219,8 @@ const RealTime = () => {
                             ? null
                             : handleNavigateToReservations(
                                 accommodation.id,
-                                accommodation.dataInicio
+                                accommodation.dataInicio,
+                                accommodation
                               )
                         }
                         disabled={isReserved}
