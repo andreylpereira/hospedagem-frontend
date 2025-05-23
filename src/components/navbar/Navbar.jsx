@@ -105,7 +105,7 @@ const Navbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        PAINEL-CONTROLE
+                        PAINEL DE CONTROLE
                       </Link>
                       <ul
                         className="dropdown-menu bg-primary bg-gradient"

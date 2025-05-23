@@ -27,35 +27,32 @@ const RealTime = () => {
     return date.toLocaleDateString("pt-BR");
   };
 
-  useEffect(() => {
-    dispatch(fetchAccommodations());
+useEffect(() => {
+    const updateData = async () => {
+      await dispatch(fetchAccommodations());
 
-    const intervalId = setInterval(() => {
-      dispatch(fetchAccommodations());
-    }, 10000);
-
-    return () => clearInterval(intervalId);
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchReservedAccommodations = async () => {
-      const reserved = await realTimeService(date);
-
+      const reserved = await realTimeService(new Date().toISOString().slice(0, 19));
       const reservasFiltradas = reserved.filter(
         (reserva) =>
           reserva.reservaStatus !== "CANCELADO" &&
           reserva.reservaStatus !== "CONCLUIDO"
       );
-      const reservedIds = reservasFiltradas.map(
-        (reservation) => reservation.acomodacaoId
+      const reservedIds = reservasFiltradas.map((r) => r.acomodacaoId);
+
+      setReservedAccommodations((prev) =>
+        isEqual(prev, reservedIds) ? prev : reservedIds
       );
-      if (!isEqual(reservedIds, reservedAccommodations)) {
-        setReservedAccommodations(reservedIds);
-      }
     };
 
-    fetchReservedAccommodations();
-  }, [date]);
+    updateData();
+
+    const intervalId = setInterval(() => {
+      setTimestamp(Date.now());
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  }, [dispatch, timestamp]);
+
 
   const handleNavigateToReservations = (
     accommodationId,
