@@ -241,14 +241,14 @@ const Reservation = () => {
             <table className="table table-striped table-bordered shadow">
               <thead>
                 <tr>
-                  <th>Data Início</th>
-                  <th>Data Fim</th>
-                  <th>Cliente</th>
-                  <th>Telefone</th>
-                  <th>Email</th>
-                  <th>Valor Total</th>
-                  <th>Status</th>
-                  <th>Ações</th>
+                  <th className="text-center table-info text-light">Data Início</th>
+                  <th className="text-center table-info text-light">Data Fim</th>
+                  <th className="text-center table-info text-light">Cliente</th>
+                  <th className="text-center table-info text-light">Telefone</th>
+                  <th className="text-center table-info text-light">Email</th>
+                  <th className="text-center table-info text-light">Valor Total</th>
+                  <th className="text-center table-info text-light">Status</th>
+                  <th className="text-center table-info text-light">Ações</th>
                 </tr>
               </thead>
               <tbody>
