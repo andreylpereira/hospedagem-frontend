@@ -36,11 +36,12 @@ const Accommodation = () => {
   const handleNavigateToReservations = (
     accommodationId,
     dateStart,
-    nameAccommodation
+    nameAccommodation,
+    accommodation
   ) => {
     const startDate = dateStart ? dateStart : getCurrentDateTime();
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate, nameAccommodation },
+      state: { accommodationId, startDate, nameAccommodation, accommodation  },
     });
   };
 
@@ -148,7 +149,8 @@ const Accommodation = () => {
                                 handleNavigateToReservations(
                                   accommodation.id,
                                   accommodation.dataInicio,
-                                  accommodation.nome
+                                  accommodation.nome,
+                                  accommodation
                                 )
                               }
                             >
