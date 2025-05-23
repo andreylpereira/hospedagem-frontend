@@ -20,14 +20,11 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const isEqual = JSON.stringify(newAccommodations) === JSON.stringify(currentAccommodations);
 
     if (!isEqual) {
-      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST }); 
+      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
       dispatch({
         type: FETCH_ACCOMMODATIONS_SUCCESS,
         payload: newAccommodations,
       });
-    } else {
-      
-      dispatch({ type: FETCH_ACCOMMODATIONS_SUCCESS, payload: currentAccommodations });
     }
   } catch (error) {
     dispatch({
@@ -36,6 +33,7 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     });
   }
 };
+
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {
