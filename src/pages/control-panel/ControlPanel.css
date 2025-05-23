@@ -1,5 +1,8 @@
 body {
-  background: linear-gradient(135deg, #1a1a1a, #343434, #5a5a5a);
+  background: linear-gradient(135deg, #101010, #1a1a1a, #222222);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .container {
@@ -10,6 +13,10 @@ body {
 table {
   width: 100%;
   margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+.card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 th,
