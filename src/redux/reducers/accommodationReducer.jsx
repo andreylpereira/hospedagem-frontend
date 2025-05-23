@@ -29,11 +29,10 @@ const accommodationReducer = (state = initialState, action) => {
       };
 
     case FETCH_ACCOMMODATIONS_SUCCESS:
-      if (
-        JSON.stringify(state.accommodations) === JSON.stringify(action.payload)
-      ) {
+      if (isEqual(state.accommodations, action.payload)) {
         return state;
       }
+
       return {
         ...state,
         accommodations: action.payload,

@@ -15,25 +15,30 @@ import {
 } from "../../services/accommodationService.jsx";
 
 export const fetchAccommodations = () => async (dispatch, getState) => {
-  dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
-
   try {
-    const newAccommodations = await getAccommodations();
     const currentAccommodations = getState().accommodations.accommodations;
+    const newAccommodationsRaw = await getAccommodations();
 
-    const isSame = isEqual(newAccommodations, currentAccommodations);
+    const normalize = (accs) =>
+      accs.map((acc) => ({
+        ...acc,
+        amenidades: acc.amenidades?.slice().sort(),
+      }));
+
+    const currentNormalized = normalize(currentAccommodations);
+    const newNormalized = normalize(newAccommodationsRaw);
+
+    const isSame = isEqual(currentNormalized, newNormalized);
 
     if (!isSame) {
+      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+
       dispatch({
         type: FETCH_ACCOMMODATIONS_SUCCESS,
-        payload: newAccommodations,
-      });
-    } else {
-      dispatch({
-        type: FETCH_ACCOMMODATIONS_SUCCESS,
-        payload: currentAccommodations,
+        payload: newAccommodationsRaw,
       });
     }
+
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
@@ -41,6 +46,7 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     });
   }
 };
+
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {
