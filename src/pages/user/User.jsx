@@ -170,19 +170,19 @@ const User = () => {
                 containerClassName={"pagination justify-content-center"}
                 pageClassName={"page-item"}
                 pageLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 previousClassName={"page-item"}
                 previousLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 nextClassName={"page-item"}
                 nextLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 breakClassName={"page-item"}
                 breakLinkClassName={
-                  "page-link bg-light text-primary border-primary"
+                  "page-link text-primary border-primary"
                 }
                 activeClassName={"active"}
                 activeLinkClassName={"bg-primary text-white border-primary"}

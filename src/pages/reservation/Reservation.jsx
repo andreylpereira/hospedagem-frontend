@@ -80,7 +80,118 @@ const Reservation = () => {
     <div className="container user-select-none">
       <Bread current={"RESERVAS"} />
 
-      { accommodation.nome }
+      <div className="d-flex justify-content-center my-4 mt-4 mb-2">
+        <div
+          className="card shadow d-flex flex-row"
+          style={{ maxWidth: "900px", width: "100%" }}
+          key={accommodation.id}
+        >
+          <img
+            className={`${
+              accommodation.contentType === null
+                ? "cursor-none"
+                : "cursor-pointer"
+            }`}
+            style={{
+              width: "300px",
+              height: "100%",
+              objectFit: accommodation.base64Image ? "cover" : "contain",
+              borderTopLeftRadius: "0.25rem",
+              borderBottomLeftRadius: "0.25rem",
+            }}
+            alt="Imagem"
+            src={
+              accommodation.base64Image
+                ? `data:${accommodation.contentType};base64,${accommodation.base64Image}`
+                : semFoto
+            }
+            onClick={() => handleOpenPhotoModal(accommodation)}
+          />
+
+          <div className="d-flex flex-column flex-grow-1 p-3">
+            <div className="d-flex justify-content-between align-items-center mb-2">
+              <h5 className="mb-0 fw-bold text-uppercase">
+                {accommodation.nome}
+              </h5>
+              <span
+                className={`badge ${
+                  isReserved ? "bg-danger" : "bg-success"
+                } ms-3 cursor-none`}
+              >
+                {isReserved ? "Ocupado" : "Disponível"}
+              </span>
+            </div>
+
+            <div className="mb-2">
+              <label>
+                <strong>Descrição</strong>
+              </label>
+              <p className="mb-0">{accommodation.descricao}</p>
+            </div>
+
+            <div className="d-flex justify-content-between mb-2">
+              <div>
+                <label>
+                  <strong>Capacidade</strong>
+                </label>
+                <p className="mb-0">{accommodation.capacidade} pessoas</p>
+              </div>
+              <div>
+                <label>
+                  <strong>Preço</strong>
+                </label>
+                <p className="mb-0">
+                  {accommodation.preco?.toLocaleString("pt-br", {
+                    style: "currency",
+                    currency: "BRL",
+                  }) || "Preço não disponível"}
+                </p>
+              </div>
+            </div>
+
+            {accommodation.amenidades && accommodation.amenidades.length > 0 ? (
+              <div className="mb-2">
+                <label>
+                  <strong>Amenidades</strong>
+                </label>
+                <div className="flex-wrap d-flex">
+                  {accommodation.amenidades.map((amenidade) => (
+                    <span
+                      key={amenidade.id}
+                      className="badge bg-info me-2 mb-1"
+                    >
+                      {amenidade.nome}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="alert alert-primary p-1" role="alert">
+                Acomodação sem amenidades.
+              </div>
+            )}
+
+            <div className="mt-auto">
+              <button
+                className="btn btn-primary w-100 shadow"
+                onClick={() =>
+                  isReserved
+                    ? null
+                    : handleNavigateToReservations(
+                        accommodation.id,
+                        accommodation.dataInicio,
+                        accommodation
+                      )
+                }
+                disabled={isReserved}
+              >
+                Reservar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="d-flex justify-content-start mb-2">
         <button
           className="btn btn-primary fw-bold bg-gradient rounded shadow"
