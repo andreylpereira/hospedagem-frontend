@@ -19,11 +19,20 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const currentAccommodations = getState().accommodations.accommodations;
     const newAccommodationsRaw = await getAccommodations();
 
-    const normalize = (accs) =>
-      accs.map((acc) => ({
-        ...acc,
-        amenidades: acc.amenidades?.slice().sort(),
-      }));
+const normalize = (accommodations) =>
+  accommodations.map((accommodation) => ({
+    id: accommodation.id,
+    nome: accommodation.nome,
+    descricao: accommodation.descricao,
+    capacidade: accommodation.capacidade,
+    preco: accommodation.preco,
+    habilitado: accommodation.habilitado,
+
+    amenidades: accommodation.amenidades
+      ?.map((a) => a.nome)
+      .sort(),
+  }));
+
 
     const currentNormalized = normalize(currentAccommodations);
     const newNormalized = normalize(newAccommodationsRaw);

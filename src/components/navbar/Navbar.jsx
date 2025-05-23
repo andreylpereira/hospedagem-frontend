@@ -134,9 +134,9 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className="ms-auto">
+          <div className="ms-auto d-flex align-items-center gap-2">
             <Link
-              className="text-white"
+              className="nav-link text-white"
               onClick={handleOpenChangePasswordModal}
             >
               ALTERAR SENHA{" "}
