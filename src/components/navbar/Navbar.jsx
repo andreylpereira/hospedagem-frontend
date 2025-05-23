@@ -114,17 +114,17 @@ const Navbar = () => {
                         <li>
                           <Link
                             className="dropdown-item text-white"
-                            to="/painel/dashboard"
+                            to="/painel/usuarios"
                           >
-                            DASHBOARD
+                            USUÁRIOS
                           </Link>
                         </li>
                         <li>
                           <Link
                             className="dropdown-item text-white"
-                            to="/painel/usuarios"
+                            to="/painel/dashboard"
                           >
-                            USUÁRIOS
+                            DASHBOARD
                           </Link>
                         </li>
                       </ul>
@@ -135,6 +135,12 @@ const Navbar = () => {
             </div>
           </div>
           <div className="ms-auto">
+            <Link
+              className="text-white"
+              onClick={handleOpenChangePasswordModal}
+            >
+              ALTERAR SENHA{" "}
+            </Link>
             <button
               className="btn btn-outline-light bg-gradient rounded shadow"
               onClick={logout}
@@ -144,9 +150,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <Link className="text-white" onClick={handleOpenChangePasswordModal}>
-        ALTERAR SENHA{" "}
-      </Link>
       <ChangePasswordModal
         isVisible={modalPasswordVisible}
         onClose={handleCloseChangePasswordModal}

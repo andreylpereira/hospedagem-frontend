@@ -7,6 +7,7 @@ import PhotoModal from "../../components/photo-modal/PhotoModal";
 import "./RealTime.css";
 import semFoto from "./../../assets/semFoto.png";
 import Bread from "../../components/bread/Bread";
+import AmenidadesList from "../../components/amenityList/AmenityList";
 
 const RealTime = () => {
   const dispatch = useDispatch();
@@ -53,12 +54,16 @@ const RealTime = () => {
     fetchReservedAccommodations();
   }, [date]);
 
-  const handleNavigateToReservations = (accommodationId, dataInicio,accommodation) => {
+  const handleNavigateToReservations = (
+    accommodationId,
+    dataInicio,
+    accommodation
+  ) => {
     const startDate = dataInicio
       ? dataInicio
       : new Date().toISOString().slice(0, 19);
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate, accommodation},
+      state: { accommodationId, startDate, accommodation },
     });
   };
 
@@ -74,11 +79,10 @@ const RealTime = () => {
   };
 
   useEffect(() => {
-  if (photo) {
-    setPhotoModalVisible(true);
-  }
-}, [photo]);
-
+    if (photo) {
+      setPhotoModalVisible(true);
+    }
+  }, [photo]);
 
   return (
     <div className="container user-select-none">
@@ -194,28 +198,7 @@ const RealTime = () => {
                         </div>
                       </div>
 
-                      {accommodation.amenidades &&
-                      accommodation.amenidades.length > 0 ? (
-                        <div>
-                          <label>
-                            <strong>Amenidades</strong>
-                          </label>
-                          <div>
-                            {accommodation.amenidades.map((amenidade) => (
-                              <span
-                                key={amenidade.id}
-                                className="badge bg-info me-2"
-                              >
-                                {amenidade.nome}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="alert alert-primary" role="alert">
-                          Acomodação sem amenidades.
-                        </div>
-                      )}
+                      <AmenidadesList amenidades={accommodation.amenidades} />
                     </div>
 
                     <div className="card-footer bg-white d-flex justify-content-between border-0">

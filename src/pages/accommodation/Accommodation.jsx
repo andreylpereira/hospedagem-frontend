@@ -8,6 +8,7 @@ import { fetchAccommodations } from "../../redux/actions/accommodationActions";
 import semFoto from "./../../assets/semFoto.png";
 import "./Accommodation.css";
 import Bread from "../../components/bread/Bread";
+import AmenidadesList from "../../components/amenityList/AmenityList";
 
 const Accommodation = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -191,28 +192,7 @@ const Accommodation = () => {
                         </div>
                       </div>
 
-                      {accommodation.amenidades &&
-                      accommodation.amenidades.length > 0 ? (
-                        <div>
-                          <label>
-                            <strong>Amenidades</strong>
-                          </label>
-                          <div>
-                            {accommodation.amenidades.map((amenidade) => (
-                              <span
-                                key={amenidade.id}
-                                className="badge bg-info me-2"
-                              >
-                                {amenidade.nome}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="alert alert-primary" role="alert">
-                          Acomodação sem amenidades.
-                        </div>
-                      )}
+              <AmenidadesList amenidades={accommodation.amenidades} />
                     </div>
                   </div>
                 </div>

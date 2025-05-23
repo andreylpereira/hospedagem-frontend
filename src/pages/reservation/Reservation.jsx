@@ -11,6 +11,7 @@ import { ptBR } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Reservation.css";
 import semFoto from "./../../assets/semFoto.png";
+import AmenidadesList from "../../components/amenityList/AmenityList";
 
 const Reservation = () => {
   const dispatch = useDispatch();
@@ -155,27 +156,7 @@ const Reservation = () => {
               </div>
             </div>
 
-            {accommodation.amenidades && accommodation.amenidades.length > 0 ? (
-              <div className="mb-2">
-                <label>
-                  <strong>Amenidades</strong>
-                </label>
-                <div className="flex-wrap d-flex">
-                  {accommodation.amenidades.map((amenidade) => (
-                    <span
-                      key={amenidade.id}
-                      className="badge bg-info me-2 mb-1"
-                    >
-                      {amenidade.nome}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div className="alert alert-primary p-1" role="alert">
-                Acomodação sem amenidades.
-              </div>
-            )}
+            <AmenidadesList amenidades={accommodation.amenidades} />
           </div>
         </div>
       </div>
@@ -217,7 +198,6 @@ const Reservation = () => {
         onClose={handleClosePhotoModal}
         photo={`data:${accommodation.contentType};base64,${accommodation.base64Image}`}
       />
-     
 
       {loading && photo && (
         <div
