@@ -1,3 +1,5 @@
+import isEqual from 'lodash/isEqual';
+
 import {
   FETCH_ACCOMMODATIONS_REQUEST,
   FETCH_ACCOMMODATIONS_SUCCESS,
