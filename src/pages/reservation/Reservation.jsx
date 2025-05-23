@@ -25,16 +25,16 @@ const Reservation = () => {
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
 
-    const [photo, setPhoto] = useState(null);
-    const [photoModalVisible, setPhotoModalVisible] = useState(false);
-    const handleClosePhotoModal = () => setPhotoModalVisible(false);
-    const handleOpenPhotoModal = (accommodation) => {
-      if (accommodation.contentType && accommodation.base64Image) {
-        const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
-        setPhoto(imageUrl);
-        setPhotoModalVisible(true);
-      }
-    };
+  const [photo, setPhoto] = useState(null);
+  const [photoModalVisible, setPhotoModalVisible] = useState(false);
+  const handleClosePhotoModal = () => setPhotoModalVisible(false);
+  const handleOpenPhotoModal = (accommodation) => {
+    if (accommodation.contentType && accommodation.base64Image) {
+      const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
+      setPhoto(imageUrl);
+      setPhotoModalVisible(true);
+    }
+  };
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const initialDate = startDate ? new Date(`${startDate}-01`) : new Date();
@@ -106,8 +106,8 @@ const Reservation = () => {
                 : "cursor-pointer"
             }`}
             style={{
-              width: "300px",
-              height: "100%",
+              width: "250px",
+              height: "250px",
               objectFit: accommodation.base64Image ? "cover" : "contain",
               borderTopLeftRadius: "0.25rem",
               borderBottomLeftRadius: "0.25rem",
@@ -306,6 +306,13 @@ const Reservation = () => {
         <div className="alert alert-warning mt-3" role="alert">
           Não há reservas para este período.
         </div>
+      )}
+      {photoModalVisible && (
+        <PhotoModal
+          image={photo}
+          isVisible={photoModalVisible}
+          onClose={handleClosePhotoModal}
+        />
       )}
     </div>
   );
