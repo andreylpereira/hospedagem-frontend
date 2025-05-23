@@ -61,9 +61,7 @@ const RealTime = () => {
       );
       const reservedIds = reservasFiltradas.map((r) => r.acomodacaoId);
 
-      setReservedAccommodations((prev) =>
-        isEqual(prev, reservedIds) ? prev : reservedIds
-      );
+       setReservedAccommodations(reservedIds);
     };
 
     updateData();
