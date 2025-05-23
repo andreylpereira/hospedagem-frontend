@@ -86,7 +86,6 @@ const Reservation = () => {
     const handleOpenPhotoModal = (accommodation) => {
     if (accommodation.contentType && accommodation.base64Image) {
       const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
-      console.log(imageUrl);
       setPhoto(imageUrl);
       setPhotoModalVisible(true);
     }

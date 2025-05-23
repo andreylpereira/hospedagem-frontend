@@ -73,6 +73,13 @@ const RealTime = () => {
     }
   };
 
+  useEffect(() => {
+  if (photo) {
+    setPhotoModalVisible(true);
+  }
+}, [photo]);
+
+
   return (
     <div className="container user-select-none">
       <Bread current={"TEMPO REAL"} />
