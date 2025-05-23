@@ -1,6 +1,6 @@
 #user-svg {
-    fill: var(--bs-primary);
-    stroke: var(--bs-primary);
+    fill: var(--bs-info);
+    stroke: var(--bs-info);
   }
 
 .page-height {

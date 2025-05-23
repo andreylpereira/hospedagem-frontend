@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top user-select-none shadow">
+      <nav className="navbar navbar-expand-lg navbar-light bg-info bg-gradient fixed-top user-select-none shadow">
         <div className="container-fluid">
           <div className="d-flex align-items-center">
             <div className="hstack gap-3">
@@ -61,7 +61,7 @@ const Navbar = () => {
                       MENU
                     </Link>
                     <ul
-                      className="dropdown-menu bg-primary bg-gradient"
+                      className="dropdown-menu bg-info bg-gradient"
                       aria-labelledby="navbarDropdownMenuLink"
                     >
                       <li>
@@ -108,7 +108,7 @@ const Navbar = () => {
                         PAINEL DE CONTROLE
                       </Link>
                       <ul
-                        className="dropdown-menu bg-primary bg-gradient"
+                        className="dropdown-menu bg-info bg-gradient"
                         aria-labelledby="navbarDropdownMenuLink"
                       >
                         <li>

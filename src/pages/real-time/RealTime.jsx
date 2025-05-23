@@ -22,7 +22,7 @@ const RealTime = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 4;
 
   const { accommodations, loading, error } = useSelector(
     (state) => state.accommodations
@@ -122,7 +122,7 @@ const RealTime = () => {
           className="d-flex justify-content-center align-items-center"
           style={{ height: "calc(70vh - 50px)" }}
         >
-          <div className="spinner-border text-primary" role="status">
+          <div className="spinner-border text-info" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -142,7 +142,7 @@ const RealTime = () => {
 
       {!loading && currentItems.length > 0 && (
         <>
-          <div className="row g-4 justify-content-center mb-4 mt-2">
+          <div className="row g-4 justify-content-center mb-4">
             {currentItems.map((accommodation) => {
               const isReserved = reservedAccommodations.includes(accommodation.id);
 
@@ -219,7 +219,7 @@ const RealTime = () => {
 
                     <div className="card-footer bg-white d-flex justify-content-between border-0">
                       <button
-                        className="btn btn-primary w-100 shadow"
+                        className="btn btn-info w-100 shadow"
                         onClick={() =>
                           isReserved
                             ? null
@@ -252,15 +252,15 @@ const RealTime = () => {
               pageRangeDisplayed={5}
               containerClassName={"pagination justify-content-center"}
               pageClassName={"page-item"}
-              pageLinkClassName={"page-link text-primary border-primary"}
+              pageLinkClassName={"page-link text-info border-info"}
               previousClassName={"page-item"}
-              previousLinkClassName={"page-link text-primary border-primary"}
+              previousLinkClassName={"page-link text-info border-info"}
               nextClassName={"page-item"}
-              nextLinkClassName={"page-link text-primary border-primary"}
+              nextLinkClassName={"page-link text-info border-info"}
               breakClassName={"page-item"}
-              breakLinkClassName={"page-link text-primary border-primary"}
+              breakLinkClassName={"page-link text-info border-info"}
               activeClassName={"active"}
-              activeLinkClassName={"bg-primary text-white border-primary"}
+              activeLinkClassName={"bg-info text-white border-info"}
             />
           </div>
         </>

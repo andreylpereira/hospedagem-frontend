@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-primary bg-gradient d-flex justify-content-center align-items-center page-height  user-select-none">
+    <div className="bg-dark bg-gradient d-flex justify-content-center align-items-center page-height  user-select-none">
       <div className="d-flex">
         <div className="row justify-content-center card-width">
           <div>
@@ -95,7 +95,7 @@ const Login = () => {
                     {isLoading ? (
                       <div className="d-flex justify-content-center align-items-center mt-3">
                         <div
-                          className="spinner-border text-primary"
+                          className="spinner-border text-info"
                           role="status"
                         >
                           <span className="visually-hidden">Loading...</span>
@@ -104,7 +104,7 @@ const Login = () => {
                     ) : (
                       <button
                         type="submit"
-                        className="btn btn-primary w-100 mt-2 bg-gradient rounded fw-bold shadow"
+                        className="btn btn-info w-100 mt-2 bg-gradient rounded fw-bold shadow"
                       >
                         <div>ENTRAR</div>
                       </button>

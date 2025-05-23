@@ -159,7 +159,7 @@ const EditClientModal = ({
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-primary bg-gradient rounded fw-bold shadow"
+                    className="btn btn-info bg-gradient rounded fw-bold shadow"
                   >
                     Salvar
                   </button>

@@ -171,7 +171,7 @@ const Reservation = () => {
 
       <div className="d-flex justify-content-between align-items-center my-3">
         <button
-          className="btn btn-primary fw-bold bg-gradient rounded shadow"
+          className="btn btn-info fw-bold bg-gradient rounded shadow"
           onClick={() => setModalVisible(true)}
         >
           CADASTRAR
@@ -223,7 +223,7 @@ const Reservation = () => {
           className="d-flex justify-content-center align-items-center"
           style={{ height: "calc(70vh - 50px)" }}
         >
-          <div className="spinner-border text-primary" role="status">
+          <div className="spinner-border text-info" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -271,7 +271,7 @@ const Reservation = () => {
                     </td>
                     <td>
                       <button
-                        className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                        className="btn btn-info btn-sm fw-bold bg-gradient rounded shadow"
                         onClick={() => handleEditClick(reservation.reservaId)}
                         disabled={
                           reservation.reservaStatus === "CONCLUIDO" ||
@@ -299,15 +299,15 @@ const Reservation = () => {
               pageRangeDisplayed={5}
               containerClassName={"pagination justify-content-center"}
               pageClassName={"page-item"}
-              pageLinkClassName={"page-link text-primary border-primary"}
+              pageLinkClassName={"page-link text-info border-info"}
               previousClassName={"page-item"}
-              previousLinkClassName={"page-link text-primary border-primary"}
+              previousLinkClassName={"page-link text-info border-info"}
               nextClassName={"page-item"}
-              nextLinkClassName={"page-link text-primary border-primary"}
+              nextLinkClassName={"page-link text-info border-info"}
               breakClassName={"page-item"}
-              breakLinkClassName={"page-link text-primary border-primary"}
+              breakLinkClassName={"page-link text-info border-info"}
               activeClassName={"active"}
-              activeLinkClassName={"bg-primary text-white border-primary"}
+              activeLinkClassName={"bg-info text-white border-info"}
             />
           </div>
         </>

@@ -238,7 +238,7 @@ const CreateAccommodationModal = ({
                       ))
                     ) : (
                       <div
-                        className="spinner-border text-primary"
+                        className="spinner-border text-info"
                         role="status"
                       >
                         <span className="visually-hidden">Loading...</span>
@@ -277,7 +277,7 @@ const CreateAccommodationModal = ({
                   </button>
                   <button
                     type="submit"
-                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                    className="btn btn-info fw-bold bg-gradient rounded shadow"
                   >
                     Salvar
                   </button>

@@ -13,7 +13,7 @@ const AmenidadesList = ({ amenidades }) => {
 
   if (!amenidades || amenidades.length === 0) {
     return (
-      <div className="alert alert-primary" role="alert">
+      <div className="alert alert-info" role="alert">
         Acomodação sem amenidades.
       </div>
     );

@@ -1,5 +1,7 @@
 body {
-  background-color: rgb(194, 210, 233) !important;
+  
+  background-color: linear-gradient(135deg, #0b1d36, #3b0f4d) !important;
+  /* background-color: rgb(194, 210, 233) !important; */
 }
 
 .container {

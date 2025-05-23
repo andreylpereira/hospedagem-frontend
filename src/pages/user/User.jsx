@@ -68,7 +68,7 @@ const User = () => {
             className="d-flex justify-content-center align-items-center"
             style={{ height: "calc(70vh - 50px)" }}
           >
-            <div className="spinner-border text-primary" role="status">
+            <div className="spinner-border text-info" role="status">
               <span className="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -85,7 +85,7 @@ const User = () => {
             <div className="d-flex justify-content-between align-items-center my-3">
               <button
                 type="button"
-                className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                className="btn btn-info fw-bold bg-gradient rounded shadow"
                 onClick={() => setModalVisible(true)}
               >
                 CADASTRAR
@@ -111,17 +111,17 @@ const User = () => {
             <table className="table table-striped table-bordered shadow mt-3">
               <thead>
                 <tr>
-                  <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">
+                  <th className="text-center table-info text-light">Nome</th>
+                  <th className="text-center table-info text-light">
                     Perfil
                   </th>
-                  <th className="text-center table-primary text-light">
+                  <th className="text-center table-info text-light">
                     Email
                   </th>
-                  <th className="text-center table-primary text-light">
+                  <th className="text-center table-info text-light">
                     Habilitado
                   </th>
-                  <th className="text-center table-primary text-light">
+                  <th className="text-center table-info text-light">
                     Ações
                   </th>
                 </tr>
@@ -136,7 +136,7 @@ const User = () => {
                     <td>
                       {user.id !== 1 ? (
                         <button
-                          className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                          className="btn btn-info btn-sm fw-bold bg-gradient rounded shadow"
                           onClick={() =>
                             updateAuthorization(
                               user.id,
@@ -148,7 +148,7 @@ const User = () => {
                           <i className="fas fa-user-shield"></i>
                         </button>
                       ) : (
-                        <button className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow disabled">
+                        <button className="btn btn-info btn-sm fw-bold bg-gradient rounded shadow disabled">
                           <i className="fas fa-user-shield shadow"></i>
                         </button>
                       )}
@@ -170,15 +170,15 @@ const User = () => {
                 pageRangeDisplayed={5}
                 containerClassName={"pagination justify-content-center"}
                 pageClassName={"page-item"}
-                pageLinkClassName={"page-link text-primary border-primary"}
+                pageLinkClassName={"page-link text-info border-info"}
                 previousClassName={"page-item"}
-                previousLinkClassName={"page-link text-primary border-primary"}
+                previousLinkClassName={"page-link text-info border-info"}
                 nextClassName={"page-item"}
-                nextLinkClassName={"page-link text-primary border-primary"}
+                nextLinkClassName={"page-link text-info border-info"}
                 breakClassName={"page-item"}
-                breakLinkClassName={"page-link text-primary border-primary"}
+                breakLinkClassName={"page-link text-info border-info"}
                 activeClassName={"active"}
-                activeLinkClassName={"bg-primary text-white border-primary"}
+                activeLinkClassName={"bg-info text-white border-info"}
               />
             </div>
           </div>

@@ -153,7 +153,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
+                  <button type="submit" className="btn btn-info fw-bold bg-gradient rounded shadow">
                     Salvar
                   </button>
                 </div>

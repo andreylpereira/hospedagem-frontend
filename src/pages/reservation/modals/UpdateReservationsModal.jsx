@@ -261,7 +261,7 @@ const UpdateReservationModal = ({
                 </button>
                 <button
                   type="submit"
-                  className="btn btn-primary fw-bold shadow"
+                  className="btn btn-info fw-bold shadow"
                 >
                   Salvar
                 </button>
