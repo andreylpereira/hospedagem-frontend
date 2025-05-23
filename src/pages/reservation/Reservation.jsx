@@ -4,11 +4,13 @@ import { useLocation } from "react-router-dom";
 import { fetchReservations } from "../../redux/actions/reservationActions";
 import CreateReservationModal from "./modals/CreateReservationModal";
 import UpdateReservationModal from "./modals/UpdateReservationsModal";
+import PhotoModal from "../../components/photo-modal/PhotoModal";
 import Bread from "../../components/bread/Bread";
 import DatePicker from "react-datepicker";
 import { ptBR } from "date-fns/locale";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Reservation.css";
+import semFoto from "./../../assets/semFoto.png";
 
 const Reservation = () => {
   const dispatch = useDispatch();
@@ -22,6 +24,17 @@ const Reservation = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [selectedReservationId, setSelectedReservationId] = useState(null);
+
+    const [photo, setPhoto] = useState(null);
+    const [photoModalVisible, setPhotoModalVisible] = useState(false);
+    const handleClosePhotoModal = () => setPhotoModalVisible(false);
+    const handleOpenPhotoModal = (accommodation) => {
+      if (accommodation.contentType && accommodation.base64Image) {
+        const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
+        setPhoto(imageUrl);
+        setPhotoModalVisible(true);
+      }
+    };
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const initialDate = startDate ? new Date(`${startDate}-01`) : new Date();
@@ -113,13 +126,6 @@ const Reservation = () => {
               <h5 className="mb-0 fw-bold text-uppercase">
                 {accommodation.nome}
               </h5>
-              <span
-                className={`badge ${
-                  isReserved ? "bg-danger" : "bg-success"
-                } ms-3 cursor-none`}
-              >
-                {isReserved ? "Ocupado" : "Disponível"}
-              </span>
             </div>
 
             <div className="mb-2">
@@ -170,24 +176,6 @@ const Reservation = () => {
                 Acomodação sem amenidades.
               </div>
             )}
-
-            <div className="mt-auto">
-              <button
-                className="btn btn-primary w-100 shadow"
-                onClick={() =>
-                  isReserved
-                    ? null
-                    : handleNavigateToReservations(
-                        accommodation.id,
-                        accommodation.dataInicio,
-                        accommodation
-                      )
-                }
-                disabled={isReserved}
-              >
-                Reservar
-              </button>
-            </div>
           </div>
         </div>
       </div>
