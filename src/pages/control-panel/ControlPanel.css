@@ -1,9 +1,9 @@
-body {
+/* body {
   background: linear-gradient(135deg, #101010, #1a1a1a, #222222);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-}
+} */
 
 .container {
   min-height: 100vh;

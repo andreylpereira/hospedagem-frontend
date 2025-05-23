@@ -45,7 +45,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-dark bg-gradient d-flex justify-content-center align-items-center page-height  user-select-none">
+    <div className="background d-flex justify-content-center align-items-center page-height  user-select-none">
       <div className="d-flex">
         <div className="row justify-content-center card-width">
           <div>
