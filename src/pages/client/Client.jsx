@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchClients } from "../../redux/actions/clientActions";
 import CreateClientModal from "./modals/CreateClientModal";
 import EditClientModal from "./modals/EditClientModal";
 import "./Client.css";
 import Bread from "../../components/bread/Bread";
+import ReactPaginate from "react-paginate";
 
 const Client = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [clientToEdit, setClientToEdit] = useState(null);
-  const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
 
+  const dispatch = useDispatch();
   const { clients, loading, error } = useSelector((state) => state.client);
 
   useEffect(() => {
@@ -21,13 +25,30 @@ const Client = () => {
   const cpfMask = (value) => {
     if (value) {
       const cpfStr = String(value).replace(/\D/g, "");
-
       if (cpfStr.length === 11) {
         return cpfStr.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.***-**");
       }
     }
-
     return "";
+  };
+
+  const filteredClients = useMemo(() => {
+    return clients.filter((client) =>
+      client?.nome?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [clients, searchQuery]);
+
+  const offset = currentPage * itemsPerPage;
+  const currentClients = filteredClients.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredClients.length / itemsPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0);
   };
 
   const handleEdit = (client) => {
@@ -39,7 +60,7 @@ const Client = () => {
   const handleCloseEditModal = () => setEditModalVisible(false);
 
   return (
-    <div className="container d-flex justify-content-center min-vh-100  user-select-none">
+    <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
         {!loading && clients.length >= 0 && (
           <div>
@@ -65,8 +86,20 @@ const Client = () => {
               clientToEdit={clientToEdit}
               fetchClients={() => dispatch(fetchClients())}
             />
+
+            <div className="mt-3">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Filtrar por nome..."
+                className="form-control shadow"
+                style={{ width: "18ch" }}
+              />
+            </div>
           </div>
         )}
+
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -77,34 +110,28 @@ const Client = () => {
             </div>
           </div>
         )}
+
         {error && !loading && (
           <div className="alert alert-danger mt-3" role="alert">
             {error}
           </div>
         )}
-        {!loading && clients.length > 0 && (
-          <div>
-            <table className="table table-striped table-bordered shadow">
+
+        {!loading && filteredClients.length > 0 && (
+          <>
+            <table className="table table-striped table-bordered shadow mt-3">
               <thead>
                 <tr>
                   <th className="text-center table-primary text-light">CPF</th>
                   <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">
-                    Email
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Telefone
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Endereço
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Ações
-                  </th>
+                  <th className="text-center table-primary text-light">Email</th>
+                  <th className="text-center table-primary text-light">Telefone</th>
+                  <th className="text-center table-primary text-light">Endereço</th>
+                  <th className="text-center table-primary text-light">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {clients.map((client) => (
+                {currentClients.map((client) => (
                   <tr key={client.id}>
                     <td>{cpfMask(client.cpf)}</td>
                     <td>{client.nome}</td>
@@ -123,9 +150,34 @@ const Client = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+
+            <div className="d-flex justify-content-center mt-3">
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                onPageChange={handlePageClick}
+                forcePage={currentPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link text-primary border-primary"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link text-primary border-primary"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link text-primary border-primary"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link text-primary border-primary"}
+                activeClassName={"active"}
+                activeLinkClassName={"bg-primary text-white border-primary"}
+              />
+            </div>
+          </>
         )}
-        {!loading && clients.length === 0 && !error && (
+
+        {!loading && filteredClients.length === 0 && !error && (
           <div className="alert alert-warning mt-3" role="alert">
             Não há clientes cadastrados.
           </div>

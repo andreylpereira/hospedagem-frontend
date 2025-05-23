@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CreateAccommodationModal from "./modals/CreateAccommodationModal";
@@ -9,6 +9,7 @@ import semFoto from "./../../assets/semFoto.png";
 import "./Accommodation.css";
 import Bread from "../../components/bread/Bread";
 import AmenidadesList from "../../components/amenityList/AmenityList";
+import ReactPaginate from "react-paginate";
 
 const Accommodation = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,6 +17,10 @@ const Accommodation = () => {
   const [photoModalVisible, setPhotoModalVisible] = useState(false);
   const [accommodationToEdit, setAccommodationToEdit] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const itemsPerPage = 10;
 
   const { accommodations, loading, error } = useSelector(
     (state) => state.accommodations
@@ -41,7 +46,7 @@ const Accommodation = () => {
   ) => {
     const startDate = dateStart ? dateStart : getCurrentDateTime();
     navigate("/painel/reservas", {
-      state: { accommodationId, startDate, nameAccommodation, accommodation  },
+      state: { accommodationId, startDate, nameAccommodation, accommodation },
     });
   };
 
@@ -57,6 +62,28 @@ const Accommodation = () => {
   const handleCloseEditModal = () => setEditModalVisible(false);
   const handleClosePhotoModal = () => setPhotoModalVisible(false);
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0);
+  };
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const filteredAccommodations = useMemo(() => {
+    return accommodations.filter((a) =>
+      a.nome?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [accommodations, searchQuery]);
+
+  const offset = currentPage * itemsPerPage;
+  const currentAccommodations = filteredAccommodations.slice(
+    offset,
+    offset + itemsPerPage
+  );
+  const pageCount = Math.ceil(filteredAccommodations.length / itemsPerPage);
+
   return (
     <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
@@ -65,32 +92,44 @@ const Accommodation = () => {
           onClose={handleClosePhotoModal}
           photo={photo}
         />
-        {!loading && accommodations.length >= 0 && (
-          <div>
-            <Bread current={"ACOMODAÇÕES"} />
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
-            <div className="d-flex mb-4">
-              <CreateAccommodationModal
-                isVisible={modalVisible}
-                onClose={handleCloseCreateModal}
-                fetchAccommodations={() => dispatch(fetchAccommodations())}
-              />
 
-              <EditAccommodationModal
-                isVisible={editModalVisible}
-                onClose={handleCloseEditModal}
-                accommodationToEdit={accommodationToEdit}
-                fetchAccommodations={() => dispatch(fetchAccommodations())}
+        {!loading && accommodations.length >= 0 && (
+          <>
+            <Bread current={"ACOMODAÇÕES"} />
+
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <button
+                type="button"
+                className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                onClick={() => setModalVisible(true)}
+              >
+                CADASTRAR
+              </button>
+
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Filtrar por nome..."
+                className="form-control shadow"
+                style={{ width: "22ch" }}
               />
             </div>
-          </div>
+
+            <CreateAccommodationModal
+              isVisible={modalVisible}
+              onClose={handleCloseCreateModal}
+              fetchAccommodations={() => dispatch(fetchAccommodations())}
+            />
+            <EditAccommodationModal
+              isVisible={editModalVisible}
+              onClose={handleCloseEditModal}
+              accommodationToEdit={accommodationToEdit}
+              fetchAccommodations={() => dispatch(fetchAccommodations())}
+            />
+          </>
         )}
+
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -101,15 +140,17 @@ const Accommodation = () => {
             </div>
           </div>
         )}
+
         {error && !loading && (
           <div className="alert alert-danger mt-3" role="alert">
             {error}
           </div>
         )}
-        {!loading && accommodations.length > 0 && (
+
+        {!loading && currentAccommodations.length > 0 && (
           <>
             <div className="row g-4 justify-content-center mb-4">
-              {accommodations.map((accommodation) => (
+              {currentAccommodations.map((accommodation) => (
                 <div
                   className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center"
                   key={accommodation.id}
@@ -194,15 +235,40 @@ const Accommodation = () => {
                         </div>
                       </div>
 
-              <AmenidadesList amenidades={accommodation.amenidades} />
+                      <AmenidadesList amenidades={accommodation.amenidades} />
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
+            <div className="d-flex justify-content-center mt-3">
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                onPageChange={handlePageClick}
+                forcePage={currentPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link text-primary border-primary"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link text-primary border-primary"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link text-primary border-primary"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link text-primary border-primary"}
+                activeClassName={"active"}
+                activeLinkClassName={"bg-primary text-white border-primary"}
+              />
+            </div>
           </>
         )}
-        {!loading && accommodations.length === 0 && !error && (
+
+        {!loading && filteredAccommodations.length === 0 && !error && (
           <div className="alert alert-warning mt-3" role="alert">
             Não há acomodações cadastradas.
           </div>

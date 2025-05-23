@@ -1,23 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateAmenityModal from "./modals/CreateAmenityModal";
 import { fetchAmenities } from "../../redux/actions/amenityActions";
 import EditAmenityModal from "./modals/EditAmenityModal";
 import "./Amenity.css";
 import Bread from "../../components/bread/Bread";
+import ReactPaginate from "react-paginate";
 
 const Amenity = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);
   const [amenityToEdit, setAmenityToEdit] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   const { amenities, loading, error } = useSelector((state) => state.amenity);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAmenities());
   }, [dispatch]);
+
+  const filteredAmenities = useMemo(() => {
+    return amenities.filter((amenity) =>
+      amenity.nome?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [amenities, searchQuery]);
+
+  const offset = currentPage * itemsPerPage;
+  const currentAmenities = filteredAmenities.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(filteredAmenities.length / itemsPerPage);
+
+  const handlePageClick = ({ selected }) => setCurrentPage(selected);
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0);
+  };
 
   const handleEdit = (amenity) => {
     setAmenityToEdit(amenity);
@@ -45,8 +64,19 @@ const Amenity = () => {
               onClose={handleCloseCreateModal}
               fetchAmenities={() => dispatch(fetchAmenities())}
             />
+            <div className="mt-3">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Filtrar por nome..."
+                className="form-control shadow"
+                style={{ width: "18ch" }}
+              />
+            </div>
           </div>
         )}
+
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -57,30 +87,31 @@ const Amenity = () => {
             </div>
           </div>
         )}
+
         {error && !loading && (
           <div className="alert alert-danger mt-3" role="alert">
             {error}
           </div>
         )}
-        {!loading && amenities.length > 0 && (
-          <div>
+
+        {!loading && filteredAmenities.length > 0 && (
+          <>
             <EditAmenityModal
               isVisible={editModalVisible}
               onClose={handleCloseEditModal}
               amenityToEdit={amenityToEdit}
               fetchAmenities={() => dispatch(fetchAmenities())}
             />
-            <table className="table table-striped table-bordered shadow">
+
+            <table className="table table-striped table-bordered shadow mt-3">
               <thead>
                 <tr>
                   <th className="text-center table-primary text-light">Nome</th>
-                  <th className="text-center table-primary text-light">
-                    Ações
-                  </th>
+                  <th className="text-center table-primary text-light">Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {amenities.map((amenity) => (
+                {currentAmenities.map((amenity) => (
                   <tr key={amenity.id}>
                     <td>{amenity.nome}</td>
                     <td>
@@ -95,9 +126,34 @@ const Amenity = () => {
                 ))}
               </tbody>
             </table>
-          </div>
+
+            <div className="d-flex justify-content-center mt-3">
+              <ReactPaginate
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                onPageChange={handlePageClick}
+                forcePage={currentPage}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link text-primary border-primary"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link text-primary border-primary"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link text-primary border-primary"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link text-primary border-primary"}
+                activeClassName={"active"}
+                activeLinkClassName={"bg-primary text-white border-primary"}
+              />
+            </div>
+          </>
         )}
-        {!loading && amenities.length === 0 && !error && (
+
+        {!loading && filteredAmenities.length === 0 && !error && (
           <div className="alert alert-warning mt-3" role="alert">
             Não há amenidades cadastradas.
           </div>

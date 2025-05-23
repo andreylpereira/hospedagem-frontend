@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { fetchReservations } from "../../redux/actions/reservationActions";
@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Reservation.css";
 import semFoto from "./../../assets/semFoto.png";
 import AmenidadesList from "../../components/amenityList/AmenityList";
+import ReactPaginate from "react-paginate";
 
 const Reservation = () => {
   const dispatch = useDispatch();
@@ -28,11 +29,15 @@ const Reservation = () => {
 
   const [photo, setPhoto] = useState(null);
   const [photoModalVisible, setPhotoModalVisible] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 10;
+
   const handleClosePhotoModal = () => setPhotoModalVisible(false);
 
   const [currentMonth, setCurrentMonth] = useState(() => {
     const initialDate = startDate ? new Date(`${startDate}-01`) : new Date();
-
     return isNaN(initialDate.getTime()) ? new Date() : initialDate;
   });
 
@@ -46,6 +51,19 @@ const Reservation = () => {
       dispatch(fetchReservations(accommodationId, formattedDate));
     }
   }, [dispatch, accommodationId, currentMonth]);
+
+  const filteredReservations = useMemo(() => {
+    return reservations.filter((r) =>
+      r.clienteNome?.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [reservations, searchQuery]);
+
+  const offset = currentPage * itemsPerPage;
+  const currentReservations = filteredReservations.slice(
+    offset,
+    offset + itemsPerPage
+  );
+  const pageCount = Math.ceil(filteredReservations.length / itemsPerPage);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -91,21 +109,30 @@ const Reservation = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(0);
+  };
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   return (
     <div className="container user-select-none">
       <Bread current={"RESERVAS"} />
+
       <div className="d-flex justify-content-center my-4 mt-4 mb-2">
         <div
           className="card shadow d-flex flex-row"
           style={{ maxWidth: "900px", width: "100%" }}
-          key={accommodation.id}
         >
           <img
-            className={`${
+            className={
               accommodation.contentType === null
                 ? "cursor-none"
                 : "cursor-pointer"
-            }`}
+            }
             style={{
               width: "250px",
               height: "250px",
@@ -123,51 +150,42 @@ const Reservation = () => {
           />
 
           <div className="d-flex flex-column flex-grow-1 p-3">
-            <div className="d-flex justify-content-between align-items-center mb-2">
-              <h5 className="mb-0 fw-bold text-uppercase">
-                {accommodation.nome}
-              </h5>
-            </div>
-
-            <div className="mb-2">
-              <label>
-                <strong>Descrição</strong>
-              </label>
-              <p className="mb-0">{accommodation.descricao}</p>
-            </div>
-
-            <div className="d-flex justify-content-between mb-2">
-              <div>
-                <label>
-                  <strong>Capacidade</strong>
-                </label>
-                <p className="mb-0">{accommodation.capacidade} pessoas</p>
-              </div>
-              <div>
-                <label>
-                  <strong>Preço</strong>
-                </label>
-                <p className="mb-0">
-                  {accommodation.preco?.toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  }) || "Preço não disponível"}
-                </p>
-              </div>
-            </div>
-
+            <h5 className="fw-bold text-uppercase">{accommodation.nome}</h5>
+            <p className="mb-2">
+              <strong>Descrição:</strong> {accommodation.descricao}
+            </p>
+            <p>
+              <strong>Capacidade:</strong> {accommodation.capacidade} pessoas
+            </p>
+            <p>
+              <strong>Preço:</strong>{" "}
+              {accommodation.preco?.toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL",
+              }) || "Preço não disponível"}
+            </p>
             <AmenidadesList amenidades={accommodation.amenidades} />
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-start mb-2">
+
+      <div className="d-flex justify-content-between align-items-center my-3">
         <button
           className="btn btn-primary fw-bold bg-gradient rounded shadow"
           onClick={() => setModalVisible(true)}
         >
           CADASTRAR
         </button>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Filtrar por nome do cliente..."
+          className="form-control shadow"
+          style={{ width: "22ch" }}
+        />
       </div>
+
       <div className="container-fluid d-flex justify-content-center w-25">
         <DatePicker
           className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
@@ -179,6 +197,7 @@ const Reservation = () => {
           showFullMonthYearPicker
         />
       </div>
+
       <CreateReservationModal
         accommodationId={accommodationId}
         startDate={currentMonth}
@@ -196,10 +215,10 @@ const Reservation = () => {
       <PhotoModal
         isVisible={photoModalVisible}
         onClose={handleClosePhotoModal}
-        photo={`data:${accommodation.contentType};base64,${accommodation.base64Image}`}
+        photo={photo}
       />
 
-      {loading && photo && (
+      {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ height: "calc(70vh - 50px)" }}
@@ -209,84 +228,92 @@ const Reservation = () => {
           </div>
         </div>
       )}
+
       {error && !loading && (
         <div className="alert alert-danger mt-3" role="alert">
           {error}
         </div>
       )}
-      {!loading && reservations.length > 0 && (
-        <div>
-          <div className="table-responsive mt-1">
+
+      {!loading && filteredReservations.length > 0 && (
+        <>
+          <div className="table-responsive mt-2">
             <table className="table table-striped table-bordered shadow">
               <thead>
                 <tr>
-                  <th className="text-center table-primary text-light">
-                    Data Início
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Data Fim
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Cliente
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Telefone
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Email
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Valor Total
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Status
-                  </th>
-                  <th className="text-center table-primary text-light">
-                    Ações
-                  </th>
+                  <th>Data Início</th>
+                  <th>Data Fim</th>
+                  <th>Cliente</th>
+                  <th>Telefone</th>
+                  <th>Email</th>
+                  <th>Valor Total</th>
+                  <th>Status</th>
+                  <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {reservations.map((reservation) => {
-                  const statusTexto =
-                    reservaStatusEnum[reservation.reservaStatus] ||
-                    "Status não carregado.";
-
-                  return (
-                    <tr key={reservation.reservaId}>
-                      <td>{formatDate(reservation.dataInicio)}</td>
-                      <td>{formatDate(reservation.dataFim)}</td>
-                      <td>{reservation.clienteNome}</td>
-                      <td>{reservation.clienteTelefone}</td>
-                      <td>{reservation.clienteEmail}</td>
-                      <td>
-                        {reservation.valorTotal?.toLocaleString("pt-br", {
-                          style: "currency",
-                          currency: "BRL",
-                        }) || "Valor não disponível"}
-                      </td>
-                      <td>{statusTexto}</td>
-                      <td>
-                        <button
-                          className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
-                          onClick={() => handleEditClick(reservation.reservaId)}
-                          disabled={
-                            reservation.reservaStatus == "CONCLUIDO" ||
-                            reservation.reservaStatus == "CANCELADO"
-                          }
-                        >
-                          <i className="fas fa-edit"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {currentReservations.map((reservation) => (
+                  <tr key={reservation.reservaId}>
+                    <td>{formatDate(reservation.dataInicio)}</td>
+                    <td>{formatDate(reservation.dataFim)}</td>
+                    <td>{reservation.clienteNome}</td>
+                    <td>{reservation.clienteTelefone}</td>
+                    <td>{reservation.clienteEmail}</td>
+                    <td>
+                      {reservation.valorTotal?.toLocaleString("pt-br", {
+                        style: "currency",
+                        currency: "BRL",
+                      }) || "Valor não disponível"}
+                    </td>
+                    <td>
+                      {reservaStatusEnum[reservation.reservaStatus] ||
+                        "Desconhecido"}
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-primary btn-sm fw-bold bg-gradient rounded shadow"
+                        onClick={() => handleEditClick(reservation.reservaId)}
+                        disabled={
+                          reservation.reservaStatus === "CONCLUIDO" ||
+                          reservation.reservaStatus === "CANCELADO"
+                        }
+                      >
+                        <i className="fas fa-edit"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-        </div>
+
+          <div className="d-flex justify-content-center mt-3">
+            <ReactPaginate
+              previousLabel={"<"}
+              nextLabel={">"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              onPageChange={handlePageClick}
+              forcePage={currentPage}
+              marginPagesDisplayed={2}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination justify-content-center"}
+              pageClassName={"page-item"}
+              pageLinkClassName={"page-link text-primary border-primary"}
+              previousClassName={"page-item"}
+              previousLinkClassName={"page-link text-primary border-primary"}
+              nextClassName={"page-item"}
+              nextLinkClassName={"page-link text-primary border-primary"}
+              breakClassName={"page-item"}
+              breakLinkClassName={"page-link text-primary border-primary"}
+              activeClassName={"active"}
+              activeLinkClassName={"bg-primary text-white border-primary"}
+            />
+          </div>
+        </>
       )}
-      {!loading && reservations.length === 0 && !error && (
+
+      {!loading && filteredReservations.length === 0 && !error && (
         <div className="alert alert-warning mt-3" role="alert">
           Não há reservas para este período.
         </div>
