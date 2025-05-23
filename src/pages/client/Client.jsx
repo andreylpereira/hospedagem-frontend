@@ -74,7 +74,7 @@ const Client = () => {
                 CADASTRAR
               </button>
 
-              <div className="mt-3">
+              <div>
                 <input
                   type="text"
                   value={searchQuery}

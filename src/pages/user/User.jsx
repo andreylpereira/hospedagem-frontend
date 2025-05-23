@@ -82,30 +82,31 @@ const User = () => {
           <div>
             <Bread current={"USUÁRIOS"} />
 
-            <button
-              type="button"
-              className="btn btn-primary fw-bold bg-gradient rounded shadow"
-              onClick={() => setModalVisible(true)}
-            >
-              CADASTRAR
-            </button>
+            <div className="d-flex justify-content-between align-items-center my-3">
+              <button
+                type="button"
+                className="btn btn-primary fw-bold bg-gradient rounded shadow"
+                onClick={() => setModalVisible(true)}
+              >
+                CADASTRAR
+              </button>
+              <div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Filtrar por nome..."
+                  className="form-control shadow"
+                  style={{ width: "18ch" }}
+                />
+              </div>
+            </div>
 
             <CreateUserModal
               isVisible={modalVisible}
               onClose={handleCloseCreateModal}
               fetchUsers={() => dispatch(fetchUsers())}
             />
-
-            <div className="mt-3">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Filtrar por nome..."
-                className="form-control shadow"
-                style={{ width: "18ch" }}
-              />
-            </div>
 
             <table className="table table-striped table-bordered shadow mt-3">
               <thead>
@@ -169,21 +170,13 @@ const User = () => {
                 pageRangeDisplayed={5}
                 containerClassName={"pagination justify-content-center"}
                 pageClassName={"page-item"}
-                pageLinkClassName={
-                  "page-link text-primary border-primary"
-                }
+                pageLinkClassName={"page-link text-primary border-primary"}
                 previousClassName={"page-item"}
-                previousLinkClassName={
-                  "page-link text-primary border-primary"
-                }
+                previousLinkClassName={"page-link text-primary border-primary"}
                 nextClassName={"page-item"}
-                nextLinkClassName={
-                  "page-link text-primary border-primary"
-                }
+                nextLinkClassName={"page-link text-primary border-primary"}
                 breakClassName={"page-item"}
-                breakLinkClassName={
-                  "page-link text-primary border-primary"
-                }
+                breakLinkClassName={"page-link text-primary border-primary"}
                 activeClassName={"active"}
                 activeLinkClassName={"bg-primary text-white border-primary"}
               />

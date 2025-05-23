@@ -22,7 +22,7 @@ const RealTime = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
 
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   const { accommodations, loading, error } = useSelector(
     (state) => state.accommodations
