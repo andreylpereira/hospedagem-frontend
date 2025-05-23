@@ -5,12 +5,10 @@ import Navbar from "../../components/navbar/Navbar";
 
 const ControlPanel = () => {
   return (
-    <>
-      <div className="background">
-        <Navbar />
-        <Outlet />
-      </div>
-    </>
+    <div className="background">
+      <Navbar />
+      <Outlet />
+    </div>
   );
 };
 
