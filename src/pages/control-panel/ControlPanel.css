@@ -1,28 +1,24 @@
 body {
-  
-  background-image: linear-gradient(135deg, #0b1d36, #3b0f4d) !important;
-  background-repeat: no-repeat;
-  background-size: cover;
-  /* background-color: rgb(194, 210, 233) !important; */
+  background: linear-gradient(135deg, #1a1a1a, #343434, #5a5a5a);
 }
 
 .container {
-    min-height: 100vh; 
-    margin-top: 100px;
+  min-height: 100vh;
+  margin-top: 100px;
 }
 
-
 table {
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  th, td {
-    text-align: center;
-    vertical-align: middle;
-  }
-  
-  th, td {
-    width: 20%;
-  }
-  
+  width: 100%;
+  margin-top: 20px;
+}
+
+th,
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+th,
+td {
+  width: 20%;
+}
