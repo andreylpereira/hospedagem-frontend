@@ -6,6 +6,7 @@ import { realTimeService } from "../../services/RealTimeService";
 import PhotoModal from "../../components/photo-modal/PhotoModal";
 import "./RealTime.css";
 import semFoto from "./../../assets/semFoto.png";
+import isEqual from "lodash.isequal";
 import Bread from "../../components/bread/Bread";
 import AmenidadesList from "../../components/amenityList/AmenityList";
 
@@ -48,7 +49,9 @@ const RealTime = () => {
       const reservedIds = reservasFiltradas.map(
         (reservation) => reservation.acomodacaoId
       );
-      setReservedAccommodations(reservedIds);
+      if (!isEqual(reservedIds, reservedAccommodations)) {
+        setReservedAccommodations(reservedIds);
+      }
     };
 
     fetchReservedAccommodations();
