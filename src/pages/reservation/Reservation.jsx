@@ -29,6 +29,7 @@ const Reservation = () => {
   const [photoModalVisible, setPhotoModalVisible] = useState(false);
   const handleClosePhotoModal = () => setPhotoModalVisible(false);
 
+
   const [currentMonth, setCurrentMonth] = useState(() => {
     const initialDate = startDate ? new Date(`${startDate}-01`) : new Date();
 
@@ -82,7 +83,7 @@ const Reservation = () => {
     }
   };
 
-  const handleOpenPhotoModal = (accommodation) => {
+    const handleOpenPhotoModal = (accommodation) => {
     if (accommodation.contentType && accommodation.base64Image) {
       const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
       console.log(imageUrl);
@@ -218,13 +219,15 @@ const Reservation = () => {
         onReservationUpdated={handleReservationUpdated}
       />
 
-      <PhotoModal
-        image={photo}
-        isVisible={photoModalVisible}
-        onClose={handleClosePhotoModal}
-      />
+      {photoModalVisible && (
+        <PhotoModal
+          image={photo}
+          isVisible={photoModalVisible}
+          onClose={handleClosePhotoModal}
+        />
 
-      {loading && (
+      )}
+      {loading && photo && (
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ height: "calc(70vh - 50px)" }}
@@ -316,6 +319,7 @@ const Reservation = () => {
           Não há reservas para este período.
         </div>
       )}
+      
     </div>
   );
 };
