@@ -64,16 +64,6 @@ const Navbar = () => {
                       className="dropdown-menu bg-primary bg-gradient"
                       aria-labelledby="navbarDropdownMenuLink"
                     >
-                      {auth.isAdmin && (
-                        <li>
-                          <Link
-                            className="dropdown-item text-white"
-                            to="/painel/dashboard"
-                          >
-                            DASHBOARD
-                          </Link>
-                        </li>
-                      )}
                       <li>
                         <Link
                           className="dropdown-item text-white"
@@ -90,16 +80,6 @@ const Navbar = () => {
                           CLIENTES
                         </Link>
                       </li>
-                      {auth.isAdmin && (
-                        <li>
-                          <Link
-                            className="dropdown-item text-white"
-                            to="/painel/usuarios"
-                          >
-                            USUÁRIOS
-                          </Link>
-                        </li>
-                      )}
                       <li>
                         <Link
                           className="dropdown-item text-white"
@@ -108,17 +88,49 @@ const Navbar = () => {
                           AMENIDADES
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          className="dropdown-item text-white"
-                          onClick={handleOpenChangePasswordModal}
-                        >
-                          ALTERAR SENHA{" "}
-                        </Link>
-                      </li>
                     </ul>
                   </li>
                 </ul>
+              </div>
+              <div className="pl-2">
+                {" "}
+                {auth.isAdmin && (
+                  <ul className="navbar-nav mr-3">
+                    <li className="nav-item dropdown ">
+                      <Link
+                        className="nav-link dropdown-toggle text-white"
+                        to="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        PAINEL-CONTROLE
+                      </Link>
+                      <ul
+                        className="dropdown-menu bg-primary bg-gradient"
+                        aria-labelledby="navbarDropdownMenuLink"
+                      >
+                        <li>
+                          <Link
+                            className="dropdown-item text-white"
+                            to="/painel/dashboard"
+                          >
+                            DASHBOARD
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item text-white"
+                            to="/painel/usuarios"
+                          >
+                            USUÁRIOS
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                )}
               </div>
             </div>
           </div>
@@ -132,7 +144,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
+      <Link className="text-white" onClick={handleOpenChangePasswordModal}>
+        ALTERAR SENHA{" "}
+      </Link>
       <ChangePasswordModal
         isVisible={modalPasswordVisible}
         onClose={handleCloseChangePasswordModal}

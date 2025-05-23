@@ -12,15 +12,21 @@ import {
   updateAccommodation,
 } from "../../services/accommodationService.jsx";
 
-export const fetchAccommodations = () => async (dispatch) => {
+export const fetchAccommodations = () => async (dispatch, getState) => {
   dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
 
   try {
-    const accommodations = await getAccommodations();
-    dispatch({
-      type: FETCH_ACCOMMODATIONS_SUCCESS,
-      payload: accommodations,
-    });
+    const newAccommodations = await getAccommodations();
+    const currentAccommodations = getState().accommodations.accommodations;
+      console.table(newAccommodations);
+      console.table(currentAccommodations);
+    const isEqual = JSON.stringify(newAccommodations) === JSON.stringify(currentAccommodations);
+    if (!isEqual) {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: newAccommodations,
+      });
+    }
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,

@@ -29,7 +29,6 @@ const Reservation = () => {
   const [photoModalVisible, setPhotoModalVisible] = useState(false);
   const handleClosePhotoModal = () => setPhotoModalVisible(false);
 
-
   const [currentMonth, setCurrentMonth] = useState(() => {
     const initialDate = startDate ? new Date(`${startDate}-01`) : new Date();
 
@@ -83,7 +82,7 @@ const Reservation = () => {
     }
   };
 
-    const handleOpenPhotoModal = (accommodation) => {
+  const handleOpenPhotoModal = (accommodation) => {
     if (accommodation.contentType && accommodation.base64Image) {
       const imageUrl = `data:${accommodation.contentType};base64,${accommodation.base64Image}`;
       setPhoto(imageUrl);
@@ -94,7 +93,6 @@ const Reservation = () => {
   return (
     <div className="container user-select-none">
       <Bread current={"RESERVAS"} />
-
       <div className="d-flex justify-content-center my-4 mt-4 mb-2">
         <div
           className="card shadow d-flex flex-row"
@@ -181,7 +179,6 @@ const Reservation = () => {
           </div>
         </div>
       </div>
-
       <div className="d-flex justify-content-start mb-2">
         <button
           className="btn btn-primary fw-bold bg-gradient rounded shadow"
@@ -190,7 +187,6 @@ const Reservation = () => {
           CADASTRAR
         </button>
       </div>
-
       <div className="container-fluid d-flex justify-content-center w-25">
         <DatePicker
           className="form-control bg-light fw-bold text-center text-capitalize mt-2 shadow"
@@ -202,7 +198,6 @@ const Reservation = () => {
           showFullMonthYearPicker
         />
       </div>
-
       <CreateReservationModal
         accommodationId={accommodationId}
         startDate={currentMonth}
@@ -217,15 +212,13 @@ const Reservation = () => {
         onClose={handleCloseEditModal}
         onReservationUpdated={handleReservationUpdated}
       />
+      <PhotoModal
+        isVisible={photoModalVisible}
+        onClose={handleClosePhotoModal}
+        photo={`data:${accommodation.contentType};base64,${accommodation.base64Image}`}
+      />
+     
 
-      {photoModalVisible && (
-        <PhotoModal
-          image={photo}
-          isVisible={photoModalVisible}
-          onClose={handleClosePhotoModal}
-        />
-
-      )}
       {loading && photo && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -318,7 +311,6 @@ const Reservation = () => {
           Não há reservas para este período.
         </div>
       )}
-      
     </div>
   );
 };
