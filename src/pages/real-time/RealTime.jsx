@@ -53,7 +53,9 @@ const RealTime = () => {
     const updateData = async () => {
       await dispatch(fetchAccommodations());
 
-      const reserved = await realTimeService(new Date().toISOString().slice(0, 19));
+      const reserved = await realTimeService(
+        new Date().toISOString().slice(0, 19)
+      );
       const reservasFiltradas = reserved.filter(
         (reserva) =>
           reserva.reservaStatus !== "CANCELADO" &&
@@ -61,7 +63,7 @@ const RealTime = () => {
       );
       const reservedIds = reservasFiltradas.map((r) => r.acomodacaoId);
 
-       setReservedAccommodations(reservedIds);
+      setReservedAccommodations(reservedIds);
     };
 
     updateData();
@@ -91,7 +93,10 @@ const RealTime = () => {
   }, [accommodations, searchQuery]);
 
   const offset = currentPage * itemsPerPage;
-  const currentItems = filteredAccommodations.slice(offset, offset + itemsPerPage);
+  const currentItems = filteredAccommodations.slice(
+    offset,
+    offset + itemsPerPage
+  );
   const pageCount = Math.ceil(filteredAccommodations.length / itemsPerPage);
 
   return (
@@ -103,17 +108,6 @@ const RealTime = () => {
         onClose={handleClosePhotoModal}
         photo={photo}
       />
-
-      <div className="d-flex justify-content-end my-3">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Filtrar por nome..."
-          className="form-control shadow"
-          style={{ width: "22ch" }}
-        />
-      </div>
 
       {loading && (
         <div
@@ -140,16 +134,32 @@ const RealTime = () => {
 
       {!loading && currentItems.length > 0 && (
         <>
+          <div className="d-flex justify-content-end my-3">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Filtrar por nome..."
+              className="form-control shadow"
+              style={{ width: "22ch" }}
+            />
+          </div>
+
           <div className="row g-4 justify-content-center mb-4">
             {currentItems.map((accommodation) => {
-              const isReserved = reservedAccommodations.includes(accommodation.id);
+              const isReserved = reservedAccommodations.includes(
+                accommodation.id
+              );
 
               return (
                 <div
                   className="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center"
                   key={accommodation.id}
                 >
-                  <div className="card shadow d-flex flex-column" style={{ width: "296px" }}>
+                  <div
+                    className="card shadow d-flex flex-column"
+                    style={{ width: "296px" }}
+                  >
                     <img
                       className={`card-img-top ${
                         accommodation.contentType === null
@@ -159,7 +169,9 @@ const RealTime = () => {
                       style={{
                         width: "100%",
                         height: "230px",
-                        objectFit: accommodation.base64Image ? "cover" : "contain",
+                        objectFit: accommodation.base64Image
+                          ? "cover"
+                          : "contain",
                       }}
                       alt="Imagem"
                       src={
@@ -197,7 +209,9 @@ const RealTime = () => {
                           <label>
                             <strong>Capacidade</strong>
                           </label>
-                          <p className="mb-1">{accommodation.capacidade} pessoas</p>
+                          <p className="mb-1">
+                            {accommodation.capacidade} pessoas
+                          </p>
                         </div>
                         <div className="capacidade-preco">
                           <label>
