@@ -139,10 +139,10 @@ const User = () => {
                     <td>
                       <span
                         className={`badge ${
-                          user.habilitado == "Sim" ? "bg-success" : "bg-danger"
+                          user.habilitado === true ? "bg-success" : "bg-danger"
                         } ms-3 cursor-none`}
                       >
-                        {user.habilitado == "Sim" ? "Sim" : "Não"}
+                        {user.habilitado === true ? "Sim" : "Não"}
                       </span>
                     </td>
                     <td>
