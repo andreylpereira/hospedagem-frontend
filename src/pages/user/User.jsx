@@ -127,7 +127,7 @@ const User = () => {
                     <td>
                       <span
                         className={`badge ${
-                          user.perfil == "Sim" ? "bg-danger" : "bg-success"
+                          user.perfil == "ADMINISTRADOR" ? "bg-danger" : "bg-success"
                         } ms-3 cursor-none`}
                       >
                         {user.perfil == "ADMINISTRADOR"
