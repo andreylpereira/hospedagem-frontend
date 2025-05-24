@@ -112,27 +112,39 @@ const User = () => {
               <thead>
                 <tr>
                   <th className="text-center table-info text-light">Nome</th>
-                  <th className="text-center table-info text-light">
-                    Perfil
-                  </th>
-                  <th className="text-center table-info text-light">
-                    Email
-                  </th>
+                  <th className="text-center table-info text-light">Perfil</th>
+                  <th className="text-center table-info text-light">Email</th>
                   <th className="text-center table-info text-light">
                     Habilitado
                   </th>
-                  <th className="text-center table-info text-light">
-                    Ações
-                  </th>
+                  <th className="text-center table-info text-light">Ações</th>
                 </tr>
               </thead>
               <tbody>
                 {currentUsers.map((user) => (
                   <tr key={user.id}>
                     <td>{user.nome}</td>
-                    <td>{user.perfil}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          user.perfil == "Sim" ? "bg-danger" : "bg-success"
+                        } ms-3 cursor-none`}
+                      >
+                        {user.perfil == "ADMINISTRADOR"
+                          ? "ADMINISTRADOR"
+                          : "FUNCIONÁRIO"}
+                      </span>
+                    </td>
                     <td>{user.email || "Não informado"}</td>
-                    <td>{user.habilitado ? "Sim" : "Não"}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          user.habilitado == "Sim" ? "bg-success" : "bg-danger"
+                        } ms-3 cursor-none`}
+                      >
+                        {user.habilitado == "Sim" ? "Sim" : "Não"}
+                      </span>
+                    </td>
                     <td>
                       {user.id !== 1 ? (
                         <button
