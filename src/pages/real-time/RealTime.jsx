@@ -54,7 +54,6 @@ const RealTime = () => {
       await dispatch(fetchAccommodations());
 
       const reserved = await realTimeService(new Date().toISOString().slice(0, 19));
-      console.log(new Date().toISOString().slice(0, 19))
       const reservasFiltradas = reserved.filter(
         (reserva) =>
           reserva.reservaStatus !== "CANCELADO" &&
