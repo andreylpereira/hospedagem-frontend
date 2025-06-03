@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   accommodations: [],
-  loading: true,
+  loading: false,
 };
 
 const accommodationsReducer = (state = initialState, action) => {
