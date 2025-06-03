@@ -1,4 +1,4 @@
-import isEqual from 'lodash/isEqual';
+import isEqual from "lodash/isEqual";
 
 import {
   FETCH_ACCOMMODATIONS_REQUEST,
@@ -33,11 +33,10 @@ const accommodationReducer = (state = initialState, action) => {
     case FETCH_ACCOMMODATIONS_SUCCESS:
       if (isEqual(state.accommodations, action.payload)) {
         return {
-        ...state,
-        loading: false,
-        error: null,
-        }
-          
+          ...state,
+          loading: false,
+          error: null,
+        };
       }
 
       return {
