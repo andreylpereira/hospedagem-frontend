@@ -184,10 +184,7 @@ const CreateAccommodationModal = ({
                     className="form-control"
                     id="formPreco"
                     placeholder="Preço"
-                    value={form.preco?.toLocaleString("pt-br", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
+                    value={form.preco}
                     onChange={(e) =>
                       setForm({ ...form, preco: e.target.value })
                     }
@@ -240,7 +237,10 @@ const CreateAccommodationModal = ({
                         </div>
                       ))
                     ) : (
-                      <div className="spinner-border text-info" role="status">
+                      <div
+                        className="spinner-border text-info"
+                        role="status"
+                      >
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     )}

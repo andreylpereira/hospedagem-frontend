@@ -11,7 +11,7 @@ import {
 const initialState = {
   accommodations: [],
   error: null,
-  loading: false,
+  loading: true,
 };
 
 const accommodationReducer = (state = initialState, action) => {
@@ -19,7 +19,7 @@ const accommodationReducer = (state = initialState, action) => {
     case FETCH_ACCOMMODATIONS_REQUEST:
       return {
         ...state,
-        loading: true,
+        loading: false,
         error: null,
       };
     case FETCH_ACCOMMODATIONS_SUCCESS: {

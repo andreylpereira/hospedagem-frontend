@@ -147,10 +147,7 @@ const EditAccommodationModal = ({
                   type="number"
                   className="form-control"
                   id="preco"
-                  value={form.preco?.toLocaleString("pt-br", {
-                    style: "currency",
-                    currency: "BRL",
-                  })}
+                  value={form.preco}
                   onChange={handleChange}
                   placeholder="Preço"
                 />
@@ -188,18 +185,7 @@ const EditAccommodationModal = ({
                             (selectedAmenity) =>
                               selectedAmenity.id === amenity.id
                           )}
-                          onChange={() =>
-                            handleChange({
-                              target: {
-                                id: amenity.id,
-                                type: "checkbox",
-                                checked: !form.amenidades.some(
-                                  (selectedAmenity) =>
-                                    selectedAmenity.id === amenity.id
-                                ),
-                              },
-                            })
-                          }
+                          onChange={() => handleChange({ target: { id: amenity.id, type: 'checkbox', checked: !form.amenidades.some((selectedAmenity) => selectedAmenity.id === amenity.id) } })}
                         />
                         <label
                           className="form-check-label"
