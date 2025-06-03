@@ -51,4 +51,4 @@ const accommodationReducer = (state = initialState, action) => {
   }
 };
 
-export default accommodationsReducer;
+export default accommodationReducer;
