@@ -23,9 +23,7 @@ const accommodationReducer = (state = initialState, action) => {
         error: null,
       };
     case FETCH_ACCOMMODATIONS_SUCCESS: {
-      // Atualiza o estado só se os dados forem diferentes
       if (isEqual(state.accommodations, action.payload)) {
-        // Dados iguais, só setar loading false
         return {
           ...state,
           loading: false,
