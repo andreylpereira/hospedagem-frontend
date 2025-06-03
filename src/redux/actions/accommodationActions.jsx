@@ -15,37 +15,33 @@ import {
 } from "../../services/accommodationService.jsx";
 
 export const fetchAccommodations = () => async (dispatch, getState) => {
-  dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
   try {
     const currentAccommodations = getState().accommodations.accommodations;
     const newAccommodationsRaw = await getAccommodations();
 
     const normalize = (accommodations) =>
-      accommodations.map((accommodation) => ({
-        id: accommodation.id,
-        nome: accommodation.nome,
-        descricao: accommodation.descricao,
-        capacidade: accommodation.capacidade,
-        preco: accommodation.preco,
-        habilitado: accommodation.habilitado,
-        amenidades: accommodation.amenidades?.map((a) => a.nome).sort(),
+      accommodations.map((a) => ({
+        id: a.id,
+        nome: a.nome,
+        descricao: a.descricao,
+        capacidade: a.capacidade,
+        preco: a.preco,
+        habilitado: a.habilitado,
+        amenidades: a.amenidades?.map((am) => am.nome).sort(),
       }));
 
     const currentNormalized = normalize(currentAccommodations);
     const newNormalized = normalize(newAccommodationsRaw);
-    const isSame = isEqual(currentNormalized, newNormalized);
 
-    if (!isSame) {
+    if (!isEqual(currentNormalized, newNormalized)) {
+      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+
       dispatch({
         type: FETCH_ACCOMMODATIONS_SUCCESS,
         payload: newAccommodationsRaw,
       });
-    } else {
-      dispatch({
-        type: FETCH_ACCOMMODATIONS_SUCCESS,
-        payload: currentAccommodations,
-      });
     }
+    
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
@@ -53,6 +49,7 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     });
   }
 };
+
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {
