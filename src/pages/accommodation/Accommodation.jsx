@@ -28,6 +28,10 @@ const Accommodation = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(fetchAccommodations());
+  }, [dispatch]);
+
   const handleEdit = (accommodation) => {
     setAccommodationToEdit(accommodation);
     setEditModalVisible(true);
