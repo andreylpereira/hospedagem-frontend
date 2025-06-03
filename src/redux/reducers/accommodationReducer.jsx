@@ -14,57 +14,42 @@ const initialState = {
   error: null,
 };
 
-const accommodationReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_ACCOMMODATIONS_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
+export const fetchAccommodations = () => async (dispatch, getState) => {
+  dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+  try {
+    const currentAccommodations = getState().accommodations.accommodations;
+    const newAccommodationsRaw = await getAccommodations();
 
-    case FETCH_ACCOMMODATIONS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
+    const normalize = (accommodations) =>
+      accommodations.map((a) => ({
+        id: a.id,
+        nome: a.nome,
+        descricao: a.descricao,
+        capacidade: a.capacidade,
+        preco: a.preco,
+        habilitado: a.habilitado,
+        amenidades: a.amenidades?.map((am) => am.nome).sort(),
+      }));
 
-    case FETCH_ACCOMMODATIONS_SUCCESS:
-      if (isEqual(state.accommodations, action.payload)) {
-        return {
-          ...state,
-          loading: false,
-          error: null,
-        };
-      }
+    const currentNormalized = normalize(currentAccommodations);
+    const newNormalized = normalize(newAccommodationsRaw);
 
-      return {
-        ...state,
-        accommodations: action.payload,
-        loading: false,
-        error: null,
-      };
-
-    case CREATE_ACCOMMODATION_SUCCESS:
-      return {
-        ...state,
-        loading: true,
-        accommodations: [...state.accommodations, action.payload],
-      };
-
-    case UPDATE_ACCOMMODATION_SUCCESS:
-      return {
-        ...state,
-        accommodations: state.accommodations.map((accommodation) =>
-          accommodation.id === action.payload.id
-            ? { ...accommodation, ...action.payload }
-            : accommodation
-        ),
-      };
-
-    default:
-      return state;
+    if (!isEqual(currentNormalized, newNormalized)) {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: newAccommodationsRaw,
+      });
+    } else {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: currentAccommodations,
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: FETCH_ACCOMMODATIONS_FAILURE,
+      payload: "Erro ao carregar as acomodações. Tente novamente mais tarde.",
+    });
   }
 };
 
