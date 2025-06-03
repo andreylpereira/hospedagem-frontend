@@ -10,17 +10,27 @@ import {
 
 const initialState = {
   accommodations: [],
-  loading: true,
+  error: null,
+  loading: false,
 };
 
-const accommodationsReducer = (state = initialState, action) => {
+const accommodationReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ACCOMMODATIONS_REQUEST:
-      return { ...state, loading: false, error: null };
-
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case FETCH_ACCOMMODATIONS_SUCCESS: {
+      // Atualiza o estado só se os dados forem diferentes
       if (isEqual(state.accommodations, action.payload)) {
-        return { ...state, loading: false, error: null };
+        // Dados iguais, só setar loading false
+        return {
+          ...state,
+          loading: false,
+          error: null,
+        };
       }
       return {
         ...state,
@@ -29,24 +39,15 @@ const accommodationsReducer = (state = initialState, action) => {
         error: null,
       };
     }
-
     case FETCH_ACCOMMODATIONS_FAILURE:
-      return { ...state, loading: false, error: action.payload };
-
-    case CREATE_ACCOMMODATION_SUCCESS:
       return {
         ...state,
-        accommodations: [...state.accommodations, action.payload],
-      };
-
-    case UPDATE_ACCOMMODATION_SUCCESS:
-      return {
-        ...state,
+        loading: false,
+        error: action.payload,
         accommodations: state.accommodations.map((acc) =>
           acc.id === action.payload.id ? action.payload : acc
         ),
       };
-
     default:
       return state;
   }

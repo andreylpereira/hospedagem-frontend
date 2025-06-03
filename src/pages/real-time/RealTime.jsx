@@ -98,7 +98,6 @@ const RealTime = () => {
   );
   const pageCount = Math.ceil(filteredAccommodations.length / itemsPerPage);
 
-
   return (
     <div className="container user-select-none">
       <Bread current={"TEMPO REAL"} />
