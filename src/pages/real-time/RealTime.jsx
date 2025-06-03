@@ -64,7 +64,6 @@ const RealTime = () => {
       const reservedIds = reservasFiltradas.map((r) => r.acomodacaoId);
       setReservedAccommodations(reservedIds);
     };
-    loading = false;
 
     updateData();
 

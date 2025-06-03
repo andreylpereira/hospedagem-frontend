@@ -16,7 +16,7 @@ const initialState = {
 const accommodationsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ACCOMMODATIONS_REQUEST:
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: false, error: null };
 
     case FETCH_ACCOMMODATIONS_SUCCESS: {
       if (isEqual(state.accommodations, action.payload)) {
