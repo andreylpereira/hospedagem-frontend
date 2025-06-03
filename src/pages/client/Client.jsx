@@ -63,7 +63,7 @@ const cpfMask = (value) => {
   return (
     <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
-        {!loading && clients.length >= 0 && (
+        {!error && !loading && clients.length >= 0 && (
           <div>
             <Bread current={"CLIENTES"} />
             <div className="d-flex justify-content-between align-items-center my-3">

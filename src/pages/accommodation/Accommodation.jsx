@@ -97,7 +97,7 @@ const Accommodation = () => {
           photo={photo}
         />
 
-        {!loading && accommodations.length >= 0 && (
+        {!error && !loading && accommodations.length >= 0 && (
           <>
             <Bread current={"ACOMODAÇÕES"} />
 

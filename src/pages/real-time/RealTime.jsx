@@ -133,7 +133,7 @@ const RealTime = () => {
         </div>
       )}
 
-      {!loading && currentItems.length > 0 && (
+      {!error && !loading && currentItems.length > 0 && (
         <>
           <div className="d-flex justify-content-end my-3">
             <input

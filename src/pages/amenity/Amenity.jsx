@@ -52,7 +52,7 @@ const Amenity = () => {
   return (
     <div className="container d-flex justify-content-center min-vh-100 user-select-none">
       <div className="w-100">
-        {!loading && amenities.length >= 0 && (
+        {!error && !loading && amenities.length >= 0 && (
           <div>
             <Bread current={"AMENIDADES"} />
             <div className="d-flex justify-content-between align-items-center my-3">
