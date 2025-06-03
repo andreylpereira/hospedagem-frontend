@@ -16,8 +16,6 @@ import {
 
 export const fetchAccommodations = () => async (dispatch, getState) => {
   try {
-    dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
-
     const currentAccommodations = getState().accommodations.accommodations;
     const newAccommodationsRaw = await getAccommodations();
 
@@ -35,10 +33,19 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     const currentNormalized = normalize(currentAccommodations);
     const newNormalized = normalize(newAccommodationsRaw);
 
-    dispatch({
-      type: FETCH_ACCOMMODATIONS_SUCCESS,
-      payload: newAccommodationsRaw,
-    });
+    if (!isEqual(currentNormalized, newNormalized)) {
+      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: newAccommodationsRaw,
+      });
+    } else {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: currentAccommodations,
+      });
+    }
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
@@ -46,6 +53,7 @@ export const fetchAccommodations = () => async (dispatch, getState) => {
     });
   }
 };
+
 
 
 export const createAccommodationAction =
