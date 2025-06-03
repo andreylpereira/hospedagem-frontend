@@ -30,6 +30,7 @@ const Accommodation = () => {
 
   useEffect(() => {
     dispatch(fetchAccommodations());
+    loading = false;
   }, [dispatch]);
 
   const handleEdit = (accommodation) => {
