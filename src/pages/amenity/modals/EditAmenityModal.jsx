@@ -15,6 +15,7 @@ const EditAmenityModal = ({
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -32,9 +33,11 @@ const EditAmenityModal = ({
       .then(() => {
         fetchAmenities();
         toast.success("Amenidade atualizada com sucesso.");
+        setIsLoading(false);
         onClose();
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.message);
         setError(error.response.data);
       });
@@ -100,8 +103,17 @@ const EditAmenityModal = ({
                   <button
                     type="submit"
                     className="btn btn-info fw-bold bg-gradient rounded shadow"
+                    disabled={isLoading}
                   >
-                    Salvar
+                    {isLoading ? (
+                      <div className="d-flex justify-content-center align-items-center mt-3">
+                        <div className="spinner-border text-info" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      "Salvar"
+                    )}
                   </button>
                 </div>
               </form>

@@ -9,22 +9,27 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     dispatch(createAmenityAction(form))
       .then(() => {
         fetchAmenities();
         toast.success("Amenidade cadastrada com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           nome: "",
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -88,8 +93,20 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                   <button
                     type="submit"
                     className="btn btn-info fw-bold bg-gradient rounded shadow"
+                    disabled={isLoading}
                   >
-                    Salvar
+                    {isLoading ? (
+                      <div className="d-flex justify-content-center align-items-center mt-3">
+                        <div
+                          className="spinner-border text-info"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      "Salvar"
+                    )}
                   </button>
                 </div>
               </form>
