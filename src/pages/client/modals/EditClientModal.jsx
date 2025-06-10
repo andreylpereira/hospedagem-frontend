@@ -21,6 +21,7 @@ const EditClientModal = ({
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -34,13 +35,17 @@ const EditClientModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     dispatch(updateClientAction(form.id, form))
       .then(() => {
         fetchClients();
         toast.success("Cliente atualizado com sucesso.");
+        setIsLoading(false);
         onClose();
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -157,12 +162,23 @@ const EditClientModal = ({
                   >
                     Fechar
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-info bg-gradient rounded fw-bold shadow"
-                  >
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div className="ml-2">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

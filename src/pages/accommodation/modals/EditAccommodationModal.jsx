@@ -14,6 +14,7 @@ const EditAccommodationModal = ({
   const [availableAmenities, setAvailableAmenities] = useState([]);
   const [imageData, setImageData] = useState({});
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { amenities } = useSelector((state) => state.amenity);
@@ -70,15 +71,20 @@ const EditAccommodationModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     const formData = { ...form, ...imageData };
 
     dispatch(updateAccommodationAction(formData.id, formData))
       .then(() => {
         fetchAccommodations();
         toast.success("Acomodação atualizada com sucesso.");
+        setIsLoading(false);
         onClose();
       })
       .catch((error) => {
+        setIsLoading(false);
         setError(error.response?.data || "Erro desconhecido.");
         toast.error(error.response?.data || "Erro desconhecido.");
       });
@@ -185,7 +191,18 @@ const EditAccommodationModal = ({
                             (selectedAmenity) =>
                               selectedAmenity.id === amenity.id
                           )}
-                          onChange={() => handleChange({ target: { id: amenity.id, type: 'checkbox', checked: !form.amenidades.some((selectedAmenity) => selectedAmenity.id === amenity.id) } })}
+                          onChange={() =>
+                            handleChange({
+                              target: {
+                                id: amenity.id,
+                                type: "checkbox",
+                                checked: !form.amenidades.some(
+                                  (selectedAmenity) =>
+                                    selectedAmenity.id === amenity.id
+                                ),
+                              },
+                            })
+                          }
                         />
                         <label
                           className="form-check-label"
@@ -229,12 +246,23 @@ const EditAccommodationModal = ({
                 >
                   Fechar
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-info fw-bold bg-gradient rounded shadow"
-                >
-                  Salvar
-                </button>
+                {isLoading ? (
+                  <div className="ml-2">
+                    <div
+                      className="spinner-border spinner-border-sm text-info"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                  >
+                    <div>Salvar</div>
+                  </button>
+                )}
               </div>
             </form>
           </div>

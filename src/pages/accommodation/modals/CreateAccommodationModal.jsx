@@ -22,6 +22,7 @@ const CreateAccommodationModal = ({
 
   const [availableAmenities, setAvailableAmenities] = useState([]);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -88,6 +89,8 @@ const CreateAccommodationModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     if (!form.nome || !form.descricao || !form.capacidade || !form.preco) {
       toast.error("Preencha todos os campos obrigatórios.");
       return;
@@ -97,6 +100,7 @@ const CreateAccommodationModal = ({
       .then(() => {
         fetchAccommodations();
         toast.success("Acomodação cadastrada com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           nome: "",
@@ -110,6 +114,7 @@ const CreateAccommodationModal = ({
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -237,10 +242,7 @@ const CreateAccommodationModal = ({
                         </div>
                       ))
                     ) : (
-                      <div
-                        className="spinner-border text-info"
-                        role="status"
-                      >
+                      <div className="spinner-border text-info" role="status">
                         <span className="visually-hidden">Loading...</span>
                       </div>
                     )}
@@ -275,12 +277,23 @@ const CreateAccommodationModal = ({
                   >
                     Fechar
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-info fw-bold bg-gradient rounded shadow"
-                  >
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div className="ml-2">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

@@ -14,27 +14,32 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
+  setIsLoading(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createClientAction(form)).then(() => {
-      fetchClients();
-      toast.success("Cliente cadastrado com sucesso.");
-      onClose();
-      setForm({
-        cpf: "",
-        nome: "",
-        email: "",
-        telefone: "",
-        endereco: "",
+    dispatch(createClientAction(form))
+      .then(() => {
+        fetchClients();
+        toast.success("Cliente cadastrado com sucesso.");
+        setIsLoading(false);
+        onClose();
+        setForm({
+          cpf: "",
+          nome: "",
+          email: "",
+          telefone: "",
+          endereco: "",
+        });
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.response.data);
+        setError(error.response.data);
       });
-    })
-    .catch((error) => {
-      toast.error(error.response.data);
-      setError(error.response.data);
-    });
   };
 
   return (
@@ -61,7 +66,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
             </div>
 
             <div className="modal-body">
-            {error && (
+              {error && (
                 <div className="alert alert-danger mt-3" role="alert">
                   {error}
                 </div>
@@ -153,9 +158,23 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-info fw-bold bg-gradient rounded shadow">
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div className="ml-2">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

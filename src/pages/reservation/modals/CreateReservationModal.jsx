@@ -28,6 +28,7 @@ const CreateReservationModal = ({
 
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setError("");
@@ -58,6 +59,8 @@ const CreateReservationModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     const funcionarioId = getUserIdFromToken();
 
     if (!funcionarioId) {
@@ -84,10 +87,12 @@ const CreateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
+        dispatch(
+          fetchReservations(accommodationId, formatDateToISO(startDate))
+        );
 
         toast.success("Reserva efetuada com sucesso.");
-
+        setIsLoading(false);
         onClose();
         setForm({
           funcionarioId,
@@ -98,6 +103,7 @@ const CreateReservationModal = ({
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -217,12 +223,23 @@ const CreateReservationModal = ({
                 >
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-info fw-bold bg-gradient rounded shadow"
-                >
-                  Salvar
-                </button>
+                {isLoading ? (
+                  <div className="ml-2">
+                    <div
+                      className="spinner-border spinner-border-sm text-info"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                  >
+                    <div>Salvar</div>
+                  </button>
+                )}
               </div>
             </form>
           </div>

@@ -91,7 +91,7 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                     Fechar
                   </button>
                   {isLoading ? (
-                    <div>
+                    <div className="ml-2">
                       <div
                         className="spinner-border spinner-border-sm text-info"
                         role="status"

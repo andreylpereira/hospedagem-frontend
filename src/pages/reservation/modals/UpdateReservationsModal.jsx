@@ -30,6 +30,7 @@ const UpdateReservationModal = ({
 
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setError("");
@@ -63,7 +64,7 @@ const UpdateReservationModal = ({
   }, [isVisible, reservationId]);
 
   useEffect(() => {
-    setError("")
+    setError("");
     const fetchClients = async () => {
       try {
         const response = await getClients();
@@ -89,8 +90,10 @@ const UpdateReservationModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     const { clienteId, status, dataInicio, dataFim, funcionarioId } = form;
-  
+
     if (dataFim < dataInicio) {
       setError(
         "A data final não pode ser um valor anterior ao da data inicial."
@@ -100,7 +103,7 @@ const UpdateReservationModal = ({
       );
       return;
     }
-    
+
     const formattedDataInicio = formatDateToISO(dataInicio);
     const formattedDataFim = formatDateToISO(dataFim);
 
@@ -121,9 +124,11 @@ const UpdateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
+        dispatch(
+          fetchReservations(accommodationId, formatDateToISO(startDate))
+        );
         toast.success("Reserva atualizada com sucesso.");
-
+        setIsLoading(false);
         onClose();
         setError("");
         setForm({
@@ -135,6 +140,7 @@ const UpdateReservationModal = ({
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response?.data);
         setError(error.response?.data);
       });
@@ -258,12 +264,23 @@ const UpdateReservationModal = ({
                 >
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-info fw-bold shadow"
-                >
-                  Salvar
-                </button>
+                {isLoading ? (
+                  <div className="ml-2">
+                    <div
+                      className="spinner-border spinner-border-sm text-info"
+                      role="status"
+                    >
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                  >
+                    <div>Salvar</div>
+                  </button>
+                )}
               </div>
             </form>
           </div>
