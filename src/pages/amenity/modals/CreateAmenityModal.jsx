@@ -92,13 +92,13 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                   </button>
                   {isLoading ? (
                     <div>
-                      <button class="btn" disabled>
-                      <div
-                        className="spinner-border spinner-border-sm text-info"
-                        role="status"
-                      >
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
+                      <button class="btn btn-primary" disabled>
+                        <div
+                          className="spinner-border spinner-border-sm text-info"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
                       </button>
                     </div>
                   ) : (

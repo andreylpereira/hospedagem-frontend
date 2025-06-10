@@ -247,13 +247,15 @@ const EditAccommodationModal = ({
                   Fechar
                 </button>
                 {isLoading ? (
-                  <div className="pl-3">
-                    <div
-                      className="spinner-border spinner-border-sm text-info"
-                      role="status"
-                    >
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
+                  <div>
+                    <button class="btn btn-primary" disabled>
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
                   </div>
                 ) : (
                   <button
