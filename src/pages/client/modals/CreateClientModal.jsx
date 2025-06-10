@@ -160,7 +160,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                   </button>
                   {isLoading ? (
                     <div>
-                      <button class="btn btn-primary" disabled>
+                      <button class="btn btn-info" disabled>
                         <div
                           className="spinner-border spinner-border-sm text-info"
                           role="status"
