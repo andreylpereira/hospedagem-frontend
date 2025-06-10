@@ -29,7 +29,7 @@ const EditAmenityModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-     setIsLoading(true);
+    setIsLoading(true);
 
     dispatch(updateAmenityAction(form.id, form))
       .then(() => {
@@ -102,21 +102,23 @@ const EditAmenityModal = ({
                   >
                     Fechar
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-info fw-bold bg-gradient rounded shadow"
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <div className="d-flex justify-content-center align-items-center mt-3">
-                        <div className="spinner-border text-info" role="status">
-                          <span className="visually-hidden">Loading...</span>
-                        </div>
+                  {isLoading ? (
+                    <div className="d-flex justify-content-center align-items-center w-100">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
                       </div>
-                    ) : (
-                      "Salvar"
-                    )}
-                  </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info w-100 mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

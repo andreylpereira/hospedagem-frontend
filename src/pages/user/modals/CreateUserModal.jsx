@@ -15,15 +15,20 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     dispatch(createUserAction(form))
       .then(() => {
         fetchUsers();
         toast.success("Usuário cadastrado com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           cpf: "",
@@ -35,6 +40,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -165,12 +171,23 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                   >
                     Fechar
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-info fw-bold bg-gradient rounded shadow"
-                  >
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div className="d-flex justify-content-center align-items-center w-100">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info w-100 mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
