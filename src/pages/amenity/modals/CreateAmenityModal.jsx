@@ -102,7 +102,7 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                   ) : (
                     <button
                       type="submit"
-                      className="btn btn-info w-100 mt-2 bg-gradient rounded fw-bold shadow"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
                     >
                       <div>Salvar</div>
                     </button>
