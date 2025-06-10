@@ -29,6 +29,8 @@ const EditAmenityModal = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+     setIsLoading(true);
+
     dispatch(updateAmenityAction(form.id, form))
       .then(() => {
         fetchAmenities();
