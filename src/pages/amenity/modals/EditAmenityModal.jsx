@@ -104,7 +104,7 @@ const EditAmenityModal = ({
                   </button>
                   {isLoading ? (
                     <div>
-                      <button disabled>
+                      <button class="btn" disabled>
                       <div
                         className="spinner-border spinner-border-sm text-info"
                         role="status"
