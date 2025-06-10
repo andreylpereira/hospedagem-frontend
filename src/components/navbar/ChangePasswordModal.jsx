@@ -8,9 +8,12 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
     confirmarSenha: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     if (form.senha !== form.confirmarSenha) {
       setError("As senhas não coincidem.");
@@ -22,6 +25,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
     updatePassword(newPassword)
       .then(() => {
         toast.success("Senha atualizada com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           senha: "",
@@ -29,6 +33,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -102,9 +107,23 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-info">
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div className="pl-3">
+                      <div
+                        className="spinner-border spinner-border-sm text-info"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

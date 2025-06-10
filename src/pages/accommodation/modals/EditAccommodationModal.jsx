@@ -247,7 +247,7 @@ const EditAccommodationModal = ({
                   Fechar
                 </button>
                 {isLoading ? (
-                  <div className="ml-2">
+                  <div className="pl-3">
                     <div
                       className="spinner-border spinner-border-sm text-info"
                       role="status"
