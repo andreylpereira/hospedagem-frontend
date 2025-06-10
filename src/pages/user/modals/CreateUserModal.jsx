@@ -172,7 +172,7 @@ const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
                     Fechar
                   </button>
                   {isLoading ? (
-                    <div className="d-flex justify-content-center align-items-center w-100">
+                    <div>
                       <div
                         className="spinner-border spinner-border-sm text-info"
                         role="status"
