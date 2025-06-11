@@ -11,6 +11,8 @@ import ReactPaginate from "react-paginate";
 import "./User.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+
+//Component da page User, só ADMINISTRADOR pode acessar, nesta page é listado todos os usuários e algumas informações como nome, tipo de perfil, email etc. Na page possuí botão de CADASTRAR que abre um modal que possibilita o cadastro de um novo usuário, também há um botão ao lado de cada um dos usuários listados, que permite habilitar e desabilitar ao clicar.
 const User = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");

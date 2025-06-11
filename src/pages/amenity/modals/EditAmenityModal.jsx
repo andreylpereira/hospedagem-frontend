@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { updateAmenityAction } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
+
+//Modal que é acionado na page aminty, permite editar uma amenidade que já foi cadastrada por meio de um input, possui um botão para salvar e outro para fechar o modal.
 const EditAmenityModal = ({
   isVisible,
   onClose,

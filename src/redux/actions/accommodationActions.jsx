@@ -14,6 +14,7 @@ import {
   updateAccommodation,
 } from "../../services/accommodationService.jsx";
 
+//Actions de listagem, criação e atualização de accommodations
 export const fetchAccommodations = () => async (dispatch, getState) => {
   try {
     const currentAccommodations = getState().accommodations.accommodations;

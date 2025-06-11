@@ -1,5 +1,7 @@
 import React from "react";
 
+
+//Esse componente é utilizado para listar as amenidades como badges coloridas nas pages real-time e accommodation
 const AmenidadesList = ({ amenidades }) => {
   const badgeColors = [
     "primary",

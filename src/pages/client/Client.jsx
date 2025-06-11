@@ -7,6 +7,8 @@ import "./Client.css";
 import Bread from "../../components/bread/Bread";
 import ReactPaginate from "react-paginate";
 
+
+//O componente de page client, lista os clientes onde os seu cfps têm seus ultimos digitos privados (*), por meio da mascara, sendo oss dados vindo do backend privados("123456*****""). Na page permite acessar modals de cadastro e editar(de cada cliente) por seus respectivos botões.
 const Client = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);

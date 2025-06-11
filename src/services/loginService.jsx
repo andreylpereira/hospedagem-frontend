@@ -2,6 +2,7 @@ import api from './api';
 
 const _URL = '/auth/login';
 
+//services de acesso ao ponto de api referente a autenticação a aplicação.
 export const loginService = async (form) => {
   try {
     const response = await api.post(`${_URL}`, form);

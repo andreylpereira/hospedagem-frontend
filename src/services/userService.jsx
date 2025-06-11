@@ -2,6 +2,7 @@ import api, { getUserIdFromToken } from "./api";
 
 const _URL = "/usuario";
 
+//services de acesso a pontos de api referente a users
 export const getUsers = async () => {
   try {
     const response = await api.get(`${_URL}/lista`);

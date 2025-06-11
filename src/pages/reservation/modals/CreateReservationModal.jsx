@@ -9,6 +9,7 @@ import {
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 
+//O Modal de create reservation é acessado por meio do page reservation, ele recebe informações como por exemplo o id da acomodação, nele é possivel efetuar reservas, seus input de calendário(component CALENDAR) permite ver os dias disponíveis para reserva, também possibilita selecionar o cliente e definir o status.
 const CreateReservationModal = ({
   accommodationId,
   startDate,

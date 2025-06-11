@@ -5,6 +5,8 @@ import { ptBR } from "date-fns/locale";
 import { calendarService } from "./../../services/calendarService";
 import "./Calendar.css";
 
+
+//Componente calendar é utilizado na elaboração do input calendario utilizado nos modals do reservation. É montado com dados como listagem de dias ocupados, com isso fica visivel no calendario na cor vermelha os dias que estão reservados.
 const Calendar = ({
   onDateSelect,
   accommodationId,

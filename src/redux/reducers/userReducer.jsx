@@ -12,6 +12,7 @@ const initialState = {
   error: null,
 };
 
+//Reducers de listagem, criação e atualização de users
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_USERS_REQUEST:

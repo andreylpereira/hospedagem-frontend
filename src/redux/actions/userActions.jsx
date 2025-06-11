@@ -12,6 +12,7 @@ import {
   updateAuthorization,
 } from "./../../services/userService";
 
+//Actions de listagem, criação e atualização de users
 export const fetchUsers = () => async (dispatch) => {
   dispatch({ type: FETCH_USERS_REQUEST });
 

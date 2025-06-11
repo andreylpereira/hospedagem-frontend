@@ -6,6 +6,8 @@ import InputMask from "react-input-mask";
 import "./Login.css";
 import { toast } from "sonner";
 
+
+//Componente de page de login, ela é acessada automaticamente quando um usuário não está autenticado na aplicação. Com credências como cpf e senha, o usuário pode efetuar login por meio do ENTRAR e caso estiver com credências validas, será redirecionado para a page painel.
 const Login = () => {
   const [form, setForm] = useState({
     cpf: "",

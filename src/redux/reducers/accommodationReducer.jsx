@@ -4,8 +4,7 @@ import {
   FETCH_ACCOMMODATIONS_REQUEST,
   FETCH_ACCOMMODATIONS_SUCCESS,
   FETCH_ACCOMMODATIONS_FAILURE,
-  CREATE_ACCOMMODATION_SUCCESS,
-  UPDATE_ACCOMMODATION_SUCCESS,
+
 } from "../types/actionTypes";
 
 const initialState = {
@@ -14,6 +13,7 @@ const initialState = {
   loading: true,
 };
 
+//Reducers de listagem de accommodation
 const accommodationReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ACCOMMODATIONS_REQUEST:

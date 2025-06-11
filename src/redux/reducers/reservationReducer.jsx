@@ -12,6 +12,7 @@ const initialState = {
   error: null,
 };
 
+//Reducers de listagem, criação e atualização de reservations
 const reservationReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_RESERVATIONS_REQUEST:

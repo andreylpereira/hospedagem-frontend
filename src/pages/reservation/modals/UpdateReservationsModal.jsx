@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { getUserIdFromToken } from "../../../services/api";
 
+//O Modal de edit reservation é acessado por meio da listagem de reservas da page reservation, ele recebe informações da reserva que se deseja editar, possibilitando a edição das mesmas.
 const UpdateReservationModal = ({
   accommodationId,
   startDate,

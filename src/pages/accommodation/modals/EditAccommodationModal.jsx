@@ -4,6 +4,8 @@ import { updateAccommodationAction } from "../../../redux/actions/accommodationA
 import { fetchAmenities } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
+
+//Modal de edição de acomodação, ele é acessado através da interação do icon "EDITAR" na page accommodation. Ele é um formulário onde permite o usuário edite as informações da acomodação especifica e salvar. Caso haver informações incorretas será informado por meio de Toast e mensagem de erro sobre o mesmo.
 const EditAccommodationModal = ({
   isVisible,
   onClose,

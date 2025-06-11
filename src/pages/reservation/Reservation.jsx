@@ -14,6 +14,8 @@ import semFoto from "./../../assets/semFoto.png";
 import AmenidadesList from "../../components/amenityList/AmenityList";
 import ReactPaginate from "react-paginate";
 
+
+//O component da page reservation, apresenta um card com as informações da acomodação selecionada(nas pages accommodation ou real-time). Também lista todas as reservas em um mês especifico e permite navegar entre os meses por meio de um input de calendário. Ha o botão CADASTRAR para efetuar uma reservar por meio de um modal, como EDITAR uma reservar pelo botão que apresenta ao lado de cada reserva listada. 
 const Reservation = () => {
   const dispatch = useDispatch();
   const { reservations, loading, error } = useSelector(

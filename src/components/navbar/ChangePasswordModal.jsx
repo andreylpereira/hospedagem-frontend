@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { updatePassword } from "./../../services/userService";
 import { toast } from "sonner";
 
+
+//Esse componente é um modal que abre ao ser acionado no navbar ("Alterar Senha"), ele têm dois inputs onde o usuário pode digitar a nova senha duas vezes, apos confirmar as senhas e clicar em salvar, a senha é alterada e o modal fechado.
 const ChangePasswordModal = ({ isVisible, onClose }) => {
   const [form, setForm] = useState({
     senha: "",

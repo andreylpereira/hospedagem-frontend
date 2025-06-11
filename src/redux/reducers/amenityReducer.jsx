@@ -1,17 +1,18 @@
 import {
-    FETCH_AMENITIES_REQUEST,
-    FETCH_AMENITIES_SUCCESS,
-    FETCH_AMENITIES_FAILURE,
-    CREATE_AMENITY_SUCCESS,
-    UPDATE_AMENITY_SUCCESS,
-  } from "../types/actionTypes";
-  
-  const initialState = {
-    amenities: [],
-    loading: false,
-    error: null,
-  };
-  
+  FETCH_AMENITIES_REQUEST,
+  FETCH_AMENITIES_SUCCESS,
+  FETCH_AMENITIES_FAILURE,
+  CREATE_AMENITY_SUCCESS,
+  UPDATE_AMENITY_SUCCESS,
+} from "../types/actionTypes";
+
+const initialState = {
+  amenities: [],
+  loading: false,
+  error: null,
+};
+
+//Reducers de listagem, criação e atualização de amenities
   const amenityReducer = (state = initialState, action) => {
     switch (action.type) {
       case FETCH_AMENITIES_REQUEST:

@@ -7,6 +7,7 @@ import "./Amenity.css";
 import Bread from "../../components/bread/Bread";
 import ReactPaginate from "react-paginate";
 
+//A page amenity lista todas as amenidades e possui seus respectivos botões de "EDITAR", também há um botão de "CADASTRAR". Em ambos os botões abrem seus respectivos modals, onde o primeiro pede o nome da amenidade, enquanto o segundo apresenta o nome da amenidade, permitindo a edição.
 const Amenity = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);

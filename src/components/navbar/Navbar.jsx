@@ -7,6 +7,8 @@ import ChangePasswordModal from "./ChangePasswordModal.jsx";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
 
+
+//Componente de navbar, ele renderiza conforme perfil dos usuários ("ADMINISTRADOR" ou "FUNCIONÁRIO"), nele têm o para ir para pagina REAL-TIME na esquerda e na direita o de "Alterar Senha", o "MENU" é apresentado para ambos os perfils, enquanto "PAINEL DE CONTROLE" somente para ADMINISTRADOR.
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();

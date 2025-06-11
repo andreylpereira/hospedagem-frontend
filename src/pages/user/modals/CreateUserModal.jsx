@@ -4,6 +4,9 @@ import { createUserAction } from "../../../redux/actions/userActions";
 import InputMask from "react-input-mask";
 import { toast } from "sonner";
 
+
+
+//Modal para criar usuário, ele é acionado por meio do botão CADASTRAR na page user, possuí um form para preenchimento com informações como cpf, senha, email, definição de perfil e habilitado, somente alguem com perfil ADMINISTRADOR possuí acesso, após preenchimento com dados validos o modal é fechado e o usuário ficara listado na page user.
 const CreateUserModal = ({ isVisible, onClose, fetchUsers }) => {
   const [form, setForm] = useState({
     cpf: "",

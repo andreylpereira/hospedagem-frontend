@@ -6,11 +6,12 @@ import { realTimeService } from "../../services/RealTimeService";
 import PhotoModal from "../../components/photo-modal/PhotoModal";
 import "./RealTime.css";
 import semFoto from "./../../assets/semFoto.png";
-import isEqual from "lodash.isequal";
 import Bread from "../../components/bread/Bread";
 import AmenidadesList from "../../components/amenityList/AmenityList";
 import ReactPaginate from "react-paginate";
 
+
+//O component da page real-time lista todas as acomodações(e informações delas) por meio de cards, neles são permitido verificar por meio de badges(Ocupado ou Disponível), a disponibilidade da acomodação naquele dia, caso estiver ocupada o botão RESERVAR vai estar desabilitado. Caso acomodação estiver disponível, o botão RESERVAR estará habilitado, permitindo o usuário acessar a pagina de reservas daquela acomodação especifica para poder efetuar reserva da acomodação.
 const RealTime = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

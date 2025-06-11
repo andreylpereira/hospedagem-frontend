@@ -4,6 +4,7 @@ import { updateClientAction } from "../../../redux/actions/clientActions";
 import IMask from "react-input-mask";
 import { toast } from "sonner";
 
+//O componente modal de editar cliente, é acionado na page client. Permite editar dados do cliente selecionado, mediante a alteração do form com seus dados válidos e a submissão pelo botão Salvar. O modal informar por meio de toastr e mensagem se foi salvo/alterado com sucesso ou algum erro especifico.
 const EditClientModal = ({
   isVisible,
   onClose,

@@ -1,5 +1,6 @@
 import Bread from "../../components/bread/Bread";
 
+//Page que é acessada por ADMINISTRADORES, nela é renderizada um dashboard de powerBI por meio do iframe.
 const Dashboard = () => {
   const iFrame = "https://app.powerbi.com/view?r=eyJrIjoiYTdlYmRhM2MtODVjZS00NjJhLWI3ZWMtOTMzYjE0NWZhYmUzIiwidCI6IjJjZjdkNGQ1LWJkMWItNDk1Ni1hY2Y4LTI5OTUzOTliMjE2OCJ9";
 

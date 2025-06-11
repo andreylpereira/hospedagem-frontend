@@ -11,6 +11,7 @@ import Bread from "../../components/bread/Bread";
 import AmenidadesList from "../../components/amenityList/AmenityList";
 import ReactPaginate from "react-paginate";
 
+//Componente da page accommodation, nela é listada as acomodações(com suas informações e imagem) e permite "CADASTRAR"(botão) e "EDITAR"(esse por meio de icon), onde abre modais para preenchimento/edição. Também cada card de acomodação possui um botão de agenda em redirecionado o usuário para a pagina de reservas daquela acomodação especifica.
 const Accommodation = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editModalVisible, setEditModalVisible] = useState(false);

@@ -4,6 +4,8 @@ import { createClientAction } from "../../../redux/actions/clientActions";
 import IMask from "react-input-mask";
 import { toast } from "sonner";
 
+
+//O componente modal de criar cliente, é acionado na page client. Permite o cadastro do cliente, mediante ao preenchimento do form com seus dados válidos e a submissão pelo botão Salvar. O modal informar por meio de toastr e mensagem se foi salvo com sucesso ou algum erro especifico.
 const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
   const [form, setForm] = useState({
     cpf: "",

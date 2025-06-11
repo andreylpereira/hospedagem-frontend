@@ -4,6 +4,8 @@ import { createAccommodationAction } from "../../../redux/actions/accommodationA
 import { fetchAmenities } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
+
+//Modal de criação de acomodação, ele é acessado através da interação do botão "CADASTRAR" na page accommodation. Ele é um formulário onde permite o usuário preencher as informações e salvar. Caso haver informações incorretas será informado por meio de Toast e mensagem de erro sobre o mesmo.
 const CreateAccommodationModal = ({
   isVisible,
   onClose,

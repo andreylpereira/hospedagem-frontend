@@ -1,6 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
+//Criação inicial do axios, de interceptos para colocar o autherization nas requisições para os pontos de api, como também para acessar informações como id e usuário do token.
 const api = axios.create({
   baseURL: "https://hospedagem-api.onrender.com/api",
 });

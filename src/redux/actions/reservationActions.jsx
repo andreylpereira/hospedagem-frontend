@@ -7,6 +7,7 @@ import {
   } from '../types/actionTypes';
   import { getReservationsByAccommodation, createReservation, updateReservation } from "./../../services/reservationService";
 
+//Actions de listagem, criação e atualização de clients
   export const fetchReservations = (accommodationId, startDate) => async (dispatch) => {
     dispatch({ type: FETCH_RESERVATIONS_REQUEST });
   
