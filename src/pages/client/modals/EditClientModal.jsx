@@ -34,7 +34,9 @@ const EditClientModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     setIsLoading(true);
+    
     dispatch(updateClientAction(form.id, form))
       .then(() => {
         fetchClients();

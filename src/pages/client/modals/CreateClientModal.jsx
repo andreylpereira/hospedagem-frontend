@@ -26,6 +26,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
         fetchClients();
         toast.success("Cliente cadastrado com sucesso.");
         onClose();
+         setIsLoading(false);
         setForm({
           cpf: "",
           nome: "",
