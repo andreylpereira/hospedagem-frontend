@@ -142,7 +142,7 @@ const cpfMask = (value) => {
               </thead>
               <tbody>
                 {currentClients.map((client) => (
-                  <tr key={`${client.id}-${client.nome}`}>
+                  <tr key={client.id}>
                     <td>{cpfMask(client.cpf)}</td>
                     <td>{client.nome}</td>
                     <td>{client.email || "Não informado"}</td>
