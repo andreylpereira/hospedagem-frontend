@@ -7,6 +7,8 @@ import ChangePasswordModal from "./ChangePasswordModal.jsx";
 import logo from "../../assets/logo.png";
 import "./Navbar.css";
 
+
+//Componente de navbar, ele renderiza conforme perfil dos usuários ("ADMINISTRADOR" ou "FUNCIONÁRIO"), nele têm o para ir para pagina REAL-TIME na esquerda e na direita o de "Alterar Senha", o "MENU" é apresentado para ambos os perfils, enquanto "PAINEL DE CONTROLE" somente para ADMINISTRADOR.
 const Navbar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -30,7 +32,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-light bg-primary bg-gradient fixed-top user-select-none shadow">
+      <nav className="navbar navbar-expand-lg navbar-light bg-info bg-gradient fixed-top user-select-none shadow">
         <div className="container-fluid">
           <div className="d-flex align-items-center">
             <div className="hstack gap-3">
@@ -61,19 +63,9 @@ const Navbar = () => {
                       MENU
                     </Link>
                     <ul
-                      className="dropdown-menu bg-primary bg-gradient"
+                      className="dropdown-menu bg-info bg-gradient"
                       aria-labelledby="navbarDropdownMenuLink"
                     >
-                      {auth.isAdmin && (
-                        <li>
-                          <Link
-                            className="dropdown-item text-white"
-                            to="/painel/dashboard"
-                          >
-                            DASHBOARD
-                          </Link>
-                        </li>
-                      )}
                       <li>
                         <Link
                           className="dropdown-item text-white"
@@ -90,16 +82,6 @@ const Navbar = () => {
                           CLIENTES
                         </Link>
                       </li>
-                      {auth.isAdmin && (
-                        <li>
-                          <Link
-                            className="dropdown-item text-white"
-                            to="/painel/usuarios"
-                          >
-                            USUÁRIOS
-                          </Link>
-                        </li>
-                      )}
                       <li>
                         <Link
                           className="dropdown-item text-white"
@@ -108,21 +90,59 @@ const Navbar = () => {
                           AMENIDADES
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          className="dropdown-item text-white"
-                          onClick={handleOpenChangePasswordModal}
-                        >
-                          ALTERAR SENHA{" "}
-                        </Link>
-                      </li>
                     </ul>
                   </li>
                 </ul>
               </div>
+              <div className="pl-2">
+                {" "}
+                {auth.isAdmin && (
+                  <ul className="navbar-nav mr-3">
+                    <li className="nav-item dropdown ">
+                      <Link
+                        className="nav-link dropdown-toggle text-white"
+                        to="#"
+                        id="navbarDropdownMenuLink"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        PAINEL DE CONTROLE
+                      </Link>
+                      <ul
+                        className="dropdown-menu bg-info bg-gradient"
+                        aria-labelledby="navbarDropdownMenuLink"
+                      >
+                        <li>
+                          <Link
+                            className="dropdown-item text-white"
+                            to="/painel/usuarios"
+                          >
+                            USUÁRIOS
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            className="dropdown-item text-white"
+                            to="/painel/dashboard"
+                          >
+                            DASHBOARD
+                          </Link>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
-          <div className="ms-auto">
+          <div className="ms-auto d-flex align-items-center gap-2">
+            <Link
+              className="nav-link text-white"
+              onClick={handleOpenChangePasswordModal}
+            >
+              ALTERAR SENHA{" "}
+            </Link>
             <button
               className="btn btn-outline-light bg-gradient rounded shadow"
               onClick={logout}
@@ -132,7 +152,6 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-
       <ChangePasswordModal
         isVisible={modalPasswordVisible}
         onClose={handleCloseChangePasswordModal}

@@ -1,3 +1,4 @@
+/*  Estilização padrão para todos os modals */
 .modal-footer {
   border-top: none;
 }
@@ -8,7 +9,7 @@
 
 .modal-header,
 .modal-title {
-  background-color: var(--bs-primary);
+  background-color: var(--bs-info);
   color: var(--bs-light);
 }
 

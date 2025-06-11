@@ -2,6 +2,7 @@ import api from "./api";
 
 const _URL = "/hospedagem";
 
+//services de acesso a pontos de api referente a reservations
 export const getReservations = async () => {
   try {
     const response = await api.get(`${_URL}/reservas`);

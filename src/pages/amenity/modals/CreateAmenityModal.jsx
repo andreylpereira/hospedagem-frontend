@@ -3,28 +3,35 @@ import { useDispatch } from "react-redux";
 import { createAmenityAction } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
+
+//Modal que é acionado na page aminty, permite o cadastro de uma amenidade por meio de um input, possui um botão para salvar e outro para fechar o modal.
 const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
   const [form, setForm] = useState({
     nome: "",
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     dispatch(createAmenityAction(form))
       .then(() => {
         fetchAmenities();
         toast.success("Amenidade cadastrada com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           nome: "",
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -85,12 +92,25 @@ const CreateAmenityModal = ({ isVisible, onClose, fetchAmenities }) => {
                   >
                     Fechar
                   </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary fw-bold bg-gradient rounded shadow"
-                  >
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div>
+                      <button class="btn btn-info" disabled>
+                        <div
+                          className="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

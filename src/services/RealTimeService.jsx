@@ -1,5 +1,6 @@
 import api from "./api";
 
+//services de acesso ao ponto de api que lista o as acomodações no realtime.
 export const realTimeService = async (date) => {
   try {
     let formattedDate = null;

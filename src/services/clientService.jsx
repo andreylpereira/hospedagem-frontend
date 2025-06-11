@@ -2,6 +2,7 @@ import api, { getUserIdFromToken } from "./api";
 
 const _URL = "/hospedagem";
 
+//services de acesso a pontos de api referente a clients
 export const getClients = async () => {
   try {
     const response = await api.get(`${_URL}/clientes`);

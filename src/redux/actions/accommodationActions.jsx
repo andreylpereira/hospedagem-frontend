@@ -1,3 +1,5 @@
+import isEqual from "lodash.isequal";
+
 import {
   FETCH_ACCOMMODATIONS_REQUEST,
   FETCH_ACCOMMODATIONS_SUCCESS,
@@ -12,15 +14,39 @@ import {
   updateAccommodation,
 } from "../../services/accommodationService.jsx";
 
-export const fetchAccommodations = () => async (dispatch) => {
-  dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
-
+//Actions de listagem, criação e atualização de accommodations
+export const fetchAccommodations = () => async (dispatch, getState) => {
   try {
-    const accommodations = await getAccommodations();
-    dispatch({
-      type: FETCH_ACCOMMODATIONS_SUCCESS,
-      payload: accommodations,
-    });
+    const currentAccommodations = getState().accommodations.accommodations;
+    const newAccommodationsRaw = await getAccommodations();
+
+    const normalize = (accommodations) =>
+      accommodations.map((a) => ({
+        id: a.id,
+        nome: a.nome,
+        descricao: a.descricao,
+        capacidade: a.capacidade,
+        preco: a.preco,
+        habilitado: a.habilitado,
+        amenidades: a.amenidades?.map((am) => am.nome).sort(),
+      }));
+
+    const currentNormalized = normalize(currentAccommodations);
+    const newNormalized = normalize(newAccommodationsRaw);
+
+    if (!isEqual(currentNormalized, newNormalized)) {
+      dispatch({ type: FETCH_ACCOMMODATIONS_REQUEST });
+
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: newAccommodationsRaw,
+      });
+    } else {
+      dispatch({
+        type: FETCH_ACCOMMODATIONS_SUCCESS,
+        payload: currentAccommodations,
+      });
+    }
   } catch (error) {
     dispatch({
       type: FETCH_ACCOMMODATIONS_FAILURE,
@@ -28,6 +54,8 @@ export const fetchAccommodations = () => async (dispatch) => {
     });
   }
 };
+
+
 
 export const createAccommodationAction =
   (accommodation) => async (dispatch) => {

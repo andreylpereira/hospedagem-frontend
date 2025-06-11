@@ -1,5 +1,6 @@
 import React from "react";
 
+//Componente de breadcrumb dinamico, onde se ajusta de acordo com a page que vai estar utilizando conforme o que foi inserido na prop
 const Bread = ({ current }) => {
   return (
     <div class="alert alert-light p-0 shadow border-0 mb-4" role="alert">

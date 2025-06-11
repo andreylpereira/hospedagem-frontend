@@ -1,3 +1,3 @@
-.table-primary, .badge-button {
-  background-color: var(--bs-blue) !important;
+.table-info, .badge-button {
+  background-color: var(--bs-info) !important;
 }

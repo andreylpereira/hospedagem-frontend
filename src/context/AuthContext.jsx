@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 
 const AuthContext = createContext();
 
+//Contexto de autenticação, ele armazena o token quando é feito o login com sucesso, o mesmo token é verificado e utilizado nas requisições feitas a API. Também á a funcionalidade de logout onde exclui o token.
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
     isAuthenticated: false,

@@ -4,6 +4,8 @@ import { createClientAction } from "../../../redux/actions/clientActions";
 import IMask from "react-input-mask";
 import { toast } from "sonner";
 
+
+//O componente modal de criar cliente, é acionado na page client. Permite o cadastro do cliente, mediante ao preenchimento do form com seus dados válidos e a submissão pelo botão Salvar. O modal informar por meio de toastr e mensagem se foi salvo com sucesso ou algum erro especifico.
 const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
   const [form, setForm] = useState({
     cpf: "",
@@ -14,27 +16,32 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
   });
 
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createClientAction(form)).then(() => {
-      fetchClients();
-      toast.success("Cliente cadastrado com sucesso.");
-      onClose();
-      setForm({
-        cpf: "",
-        nome: "",
-        email: "",
-        telefone: "",
-        endereco: "",
+    setIsLoading(true);
+    dispatch(createClientAction(form))
+      .then(() => {
+        fetchClients();
+        toast.success("Cliente cadastrado com sucesso.");
+        onClose();
+         setIsLoading(false);
+        setForm({
+          cpf: "",
+          nome: "",
+          email: "",
+          telefone: "",
+          endereco: "",
+        });
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        toast.error(error.response.data);
+        setError(error.response.data);
       });
-    })
-    .catch((error) => {
-      toast.error(error.response.data);
-      setError(error.response.data);
-    });
   };
 
   return (
@@ -61,7 +68,7 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
             </div>
 
             <div className="modal-body">
-            {error && (
+              {error && (
                 <div className="alert alert-danger mt-3" role="alert">
                   {error}
                 </div>
@@ -148,14 +155,30 @@ const CreateClientModal = ({ isVisible, onClose, fetchClients }) => {
                 <div className="modal-footer">
                   <button
                     type="button"
-                    className="btn btn-outline-danger fw-bold shadow"
+                    className="btn btn-outline-danger fw-bold bg-gradient rounded shadow"
                     onClick={onClose}
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary fw-bold bg-gradient rounded shadow">
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div>
+                      <button class="btn btn-info" disabled>
+                        <div
+                          className="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

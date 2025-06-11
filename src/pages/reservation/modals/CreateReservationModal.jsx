@@ -9,6 +9,7 @@ import {
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 
+//O Modal de create reservation é acessado por meio do page reservation, ele recebe informações como por exemplo o id da acomodação, nele é possivel efetuar reservas, seus input de calendário(component CALENDAR) permite ver os dias disponíveis para reserva, também possibilita selecionar o cliente e definir o status.
 const CreateReservationModal = ({
   accommodationId,
   startDate,
@@ -28,6 +29,7 @@ const CreateReservationModal = ({
 
   const [clientes, setClientes] = useState([]);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setError("");
@@ -58,6 +60,8 @@ const CreateReservationModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     const funcionarioId = getUserIdFromToken();
 
     if (!funcionarioId) {
@@ -84,10 +88,12 @@ const CreateReservationModal = ({
       })
     )
       .then(() => {
-        dispatch(fetchReservations(accommodationId, formatDateToISO(startDate)));
+        dispatch(
+          fetchReservations(accommodationId, formatDateToISO(startDate))
+        );
 
         toast.success("Reserva efetuada com sucesso.");
-
+        setIsLoading(false);
         onClose();
         setForm({
           funcionarioId,
@@ -98,6 +104,7 @@ const CreateReservationModal = ({
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -217,12 +224,25 @@ const CreateReservationModal = ({
                 >
                   Cancelar
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary fw-bold bg-gradient rounded shadow"
-                >
-                  Salvar
-                </button>
+                {isLoading ? (
+                  <div>
+                    <button class="btn btn-info" disabled>
+                      <div
+                          className="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                  >
+                    <div>Salvar</div>
+                  </button>
+                )}
               </div>
             </form>
           </div>

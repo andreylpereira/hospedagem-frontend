@@ -1,5 +1,6 @@
 import React from "react";
 
+//O componente deste modal é utilizado para visualizar a imagem dos cards de acomodações nas paginas real-time e accommodation, ele é acionado ao clicar em cima da imagem do card.
 const PhotoModal = ({ isVisible, onClose, photo }) => {
   return (
     isVisible && (

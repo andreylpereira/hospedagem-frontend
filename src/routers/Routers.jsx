@@ -18,6 +18,7 @@ import { Toaster } from "sonner";
 import RealTime from "../pages/real-time/RealTime.jsx";
 import Dashboard from "../pages/dashboard/Dashboard.jsx";
 
+//Listagem e definições de rotas
 const Routers = () => {
   return (
     <>

@@ -11,6 +11,7 @@ import {
   updateClient,
 } from "../../services/clientService";
 
+//Actions de listagem, criação e atualização de clients
 export const fetchClients = () => async (dispatch) => {
   dispatch({ type: FETCH_CLIENTS_REQUEST });
 

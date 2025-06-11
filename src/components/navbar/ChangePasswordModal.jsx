@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { updatePassword } from "./../../services/userService";
 import { toast } from "sonner";
 
+
+//Esse componente é um modal que abre ao ser acionado no navbar ("Alterar Senha"), ele têm dois inputs onde o usuário pode digitar a nova senha duas vezes, apos confirmar as senhas e clicar em salvar, a senha é alterada e o modal fechado.
 const ChangePasswordModal = ({ isVisible, onClose }) => {
   const [form, setForm] = useState({
     senha: "",
     confirmarSenha: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     if (form.senha !== form.confirmarSenha) {
       setError("As senhas não coincidem.");
@@ -22,6 +27,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
     updatePassword(newPassword)
       .then(() => {
         toast.success("Senha atualizada com sucesso.");
+        setIsLoading(false);
         onClose();
         setForm({
           senha: "",
@@ -29,6 +35,7 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
         });
       })
       .catch((error) => {
+        setIsLoading(false);
         toast.error(error.response.data);
         setError(error.response.data);
       });
@@ -102,9 +109,25 @@ const ChangePasswordModal = ({ isVisible, onClose }) => {
                   >
                     Fechar
                   </button>
-                  <button type="submit" className="btn btn-primary">
-                    Salvar
-                  </button>
+                  {isLoading ? (
+                    <div>
+                      <button class="btn btn-info" disabled>
+                        <div
+                          className="spinner-border spinner-border-sm text-light"
+                          role="status"
+                        >
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                    >
+                      <div>Salvar</div>
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

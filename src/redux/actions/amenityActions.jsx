@@ -11,6 +11,7 @@ import {
     updateAmenity,
   } from "../../services/amenityService";
   
+  //Actions de listagem, criação e atualização de amenities
   export const fetchAmenities = () => async (dispatch) => {
     dispatch({ type: FETCH_AMENITIES_REQUEST });
   

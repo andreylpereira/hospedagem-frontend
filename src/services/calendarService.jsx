@@ -1,5 +1,6 @@
 import api from './api';
 
+//services de acesso a pontos de api referente a calendar, utilizado pelo componente de mesmo nome.
 export const calendarService = async (idAccommodation, date) => {
   try {
     let formattedDate = null;

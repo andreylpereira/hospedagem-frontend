@@ -6,6 +6,8 @@ import InputMask from "react-input-mask";
 import "./Login.css";
 import { toast } from "sonner";
 
+
+//Componente de page de login, ela é acessada automaticamente quando um usuário não está autenticado na aplicação. Com credências como cpf e senha, o usuário pode efetuar login por meio do ENTRAR e caso estiver com credências validas, será redirecionado para a page painel.
 const Login = () => {
   const [form, setForm] = useState({
     cpf: "",
@@ -45,7 +47,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-primary bg-gradient d-flex justify-content-center align-items-center page-height  user-select-none">
+    <div className="background d-flex justify-content-center align-items-center page-height  user-select-none">
       <div className="d-flex">
         <div className="row justify-content-center card-width">
           <div>
@@ -95,7 +97,7 @@ const Login = () => {
                     {isLoading ? (
                       <div className="d-flex justify-content-center align-items-center mt-3">
                         <div
-                          className="spinner-border text-primary"
+                          className="spinner-border text-info"
                           role="status"
                         >
                           <span className="visually-hidden">Loading...</span>
@@ -104,7 +106,7 @@ const Login = () => {
                     ) : (
                       <button
                         type="submit"
-                        className="btn btn-primary w-100 mt-2 bg-gradient rounded fw-bold shadow"
+                        className="btn btn-info w-100 mt-2 bg-gradient rounded fw-bold shadow"
                       >
                         <div>ENTRAR</div>
                       </button>

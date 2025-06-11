@@ -4,6 +4,8 @@ import { updateAccommodationAction } from "../../../redux/actions/accommodationA
 import { fetchAmenities } from "../../../redux/actions/amenityActions";
 import { toast } from "sonner";
 
+
+//Modal de edição de acomodação, ele é acessado através da interação do icon "EDITAR" na page accommodation. Ele é um formulário onde permite o usuário edite as informações da acomodação especifica e salvar. Caso haver informações incorretas será informado por meio de Toast e mensagem de erro sobre o mesmo.
 const EditAccommodationModal = ({
   isVisible,
   onClose,
@@ -14,6 +16,7 @@ const EditAccommodationModal = ({
   const [availableAmenities, setAvailableAmenities] = useState([]);
   const [imageData, setImageData] = useState({});
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const { amenities } = useSelector((state) => state.amenity);
@@ -70,15 +73,20 @@ const EditAccommodationModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+
     const formData = { ...form, ...imageData };
 
     dispatch(updateAccommodationAction(formData.id, formData))
       .then(() => {
         fetchAccommodations();
         toast.success("Acomodação atualizada com sucesso.");
+        setIsLoading(false);
         onClose();
       })
       .catch((error) => {
+        setIsLoading(false);
         setError(error.response?.data || "Erro desconhecido.");
         toast.error(error.response?.data || "Erro desconhecido.");
       });
@@ -185,7 +193,18 @@ const EditAccommodationModal = ({
                             (selectedAmenity) =>
                               selectedAmenity.id === amenity.id
                           )}
-                          onChange={() => handleChange({ target: { id: amenity.id, type: 'checkbox', checked: !form.amenidades.some((selectedAmenity) => selectedAmenity.id === amenity.id) } })}
+                          onChange={() =>
+                            handleChange({
+                              target: {
+                                id: amenity.id,
+                                type: "checkbox",
+                                checked: !form.amenidades.some(
+                                  (selectedAmenity) =>
+                                    selectedAmenity.id === amenity.id
+                                ),
+                              },
+                            })
+                          }
                         />
                         <label
                           className="form-check-label"
@@ -229,12 +248,25 @@ const EditAccommodationModal = ({
                 >
                   Fechar
                 </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary fw-bold bg-gradient rounded shadow"
-                >
-                  Salvar
-                </button>
+                {isLoading ? (
+                  <div>
+                    <button class="btn btn-info" disabled>
+                      <div
+                          className="spinner-border spinner-border-sm text-light"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="btn btn-info mt-2 bg-gradient rounded fw-bold shadow"
+                  >
+                    <div>Salvar</div>
+                  </button>
+                )}
               </div>
             </form>
           </div>
